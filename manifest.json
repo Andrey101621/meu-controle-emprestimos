@@ -1,0 +1,11 @@
+{
+  "name": "Meu Controle de Empréstimos",
+  "short_name": "Empréstimos",
+  "description": "Controle pessoal de empréstimos e pagamentos",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "lang": "pt-BR"
+}
