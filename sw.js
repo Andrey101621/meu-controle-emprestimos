@@ -1,86 +1,191 @@
-const CACHE_NAME = "meu-controle-emprestimos-v8";
+const CACHE_NAME =
+"meu-controle-emprestimos-v8";
 
 const ARQUIVOS = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./sw.js"
+
+"./",
+
+"./index.html",
+
+"./manifest.json",
+
+"./sw.js"
+
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ARQUIVOS))
-      .then(() => self.skipWaiting())
-  );
+
+/* =========================
+INSTALAÇÃO
+========================= */
+
+self.addEventListener(
+"install",
+event => {
+
+event.waitUntil(
+
+caches
+.open(CACHE_NAME)
+.then(
+cache =>
+cache.addAll(
+ARQUIVOS
+)
+)
+
+);
+
+self.skipWaiting();
+
 });
 
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys()
-      .then(cachesExistentes => {
-        return Promise.all(
-          cachesExistentes
-            .filter(cache => cache !== CACHE_NAME)
-            .map(cache => caches.delete(cache))
-        );
-      })
-      .then(() => self.clients.claim())
-  );
+
+/* =========================
+ATIVAÇÃO
+========================= */
+
+self.addEventListener(
+"activate",
+event => {
+
+event.waitUntil(
+
+caches
+.keys()
+.then(
+nomes =>
+
+Promise.all(
+
+nomes
+.filter(
+nome =>
+nome !== CACHE_NAME
+)
+.map(
+nome =>
+caches.delete(nome)
+)
+
+)
+
+)
+
+);
+
+self.clients.claim();
+
 });
 
-self.addEventListener("fetch", event => {
 
-  if (event.request.method !== "GET") {
-    return;
-  }
+/* =========================
+ABRIR / CACHE
+========================= */
 
-  event.respondWith(
-    fetch(event.request)
-      .then(resposta => {
+self.addEventListener(
+"fetch",
+event => {
 
-        const copia = resposta.clone();
+if(
+event.request.method !== "GET"
+){
 
-        caches.open(CACHE_NAME)
-          .then(cache => {
-            cache.put(event.request, copia);
-          });
+return;
 
-        return resposta;
-      })
-      .catch(() => {
-        return caches.match(event.request);
-      })
-  );
+}
+
+event.respondWith(
+
+fetch(event.request)
+
+.then(
+resposta => {
+
+const copia =
+resposta.clone();
+
+caches
+.open(CACHE_NAME)
+.then(
+cache => {
+
+cache.put(
+event.request,
+copia
+);
+
 });
 
-self.addEventListener("notificationclick", event => {
+return resposta;
 
-  event.notification.close();
+}
 
-  event.waitUntil(
+)
 
-    clients.matchAll({
-      type: "window",
-      includeUncontrolled: true
-    })
+.catch(
+() =>
+caches.match(
+event.request
+)
 
-    .then(lista => {
+)
 
-      for (const cliente of lista) {
+);
 
-        if ("focus" in cliente) {
-          return cliente.focus();
-        }
+});
 
-      }
 
-      if (clients.openWindow) {
-        return clients.openWindow("./");
-      }
+/* =========================
+CLIQUE NA NOTIFICAÇÃO
+========================= */
 
-    })
+self.addEventListener(
+"notificationclick",
+event => {
 
-  );
+event.notification.close();
+
+event.waitUntil(
+
+clients
+.matchAll(
+{
+type:"window",
+includeUncontrolled:true
+}
+)
+
+.then(
+lista => {
+
+for(
+const cliente of lista
+){
+
+if(
+"focus" in cliente
+){
+
+return cliente.focus();
+
+}
+
+}
+
+if(
+clients.openWindow
+){
+
+return clients.openWindow(
+"./"
+);
+
+}
+
+}
+
+)
+
+);
 
 });
