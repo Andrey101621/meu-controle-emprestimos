@@ -1,1 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>Meu Controle de Empréstimos</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .container {
+      padding: 16px;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .card small {
+      color: #6b7280;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 6px;
+    }
+
+    form {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+      border-radius: 9px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+    }
+
+    button {
+      background: #111827;
+      color: white;
+      border: none;
+      font-weight: bold;
+    }
+
+    button:active {
+      transform: scale(.98);
+    }
+
+    .emprestimo {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .emprestimo h3 {
+      margin-top: 0;
+    }
+
+    .valor {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .status {
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .aberto {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .pago {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .danger {
+      background: #dc2626;
+      margin-top: 5px;
+    }
+
+    .success {
+      background: #16a34a;
+      margin-top: 5px;
+    }
+
+    .empty {
+      text-align: center;
+      color: #6b7280;
+      padding: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>💰 Meu Controle de Empréstimos</h1>
+</header>
+
+<div class="container">
+
+  <div class="dashboard">
+    <div class="card">
+      <small>Total emprestado</small>
+      <strong id="totalEmprestado">R$ 0,00</strong>
+    </div>
+
+    <div class="card">
+      <small>Total recebido</small>
+      <strong id="totalRecebido">R$ 0,00</strong>
+    </div>
+
+    <div class="card">
+      <small>A receber</small>
+      <strong id="totalAReceber">R$ 0,00</strong>
+    </div>
+
+    <div class="card">
+      <small>Em aberto</small>
+      <strong id="quantidadeAberta">0</strong>
+    </div>
+  </div>
+
+  <form id="formEmprestimo">
+
+    <h2>Novo empréstimo</h2>
+
+    <input
+      type="text"
+      id="cliente"
+      placeholder="Nome do cliente"
+      required
+    >
+
+    <input
+      type="tel"
+      id="telefone"
+      placeholder="Telefone"
+    >
+
+    <input
+      type="number"
+      id="valor"
+      placeholder="Valor emprestado"
+      step="0.01"
+      required
+    >
+
+    <input
+      type="number"
+      id="parcelas"
+      placeholder="Quantidade de parcelas"
+      min="1"
+      required
+    >
+
+    <input
+      type="number"
+      id="valorParcela"
+      placeholder="Valor da parcela"
+      step="0.01"
+      required
+    >
+
+    <input
+      type="date"
+      id="vencimento"
+      required
+    >
+
+    <button type="submit">
+      ➕ Cadastrar empréstimo
+    </button>
+
+  </form>
+
+  <h2>Meus empréstimos</h2>
+
+  <div id="lista"></div>
+
+</div>
+
+<script>
+
+let emprestimos =
+  JSON.parse(localStorage.getItem("emprestimos")) || [];
+
+const dinheiro = valor =>
+  Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+function salvar() {
+  localStorage.setItem(
+    "emprestimos",
+    JSON.stringify(emprestimos)
+  );
+}
+
+function atualizarDashboard() {
+
+  let emprestado = 0;
+  let recebido = 0;
+  let aberto = 0;
+  let quantidadeAberta = 0;
+
+  emprestimos.forEach(e => {
+
+    emprestado += Number(e.valor);
+    recebido += Number(e.recebido || 0);
+
+    const restante =
+      Number(e.valor) - Number(e.recebido || 0);
+
+    if (restante > 0) {
+      aberto += restante;
+      quantidadeAberta++;
+    }
+
+  });
+
+  document.getElementById("totalEmprestado")
+    .textContent = dinheiro(emprestado);
+
+  document.getElementById("totalRecebido")
+    .textContent = dinheiro(recebido);
+
+  document.getElementById("totalAReceber")
+    .textContent = dinheiro(aberto);
+
+  document.getElementById("quantidadeAberta")
+    .textContent = quantidadeAberta;
+}
+
+function mostrar() {
+
+  const lista =
+    document.getElementById("lista");
+
+  lista.innerHTML = "";
+
+  if (emprestimos.length === 0) {
+
+    lista.innerHTML =
+      '<div class="empty">Nenhum empréstimo cadastrado.</div>';
+
+    atualizarDashboard();
+    return;
+  }
+
+  emprestimos.forEach((e, index) => {
+
+    const recebido =
+      Number(e.recebido || 0);
+
+    const restante =
+      Number(e.valor) - recebido;
+
+    const quitado =
+      restante <= 0;
+
+    const div =
+      document.createElement("div");
+
+    div.className = "emprestimo";
+
+    div.innerHTML = `
+
+      <h3>👤 ${e.cliente}</h3>
+
+      <p>📱 ${e.telefone || "Sem telefone"}</p>
+
+      <p>
+        💰 Emprestado:
+        <span class="valor">
+          ${dinheiro(e.valor)}
+        </span>
+      </p>
+
+      <p>
+        📅 Parcelas:
+        ${e.parcelas}
+      </p>
+
+      <p>
+        💵 Parcela:
+        ${dinheiro(e.valorParcela)}
+      </p>
+
+      <p>
+        📆 Vencimento:
+        ${e.vencimento}
+      </p>
+
+      <p>
+        💳 Recebido:
+        ${dinheiro(recebido)}
+      </p>
+
+      <p>
+        🔴 Restante:
+        ${dinheiro(Math.max(restante, 0))}
+      </p>
+
+      <span class="status ${quitado ? "pago" : "aberto"}">
+        ${quitado ? "QUITADO" : "EM ABERTO"}
+      </span>
+
+      ${
+        !quitado
+        ?
+        `<button
+          class="success"
+          onclick="registrarPagamento(${index})">
+          💵 Registrar pagamento
+        </button>`
+        :
+        ""
+      }
+
+      <button
+        class="danger"
+        onclick="excluir(${index})">
+        🗑️ Excluir
+      </button>
+
+    `;
+
+    lista.appendChild(div);
+
+  });
+
+  atualizarDashboard();
+}
+
+document
+  .getElementById("formEmprestimo")
+  .addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const novo = {
+
+      cliente:
+        document.getElementById("cliente").value,
+
+      telefone:
+        document.getElementById("telefone").value,
+
+      valor:
+        Number(document.getElementById("valor").value),
+
+      parcelas:
+        Number(document.getElementById("parcelas").value),
+
+      valorParcela:
+        Number(document.getElementById("valorParcela").value),
+
+      vencimento:
+        document.getElementById("vencimento").value,
+
+      recebido: 0
+
+    };
+
+    emprestimos.push(novo);
+
+    salvar();
+
+    mostrar();
+
+    this.reset();
+
+  });
+
+function registrarPagamento(index) {
+
+  const valor =
+    prompt("Digite o valor recebido:");
+
+  if (valor === null) return;
+
+  const numero =
+    Number(
+      valor.replace(",", ".")
+    );
+
+  if (!numero || numero <= 0) {
+
+    alert("Digite um valor válido.");
+
+    return;
+  }
+
+  emprestimos[index].recebido =
+    Number(emprestimos[index].recebido || 0)
+    + numero;
+
+  salvar();
+
+  mostrar();
+
+}
+
+function excluir(index) {
+
+  if (
+    confirm(
+      "Deseja realmente excluir este empréstimo?"
+    )
+  ) {
+
+    emprestimos.splice(index, 1);
+
+    salvar();
+
+    mostrar();
+
+  }
+
+}
+
+mostrar();
+
+</script>
+
+</body>
+</html>
