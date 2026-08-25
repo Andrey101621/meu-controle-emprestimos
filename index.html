@@ -1,191 +1,340 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
-  <meta
-    name="theme-color"
-    content="#111827"
-  >
+<meta name="theme-color" content="#111827">
 
-  <meta
-    name="description"
-    content="Meu Controle de Empréstimos"
-  >
+<meta name="description"
+      content="Meu Controle de Empréstimos">
 
-  <link
-    rel="manifest"
-    href="./manifest.json"
-  >
+<link rel="manifest" href="./manifest.json">
 
-  <title>Meu Controle de Empréstimos</title>
+<title>Meu Controle de Empréstimos</title>
 
-  <style>
+<style>
 
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: #f3f4f6;
-      color: #111827;
-    }
+body {
+  margin: 0;
+  background: #f3f4f6;
+  color: #111827;
+  padding-bottom: 40px;
+}
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+header {
+  background: #111827;
+  color: white;
+  padding: 18px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.20);
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
+header h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 21px;
+}
 
-    .container {
-      padding: 16px;
-      max-width: 700px;
-      margin: auto;
-    }
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 14px;
+}
 
-    .dashboard {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
+/* DASHBOARD */
 
-    .card {
-      background: white;
-      padding: 16px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
 
-    .card small {
-      color: #6b7280;
-    }
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
 
-    .card strong {
-      display: block;
-      font-size: 19px;
-      margin-top: 6px;
-    }
+.card small {
+  color: #6b7280;
+  font-size: 12px;
+}
 
-    form {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
+.card strong {
+  display: block;
+  font-size: 18px;
+  margin-top: 6px;
+}
 
-    form h2 {
-      margin-top: 0;
-    }
+/* BOTÕES DE NAVEGAÇÃO */
 
-    input,
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 8px;
-      margin-bottom: 12px;
-      border-radius: 9px;
-      border: 1px solid #d1d5db;
-      font-size: 16px;
-    }
+.menu {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 15px;
+}
 
-    input:focus {
-      outline: none;
-      border-color: #111827;
-    }
+.menu button {
+  margin: 0;
+  padding: 11px 5px;
+  font-size: 13px;
+}
 
-    button {
-      background: #111827;
-      color: white;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* FORM */
 
-    button:active {
-      transform: scale(.98);
-    }
+form,
+.panel,
+.emprestimo {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
 
-    .emprestimo {
-      background: white;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
+form h2,
+.panel h2 {
+  margin-top: 0;
+}
 
-    .emprestimo h3 {
-      margin-top: 0;
-      font-size: 19px;
-    }
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-    .valor {
-      font-size: 20px;
-      font-weight: bold;
-    }
+label {
+  display: block;
+  margin-top: 7px;
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .status {
-      padding: 6px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      display: inline-block;
-      margin: 5px 0 10px;
-      font-weight: bold;
-    }
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  border-radius: 9px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+}
 
-    .aberto {
-      background: #fef3c7;
-      color: #92400e;
-    }
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
 
-    .pago {
-      background: #dcfce7;
-      color: #166534;
-    }
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #111827;
+}
 
-    .success {
-      background: #16a34a;
-    }
+button {
+  background: #111827;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .danger {
-      background: #dc2626;
-    }
+button:active {
+  transform: scale(.98);
+}
 
-    .empty {
-      text-align: center;
-      color: #6b7280;
-      padding: 30px;
-      background: white;
-      border-radius: 14px;
-    }
+button.success {
+  background: #16a34a;
+}
 
-    .secao {
-      margin-top: 25px;
-    }
+button.danger {
+  background: #dc2626;
+}
 
-    .info {
-      color: #6b7280;
-      font-size: 13px;
-    }
+button.blue {
+  background: #2563eb;
+}
 
-  </style>
+button.orange {
+  background: #d97706;
+}
+
+button.gray {
+  background: #6b7280;
+}
+
+button.light {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* EMPRESTIMO */
+
+.emprestimo {
+  margin-bottom: 12px;
+}
+
+.emprestimo h3 {
+  margin: 0 0 7px;
+  font-size: 19px;
+}
+
+.emprestimo p {
+  margin: 7px 0;
+}
+
+.valor-grande {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.aberto {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.atrasado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.pago {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.acoes button {
+  flex: 1;
+  min-width: 120px;
+  margin: 0;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.info {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.aviso {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 11px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.vazio {
+  text-align: center;
+  color: #6b7280;
+  padding: 30px 15px;
+  background: white;
+  border-radius: 14px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.total-relatorio {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.historico {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.pagamento-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pagamento-item:last-child {
+  border-bottom: none;
+}
+
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  z-index: 999;
+  max-width: 90%;
+  text-align: center;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .menu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .acoes button {
+    min-width: 100%;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
@@ -196,120 +345,379 @@
 
 <div class="container">
 
-  <div class="dashboard">
+<!-- DASHBOARD -->
 
-    <div class="card">
-      <small>Total emprestado</small>
-      <strong id="totalEmprestado">
-        R$ 0,00
-      </strong>
-    </div>
+<div class="dashboard">
 
-    <div class="card">
-      <small>Total recebido</small>
-      <strong id="totalRecebido">
-        R$ 0,00
-      </strong>
-    </div>
-
-    <div class="card">
-      <small>A receber</small>
-      <strong id="totalAReceber">
-        R$ 0,00
-      </strong>
-    </div>
-
-    <div class="card">
-      <small>Em aberto</small>
-      <strong id="quantidadeAberta">
-        0
-      </strong>
-    </div>
-
+  <div class="card">
+    <small>💰 Capital emprestado</small>
+    <strong id="totalEmprestado">R$ 0,00</strong>
   </div>
 
-  <form id="formEmprestimo">
+  <div class="card">
+    <small>📈 Total contratado</small>
+    <strong id="totalContratado">R$ 0,00</strong>
+  </div>
 
-    <h2>Novo empréstimo</h2>
+  <div class="card">
+    <small>💵 Total recebido</small>
+    <strong id="totalRecebido">R$ 0,00</strong>
+  </div>
 
-    <input
-      type="text"
-      id="cliente"
-      placeholder="Nome do cliente"
-      required
-    >
+  <div class="card">
+    <small>🔴 A receber</small>
+    <strong id="totalAReceber">R$ 0,00</strong>
+  </div>
 
-    <input
-      type="tel"
-      id="telefone"
-      placeholder="Telefone"
-    >
+  <div class="card">
+    <small>📋 Em aberto</small>
+    <strong id="quantidadeAberta">0</strong>
+  </div>
 
-    <input
-      type="number"
-      id="valor"
-      placeholder="Valor emprestado"
-      step="0.01"
-      min="0"
-      required
-    >
-
-    <input
-      type="number"
-      id="parcelas"
-      placeholder="Quantidade de parcelas"
-      min="1"
-      required
-    >
-
-    <input
-      type="number"
-      id="valorParcela"
-      placeholder="Valor de cada parcela"
-      step="0.01"
-      min="0"
-      required
-    >
-
-    <input
-      type="date"
-      id="vencimento"
-      required
-    >
-
-    <button type="submit">
-      ➕ Cadastrar empréstimo
-    </button>
-
-  </form>
-
-  <div class="secao">
-
-    <h2>📋 Meus empréstimos</h2>
-
-    <div id="lista"></div>
-
+  <div class="card">
+    <small>⚠️ Em atraso</small>
+    <strong id="quantidadeAtrasada">0</strong>
   </div>
 
 </div>
 
+<!-- MENU -->
+
+<div class="menu">
+
+  <button onclick="abrirAba('cadastro')">
+    ➕ Novo
+  </button>
+
+  <button onclick="abrirAba('lista')">
+    📋 Empréstimos
+  </button>
+
+  <button onclick="abrirAba('relatorio')">
+    📊 Relatório
+  </button>
+
+  <button onclick="abrirAba('backup')">
+    💾 Backup
+  </button>
+
+</div>
+
+<!-- CADASTRO -->
+
+<section id="cadastro">
+
+<form id="formEmprestimo">
+
+<h2 id="tituloFormulario">
+  Novo empréstimo
+</h2>
+
+<input
+  type="hidden"
+  id="idEdicao"
+>
+
+<div class="row">
+
+<div>
+
+<label>Nome do cliente</label>
+
+<input
+  type="text"
+  id="cliente"
+  placeholder="Nome completo"
+  required
+>
+
+</div>
+
+<div>
+
+<label>Telefone / WhatsApp</label>
+
+<input
+  type="tel"
+  id="telefone"
+  placeholder="(11) 99999-9999"
+>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+
+<label>Valor emprestado</label>
+
+<input
+  type="number"
+  id="valor"
+  step="0.01"
+  min="0"
+  placeholder="0,00"
+  required
+>
+
+</div>
+
+<div>
+
+<label>Juros</label>
+
+<input
+  type="number"
+  id="juros"
+  step="0.01"
+  min="0"
+  placeholder="0,00"
+  value="0"
+>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+
+<label>Juros diário</label>
+
+<input
+  type="number"
+  id="jurosDiario"
+  step="0.01"
+  min="0"
+  placeholder="0,00"
+  value="0"
+>
+
+</div>
+
+<div>
+
+<label>Quantidade de parcelas</label>
+
+<input
+  type="number"
+  id="parcelas"
+  min="1"
+  value="1"
+  required
+>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div>
+
+<label>Valor de cada parcela</label>
+
+<input
+  type="number"
+  id="valorParcela"
+  step="0.01"
+  min="0"
+  placeholder="Automático"
+>
+
+</div>
+
+<div>
+
+<label>Data de vencimento</label>
+
+<input
+  type="date"
+  id="vencimento"
+  required
+>
+
+</div>
+
+</div>
+
+<label>Observações</label>
+
+<textarea
+  id="observacoes"
+  placeholder="Anotações sobre o empréstimo"
+></textarea>
+
+<div class="aviso">
+
+O sistema calcula automaticamente o
+<strong>total contratado = valor emprestado + juros</strong>.
+
+Se o valor da parcela não for informado,
+ele será calculado automaticamente.
+
+</div>
+
+<button type="submit">
+  💾 Salvar empréstimo
+</button>
+
+<button
+  type="button"
+  class="light"
+  onclick="limparFormulario()"
+>
+  Limpar
+</button>
+
+</form>
+
+</section>
+
+<!-- LISTA -->
+
+<section id="lista" class="hidden">
+
+<div class="panel">
+
+<h2>📋 Meus empréstimos</h2>
+
+<input
+  type="search"
+  id="pesquisa"
+  placeholder="🔎 Pesquisar cliente ou telefone"
+  oninput="mostrarEmprestimos()"
+>
+
+<select
+  id="filtro"
+  onchange="mostrarEmprestimos()"
+>
+
+<option value="todos">
+Todos
+</option>
+
+<option value="aberto">
+Em aberto
+</option>
+
+<option value="atrasado">
+Em atraso
+</option>
+
+<option value="quitado">
+Quitados
+</option>
+
+</select>
+
+</div>
+
+<div id="listaEmprestimos"></div>
+
+</section>
+
+<!-- RELATORIO -->
+
+<section id="relatorio" class="hidden">
+
+<div class="panel">
+
+<h2>📊 Relatório financeiro</h2>
+
+<div id="conteudoRelatorio"></div>
+
+</div>
+
+</section>
+
+<!-- BACKUP -->
+
+<section id="backup" class="hidden">
+
+<div class="panel">
+
+<h2>💾 Backup dos dados</h2>
+
+<p class="info">
+
+Os empréstimos ficam salvos no armazenamento
+do navegador deste aparelho.
+
+Faça backups regularmente.
+
+</p>
+
+<button
+  class="blue"
+  onclick="exportarBackup()"
+>
+  ⬇️ Exportar backup
+</button>
+
+<input
+  type="file"
+  id="arquivoBackup"
+  accept=".json"
+  style="display:none"
+  onchange="importarBackup(event)"
+>
+
+<button
+  class="success"
+  onclick="document.getElementById('arquivoBackup').click()"
+>
+  ⬆️ Importar backup
+</button>
+
+<button
+  class="danger"
+  onclick="apagarTodos()"
+>
+  🗑️ Apagar todos os empréstimos
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<div id="toast"></div>
+
 <script>
+
+/* =========================================================
+   BANCO DE DADOS
+========================================================= */
+
+const CHAVE =
+  "meu_controle_emprestimos_v3";
 
 let emprestimos =
   JSON.parse(
-    localStorage.getItem("emprestimos")
+    localStorage.getItem(CHAVE)
   ) || [];
 
 
+/* =========================================================
+   FUNÇÕES BÁSICAS
+========================================================= */
+
 function dinheiro(valor) {
 
-  return Number(valor || 0).toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: "BRL"
-    }
-  );
+  return Number(valor || 0)
+    .toLocaleString(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL"
+      }
+    );
 
 }
 
@@ -317,66 +725,43 @@ function dinheiro(valor) {
 function salvar() {
 
   localStorage.setItem(
-    "emprestimos",
+    CHAVE,
     JSON.stringify(emprestimos)
   );
 
 }
 
 
-function atualizarDashboard() {
+function mostrarAviso(mensagem) {
 
-  let emprestado = 0;
-  let recebido = 0;
-  let aReceber = 0;
-  let abertas = 0;
+  const toast =
+    document.getElementById("toast");
 
-  emprestimos.forEach(e => {
+  toast.textContent =
+    mensagem;
 
-    const valor =
-      Number(e.valor || 0);
+  toast.style.display =
+    "block";
 
-    const pago =
-      Number(e.recebido || 0);
+  setTimeout(
+    () => {
+      toast.style.display =
+        "none";
+    },
+    2500
+  );
 
-    emprestado += valor;
-
-    recebido += pago;
-
-    const restante =
-      Math.max(valor - pago, 0);
-
-    aReceber += restante;
-
-    if (restante > 0) {
-      abertas++;
-    }
-
-  });
+}
 
 
-  document.getElementById(
-    "totalEmprestado"
-  ).textContent =
-    dinheiro(emprestado);
+function escapar(texto) {
 
-
-  document.getElementById(
-    "totalRecebido"
-  ).textContent =
-    dinheiro(recebido);
-
-
-  document.getElementById(
-    "totalAReceber"
-  ).textContent =
-    dinheiro(aReceber);
-
-
-  document.getElementById(
-    "quantidadeAberta"
-  ).textContent =
-    abertas;
+  return String(texto || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -399,53 +784,718 @@ function formatarData(data) {
 }
 
 
-function mostrar() {
+function dataHoje() {
+
+  const agora =
+    new Date();
+
+  return new Date(
+    agora.getFullYear(),
+    agora.getMonth(),
+    agora.getDate()
+  );
+
+}
+
+
+/* =========================================================
+   CÁLCULOS
+========================================================= */
+
+function totalContratado(emprestimo) {
+
+  return Number(
+    emprestimo.valor || 0
+  ) +
+  Number(
+    emprestimo.juros || 0
+  );
+
+}
+
+
+function totalRecebido(emprestimo) {
+
+  if (
+    !Array.isArray(
+      emprestimo.pagamentos
+    )
+  ) {
+    return Number(
+      emprestimo.recebido || 0
+    );
+  }
+
+  return emprestimo.pagamentos
+    .reduce(
+      (total, pagamento) =>
+        total +
+        Number(
+          pagamento.valor || 0
+        ),
+      0
+    );
+
+}
+
+
+function saldoRestante(emprestimo) {
+
+  return Math.max(
+    totalContratado(emprestimo) -
+    totalRecebido(emprestimo),
+    0
+  );
+
+}
+
+
+function estaAtrasado(emprestimo) {
+
+  if (
+    saldoRestante(emprestimo) <= 0
+  ) {
+    return false;
+  }
+
+  if (!emprestimo.vencimento) {
+    return false;
+  }
+
+  const vencimento =
+    new Date(
+      emprestimo.vencimento +
+      "T00:00:00"
+    );
+
+  return vencimento < dataHoje();
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function atualizarDashboard() {
+
+  let emprestado = 0;
+  let contratado = 0;
+  let recebido = 0;
+  let aReceber = 0;
+  let abertas = 0;
+  let atrasadas = 0;
+
+  emprestimos.forEach(
+    emprestimo => {
+
+      emprestado +=
+        Number(
+          emprestimo.valor || 0
+        );
+
+      contratado +=
+        totalContratado(
+          emprestimo
+        );
+
+      recebido +=
+        totalRecebido(
+          emprestimo
+        );
+
+      aReceber +=
+        saldoRestante(
+          emprestimo
+        );
+
+      if (
+        saldoRestante(
+          emprestimo
+        ) > 0
+      ) {
+
+        abertas++;
+
+      }
+
+      if (
+        estaAtrasado(
+          emprestimo
+        )
+      ) {
+
+        atrasadas++;
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "totalEmprestado"
+  ).textContent =
+    dinheiro(emprestado);
+
+
+  document.getElementById(
+    "totalContratado"
+  ).textContent =
+    dinheiro(contratado);
+
+
+  document.getElementById(
+    "totalRecebido"
+  ).textContent =
+    dinheiro(recebido);
+
+
+  document.getElementById(
+    "totalAReceber"
+  ).textContent =
+    dinheiro(aReceber);
+
+
+  document.getElementById(
+    "quantidadeAberta"
+  ).textContent =
+    abertas;
+
+
+  document.getElementById(
+    "quantidadeAtrasada"
+  ).textContent =
+    atrasadas;
+
+}
+
+
+/* =========================================================
+   ABAS
+========================================================= */
+
+function abrirAba(nome) {
+
+  const abas = [
+    "cadastro",
+    "lista",
+    "relatorio",
+    "backup"
+  ];
+
+  abas.forEach(
+    aba => {
+
+      document
+        .getElementById(aba)
+        .classList.add("hidden");
+
+    }
+  );
+
+
+  document
+    .getElementById(nome)
+    .classList.remove("hidden");
+
+
+  if (
+    nome === "lista"
+  ) {
+
+    mostrarEmprestimos();
+
+  }
+
+
+  if (
+    nome === "relatorio"
+  ) {
+
+    mostrarRelatorio();
+
+  }
+
+}
+
+
+/* =========================================================
+   CADASTRO
+========================================================= */
+
+document
+  .getElementById(
+    "formEmprestimo"
+  )
+  .addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+
+      const idEdicao =
+        document.getElementById(
+          "idEdicao"
+        ).value;
+
+
+      const cliente =
+        document.getElementById(
+          "cliente"
+        ).value.trim();
+
+
+      const telefone =
+        document.getElementById(
+          "telefone"
+        ).value.trim();
+
+
+      const valor =
+        Number(
+          document.getElementById(
+            "valor"
+          ).value
+        );
+
+
+      const juros =
+        Number(
+          document.getElementById(
+            "juros"
+          ).value || 0
+        );
+
+
+      const jurosDiario =
+        Number(
+          document.getElementById(
+            "jurosDiario"
+          ).value || 0
+        );
+
+
+      const parcelas =
+        Number(
+          document.getElementById(
+            "parcelas"
+          ).value || 1
+        );
+
+
+      let valorParcela =
+        Number(
+          document.getElementById(
+            "valorParcela"
+          ).value || 0
+        );
+
+
+      const vencimento =
+        document.getElementById(
+          "vencimento"
+        ).value;
+
+
+      const observacoes =
+        document.getElementById(
+          "observacoes"
+        ).value.trim();
+
+
+      if (
+        !cliente ||
+        valor <= 0 ||
+        !vencimento
+      ) {
+
+        mostrarAviso(
+          "Preencha os campos obrigatórios."
+        );
+
+        return;
+
+      }
+
+
+      const total =
+        valor + juros;
+
+
+      if (
+        valorParcela <= 0
+      ) {
+
+        valorParcela =
+          total / parcelas;
+
+      }
+
+
+      let antigo = null;
+
+      if (idEdicao) {
+
+        antigo =
+          emprestimos.find(
+            e =>
+              String(e.id) ===
+              String(idEdicao)
+          );
+
+      }
+
+
+      const novoEmprestimo = {
+
+        id:
+          idEdicao ||
+          Date.now(),
+
+        cliente:
+          cliente,
+
+        telefone:
+          telefone,
+
+        valor:
+          valor,
+
+        juros:
+          juros,
+
+        jurosDiario:
+          jurosDiario,
+
+        parcelas:
+          parcelas,
+
+        valorParcela:
+          valorParcela,
+
+        vencimento:
+          vencimento,
+
+        observacoes:
+          observacoes,
+
+        pagamentos:
+          antigo &&
+          Array.isArray(
+            antigo.pagamentos
+          )
+            ? antigo.pagamentos
+            : []
+
+      };
+
+
+      if (idEdicao) {
+
+        const indice =
+          emprestimos.findIndex(
+            e =>
+              String(e.id) ===
+              String(idEdicao)
+          );
+
+
+        if (indice !== -1) {
+
+          emprestimos[indice] =
+            novoEmprestimo;
+
+        }
+
+      } else {
+
+        emprestimos.push(
+          novoEmprestimo
+        );
+
+      }
+
+
+      salvar();
+
+      limparFormulario();
+
+      atualizarDashboard();
+
+      mostrarEmprestimos();
+
+      abrirAba("lista");
+
+
+      mostrarAviso(
+        idEdicao
+          ? "Empréstimo atualizado!"
+          : "Empréstimo cadastrado!"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   LIMPAR FORMULÁRIO
+========================================================= */
+
+function limparFormulario() {
+
+  document
+    .getElementById(
+      "formEmprestimo"
+    )
+    .reset();
+
+
+  document.getElementById(
+    "idEdicao"
+  ).value = "";
+
+
+  document.getElementById(
+    "tituloFormulario"
+  ).textContent =
+    "Novo empréstimo";
+
+
+  document.getElementById(
+    "parcelas"
+  ).value = 1;
+
+
+  document.getElementById(
+    "juros"
+  ).value = 0;
+
+
+  document.getElementById(
+    "jurosDiario"
+  ).value = 0;
+
+}
+
+
+/* =========================================================
+   MOSTRAR EMPRÉSTIMOS
+========================================================= */
+
+function mostrarEmprestimos() {
+
+  atualizarDashboard();
+
 
   const lista =
-    document.getElementById("lista");
+    document.getElementById(
+      "listaEmprestimos"
+    );
 
-  lista.innerHTML = "";
+
+  const pesquisa =
+    (
+      document.getElementById(
+        "pesquisa"
+      )?.value || ""
+    )
+    .toLowerCase()
+    .trim();
 
 
-  if (emprestimos.length === 0) {
+  const filtro =
+    document.getElementById(
+      "filtro"
+    )?.value ||
+    "todos";
+
+
+  let resultados =
+    emprestimos.filter(
+      emprestimo => {
+
+        const texto =
+          (
+            emprestimo.cliente +
+            " " +
+            (
+              emprestimo.telefone ||
+              ""
+            )
+          )
+          .toLowerCase();
+
+
+        if (
+          !texto.includes(
+            pesquisa
+          )
+        ) {
+
+          return false;
+
+        }
+
+
+        const saldo =
+          saldoRestante(
+            emprestimo
+          );
+
+
+        let status =
+          "aberto";
+
+
+        if (
+          saldo <= 0
+        ) {
+
+          status =
+            "quitado";
+
+        } else if (
+          estaAtrasado(
+            emprestimo
+          )
+        ) {
+
+          status =
+            "atrasado";
+
+        }
+
+
+        if (
+          filtro !== "todos" &&
+          filtro !== status
+        ) {
+
+          return false;
+
+        }
+
+
+        return true;
+
+      }
+    );
+
+
+  resultados.sort(
+    (a, b) =>
+      new Date(
+        a.vencimento
+      ) -
+      new Date(
+        b.vencimento
+      )
+  );
+
+
+  if (
+    resultados.length === 0
+  ) {
 
     lista.innerHTML = `
-      <div class="empty">
-        <div style="font-size:40px;">💰</div>
-        <p>Nenhum empréstimo cadastrado.</p>
+      <div class="vazio">
+        <div style="font-size:42px">
+          💰
+        </div>
+
+        <p>
+          Nenhum empréstimo encontrado.
+        </p>
+
         <p class="info">
-          Cadastre seu primeiro empréstimo acima.
+          Cadastre um empréstimo ou altere o filtro.
         </p>
       </div>
     `;
 
-    atualizarDashboard();
-
     return;
+
   }
 
 
-  emprestimos.forEach(
-    (e, index) => {
+  lista.innerHTML = "";
 
-      const recebido =
-        Number(e.recebido || 0);
 
-      const valor =
-        Number(e.valor || 0);
+  resultados.forEach(
+    emprestimo => {
 
-      const restante =
-        Math.max(
-          valor - recebido,
-          0
+      const indice =
+        emprestimos.findIndex(
+          e =>
+            String(e.id) ===
+            String(emprestimo.id)
         );
 
+
+      const total =
+        totalContratado(
+          emprestimo
+        );
+
+
+      const recebido =
+        totalRecebido(
+          emprestimo
+        );
+
+
+      const saldo =
+        saldoRestante(
+          emprestimo
+        );
+
+
       const quitado =
-        restante <= 0;
+        saldo <= 0;
+
+
+      const atrasado =
+        estaAtrasado(
+          emprestimo
+        );
+
+
+      let statusClasse =
+        "aberto";
+
+
+      let statusTexto =
+        "● EM ABERTO";
+
+
+      if (quitado) {
+
+        statusClasse =
+          "pago";
+
+        statusTexto =
+          "✓ QUITADO";
+
+      } else if (
+        atrasado
+      ) {
+
+        statusClasse =
+          "atrasado";
+
+        statusTexto =
+          "⚠️ EM ATRASO";
+
+      }
 
 
       const div =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       div.className =
         "emprestimo";
@@ -454,13 +1504,16 @@ function mostrar() {
       div.innerHTML = `
 
         <h3>
-          👤 ${escapar(e.cliente)}
+          👤 ${escapar(
+            emprestimo.cliente
+          )}
         </h3>
 
         <p>
           📱 ${
             escapar(
-              e.telefone || "Sem telefone"
+              emprestimo.telefone ||
+              "Sem telefone"
             )
           }
         </p>
@@ -468,293 +1521,1037 @@ function mostrar() {
         <p>
           💰 Valor emprestado:
           <strong>
-            ${dinheiro(valor)}
+            ${dinheiro(
+              emprestimo.valor
+            )}
           </strong>
         </p>
 
         <p>
-          📅 Parcelas:
-          ${e.parcelas}
+          📈 Juros:
+          ${dinheiro(
+            emprestimo.juros
+          )}
+        </p>
+
+        ${
+          Number(
+            emprestimo.jurosDiario ||
+            0
+          ) > 0
+            ? `
+              <p>
+                📆 Juros diário:
+                ${dinheiro(
+                  emprestimo.jurosDiario
+                )}
+              </p>
+            `
+            : ""
+        }
+
+        <p>
+          💵 Total contratado:
+          <strong>
+            ${dinheiro(total)}
+          </strong>
         </p>
 
         <p>
-          💵 Valor da parcela:
-          ${dinheiro(e.valorParcela)}
+          📋 Parcelas:
+          ${emprestimo.parcelas}
         </p>
 
         <p>
-          📆 Vencimento:
-          ${formatarData(e.vencimento)}
+          💳 Valor da parcela:
+          ${dinheiro(
+            emprestimo.valorParcela
+          )}
         </p>
 
         <p>
-          💳 Total recebido:
+          📅 Vencimento:
+          ${formatarData(
+            emprestimo.vencimento
+          )}
+        </p>
+
+        <p>
+          💵 Total recebido:
           ${dinheiro(recebido)}
         </p>
 
         <p>
           🔴 Saldo restante:
           <strong>
-            ${dinheiro(restante)}
+            ${dinheiro(saldo)}
           </strong>
         </p>
 
-        <span class="status ${
-          quitado
-            ? "pago"
-            : "aberto"
-        }">
-          ${
-            quitado
-              ? "✓ QUITADO"
-              : "● EM ABERTO"
-          }
-        </span>
-
         ${
-          !quitado
+          emprestimo.observacoes
             ? `
-              <button
-                class="success"
-                onclick="registrarPagamento(${index})">
-                💵 Registrar pagamento
-              </button>
+              <p>
+                📝 ${escapar(
+                  emprestimo.observacoes
+                )}
+              </p>
             `
             : ""
         }
 
-        <button
-          class="danger"
-          onclick="excluir(${index})">
-          🗑️ Excluir empréstimo
-        </button>
+        <span class="status ${statusClasse}">
+          ${statusTexto}
+        </span>
+
+        <div class="acoes">
+
+          ${
+            !quitado
+              ? `
+                <button
+                  class="success"
+                  onclick="
+                    registrarPagamento(
+                      ${indice}
+                    )
+                  "
+                >
+                  💵 Receber
+                </button>
+              `
+              : ""
+          }
+
+          <button
+            class="blue"
+            onclick="
+              editarEmprestimo(
+                ${indice}
+              )
+            "
+          >
+            ✏️ Editar
+          </button>
+
+          <button
+            class="orange"
+            onclick="
+              enviarWhatsApp(
+                ${indice}
+              )
+            "
+          >
+            💬 WhatsApp
+          </button>
+
+          <button
+            class="gray"
+            onclick="
+              mostrarHistorico(
+                ${indice}
+              )
+            "
+          >
+            📜 Histórico
+          </button>
+
+          <button
+            class="danger"
+            onclick="
+              excluirEmprestimo(
+                ${indice}
+              )
+            "
+          >
+            🗑️ Excluir
+          </button>
+
+        </div>
+
+        <div
+          id="historico-${indice}"
+          class="historico hidden"
+        ></div>
 
       `;
 
 
-      lista.appendChild(div);
-
-    }
-  );
-
-
-  atualizarDashboard();
-
-}
-
-
-function escapar(texto) {
-
-  return String(texto)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-document
-  .getElementById("formEmprestimo")
-  .addEventListener(
-    "submit",
-    function(event) {
-
-      event.preventDefault();
-
-
-      const novo = {
-
-        id:
-          Date.now(),
-
-        cliente:
-          document
-            .getElementById("cliente")
-            .value
-            .trim(),
-
-        telefone:
-          document
-            .getElementById("telefone")
-            .value
-            .trim(),
-
-        valor:
-          Number(
-            document
-              .getElementById("valor")
-              .value
-          ),
-
-        parcelas:
-          Number(
-            document
-              .getElementById("parcelas")
-              .value
-          ),
-
-        valorParcela:
-          Number(
-            document
-              .getElementById("valorParcela")
-              .value
-          ),
-
-        vencimento:
-          document
-            .getElementById("vencimento")
-            .value,
-
-        recebido: 0
-
-      };
-
-
-      emprestimos.push(novo);
-
-      salvar();
-
-      mostrar();
-
-      this.reset();
-
-
-      alert(
-        "Empréstimo cadastrado com sucesso!"
+      lista.appendChild(
+        div
       );
 
     }
   );
 
-
-function registrarPagamento(index) {
-
-  const e =
-    emprestimos[index];
+}
 
 
-  const restante =
-    Number(e.valor)
-    - Number(e.recebido || 0);
+/* =========================================================
+   REGISTRAR PAGAMENTO
+========================================================= */
+
+function registrarPagamento(
+  indice
+) {
+
+  const emprestimo =
+    emprestimos[indice];
 
 
-  const valor =
+  const saldo =
+    saldoRestante(
+      emprestimo
+    );
+
+
+  const valorDigitado =
     prompt(
-      `Saldo restante: ${dinheiro(restante)}
+      `Saldo restante: ${dinheiro(
+        saldo
+      )}
 
 Digite o valor recebido:`
     );
 
 
-  if (valor === null) {
+  if (
+    valorDigitado === null
+  ) {
+
     return;
+
   }
 
 
-  const numero =
+  const valor =
     Number(
-      valor
-        .replace(",", ".")
+      String(
+        valorDigitado
+      ).replace(
+        ",",
+        "."
+      )
     );
 
 
   if (
-    !Number.isFinite(numero)
-    || numero <= 0
+    !Number.isFinite(valor) ||
+    valor <= 0
   ) {
 
-    alert(
+    mostrarAviso(
       "Digite um valor válido."
     );
 
     return;
+
   }
 
 
-  if (numero > restante) {
+  if (
+    valor > saldo
+  ) {
 
-    alert(
-      "O pagamento não pode ser maior que o saldo restante."
+    mostrarAviso(
+      "O pagamento não pode ser maior que o saldo."
     );
 
     return;
+
   }
 
 
-  e.recebido =
-    Number(e.recebido || 0)
-    + numero;
+  if (
+    !Array.isArray(
+      emprestimo.pagamentos
+    )
+  ) {
+
+    emprestimo.pagamentos = [];
+
+  }
+
+
+  emprestimo.pagamentos.push({
+
+    id:
+      Date.now(),
+
+    data:
+      new Date()
+        .toISOString(),
+
+    valor:
+      valor
+
+  });
 
 
   salvar();
 
-  mostrar();
+  mostrarEmprestimos();
+
+  atualizarDashboard();
 
 
-  alert(
-    "Pagamento registrado com sucesso!"
+  if (
+    saldoRestante(
+      emprestimo
+    ) <= 0
+  ) {
+
+    mostrarAviso(
+      "🎉 Empréstimo quitado!"
+    );
+
+  } else {
+
+    mostrarAviso(
+      "Pagamento registrado!"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   HISTÓRICO
+========================================================= */
+
+function mostrarHistorico(
+  indice
+) {
+
+  const emprestimo =
+    emprestimos[indice];
+
+
+  const elemento =
+    document.getElementById(
+      `historico-${indice}`
+    );
+
+
+  if (
+    !elemento
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    elemento.classList.contains(
+      "hidden"
+    )
+  ) {
+
+    const pagamentos =
+      emprestimo.pagamentos ||
+      [];
+
+
+    if (
+      pagamentos.length === 0
+    ) {
+
+      elemento.innerHTML =
+        "<p>Nenhum pagamento registrado.</p>";
+
+    } else {
+
+      elemento.innerHTML = `
+
+        <strong>
+          📜 Histórico de pagamentos
+        </strong>
+
+        ${
+          pagamentos
+            .map(
+              (pagamento, numero) => `
+
+                <div class="pagamento-item">
+
+                  ${numero + 1}.
+                  ${formatarData(
+                    pagamento.data
+                      .substring(
+                        0,
+                        10
+                      )
+                  )}
+
+                  —
+                  <strong>
+                    ${dinheiro(
+                      pagamento.valor
+                    )}
+                  </strong>
+
+                </div>
+
+              `
+            )
+            .join("")
+        }
+
+      `;
+
+    }
+
+
+    elemento.classList.remove(
+      "hidden"
+    );
+
+  } else {
+
+    elemento.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   EDITAR
+========================================================= */
+
+function editarEmprestimo(
+  indice
+) {
+
+  const e =
+    emprestimos[indice];
+
+
+  abrirAba(
+    "cadastro"
+  );
+
+
+  document.getElementById(
+    "tituloFormulario"
+  ).textContent =
+    "Editar empréstimo";
+
+
+  document.getElementById(
+    "idEdicao"
+  ).value =
+    e.id;
+
+
+  document.getElementById(
+    "cliente"
+  ).value =
+    e.cliente;
+
+
+  document.getElementById(
+    "telefone"
+  ).value =
+    e.telefone || "";
+
+
+  document.getElementById(
+    "valor"
+  ).value =
+    e.valor;
+
+
+  document.getElementById(
+    "juros"
+  ).value =
+    e.juros || 0;
+
+
+  document.getElementById(
+    "jurosDiario"
+  ).value =
+    e.jurosDiario || 0;
+
+
+  document.getElementById(
+    "parcelas"
+  ).value =
+    e.parcelas || 1;
+
+
+  document.getElementById(
+    "valorParcela"
+  ).value =
+    e.valorParcela || "";
+
+
+  document.getElementById(
+    "vencimento"
+  ).value =
+    e.vencimento;
+
+
+  document.getElementById(
+    "observacoes"
+  ).value =
+    e.observacoes || "";
+
+
+  window.scrollTo(
+    0,
+    0
   );
 
 }
 
 
-function excluir(index) {
+/* =========================================================
+   EXCLUIR
+========================================================= */
+
+function excluirEmprestimo(
+  indice
+) {
 
   const cliente =
-    emprestimos[index].cliente;
+    emprestimos[indice]
+      .cliente;
 
 
-  if (
+  const confirmar =
     confirm(
       `Excluir o empréstimo de ${cliente}?`
-    )
-  ) {
-
-    emprestimos.splice(
-      index,
-      1
     );
 
-    salvar();
 
-    mostrar();
+  if (!confirmar) {
+
+    return;
 
   }
+
+
+  emprestimos.splice(
+    indice,
+    1
+  );
+
+
+  salvar();
+
+  atualizarDashboard();
+
+  mostrarEmprestimos();
+
+  mostrarAviso(
+    "Empréstimo excluído."
+  );
 
 }
 
 
-mostrar();
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function enviarWhatsApp(
+  indice
+) {
+
+  const e =
+    emprestimos[indice];
 
 
-/* ATIVAÇÃO DA PWA */
+  if (
+    !e.telefone
+  ) {
+
+    mostrarAviso(
+      "Cadastre o telefone do cliente primeiro."
+    );
+
+    return;
+
+  }
+
+
+  const total =
+    totalContratado(e);
+
+
+  const recebido =
+    totalRecebido(e);
+
+
+  const saldo =
+    saldoRestante(e);
+
+
+  let mensagem =
+
+`Olá, ${e.cliente}!
+
+Segue a situação do seu empréstimo:
+
+💰 Valor emprestado: ${dinheiro(e.valor)}
+📈 Juros: ${dinheiro(e.juros || 0)}
+💵 Total contratado: ${dinheiro(total)}
+💳 Total recebido: ${dinheiro(recebido)}
+🔴 Saldo restante: ${dinheiro(saldo)}
+📅 Vencimento: ${formatarData(e.vencimento)}
+📋 Parcelas: ${e.parcelas || 1}`;
+
+  if (
+    e.jurosDiario
+  ) {
+
+    mensagem +=
+      `\n📆 Juros diário: ${dinheiro(
+        e.jurosDiario
+      )}`;
+
+  }
+
+
+  if (
+    e.observacoes
+  ) {
+
+    mensagem +=
+      `\n📝 Observação: ${e.observacoes}`;
+
+  }
+
+
+  mensagem +=
+    "\n\nObrigado.";
+
+
+  let telefone =
+    String(
+      e.telefone
+    ).replace(
+      /\D/g,
+      ""
+    );
+
+
+  if (
+    telefone.length === 10 ||
+    telefone.length === 11
+  ) {
+
+    telefone =
+      "55" +
+      telefone;
+
+  }
+
+
+  const url =
+    "https://wa.me/" +
+    telefone +
+    "?text=" +
+    encodeURIComponent(
+      mensagem
+    );
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   RELATÓRIO
+========================================================= */
+
+function mostrarRelatorio() {
+
+  let capital = 0;
+  let contratado = 0;
+  let recebido = 0;
+  let receber = 0;
+  let abertos = 0;
+  let atrasados = 0;
+  let quitados = 0;
+
+
+  emprestimos.forEach(
+    e => {
+
+      capital +=
+        Number(
+          e.valor || 0
+        );
+
+
+      contratado +=
+        totalContratado(e);
+
+
+      recebido +=
+        totalRecebido(e);
+
+
+      receber +=
+        saldoRestante(e);
+
+
+      if (
+        saldoRestante(e) <= 0
+      ) {
+
+        quitados++;
+
+      } else {
+
+        abertos++;
+
+      }
+
+
+      if (
+        estaAtrasado(e)
+      ) {
+
+        atrasados++;
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "conteudoRelatorio"
+  ).innerHTML = `
+
+    <p>
+      Quantidade total:
+      <strong>
+        ${emprestimos.length}
+      </strong>
+    </p>
+
+    <p>
+      Em aberto:
+      <strong>
+        ${abertos}
+      </strong>
+    </p>
+
+    <p>
+      Em atraso:
+      <strong>
+        ${atrasados}
+      </strong>
+    </p>
+
+    <p>
+      Quitados:
+      <strong>
+        ${quitados}
+      </strong>
+    </p>
+
+    <hr>
+
+    <p class="total-relatorio">
+      Capital emprestado:
+      ${dinheiro(capital)}
+    </p>
+
+    <p class="total-relatorio">
+      Total contratado:
+      ${dinheiro(contratado)}
+    </p>
+
+    <p class="total-relatorio">
+      Total recebido:
+      ${dinheiro(recebido)}
+    </p>
+
+    <p class="total-relatorio">
+      Total a receber:
+      ${dinheiro(receber)}
+    </p>
+
+  `;
+
+}
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportarBackup() {
+
+  const dados = {
+
+    aplicativo:
+      "Meu Controle de Empréstimos",
+
+    versao:
+      "3.0",
+
+    dataExportacao:
+      new Date()
+        .toISOString(),
+
+    emprestimos:
+      emprestimos
+
+  };
+
+
+  const arquivo =
+    new Blob(
+      [
+        JSON.stringify(
+          dados,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      arquivo
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    "backup-meu-controle-emprestimos.json";
+
+
+  link.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  mostrarAviso(
+    "Backup exportado!"
+  );
+
+}
+
+
+/* =========================================================
+   IMPORTAR BACKUP
+========================================================= */
+
+function importarBackup(
+  evento
+) {
+
+  const arquivo =
+    evento.target.files[0];
+
+
+  if (!arquivo) {
+
+    return;
+
+  }
+
+
+  const leitor =
+    new FileReader();
+
+
+  leitor.onload =
+    function() {
+
+      try {
+
+        const dados =
+          JSON.parse(
+            leitor.result
+          );
+
+
+        const lista =
+          Array.isArray(
+            dados
+              .emprestimos
+          )
+            ? dados.emprestimos
+            : dados;
+
+
+        if (
+          !Array.isArray(
+            lista
+          )
+        ) {
+
+          throw new Error(
+            "Backup inválido"
+          );
+
+        }
+
+
+        const confirmar =
+          confirm(
+            "Isso substituirá os dados atuais. Deseja continuar?"
+          );
+
+
+        if (
+          !confirmar
+        ) {
+
+          return;
+
+        }
+
+
+        emprestimos =
+          lista;
+
+
+        salvar();
+
+        atualizarDashboard();
+
+        mostrarEmprestimos();
+
+        mostrarAviso(
+          "Backup restaurado com sucesso!"
+        );
+
+      }
+
+      catch (erro) {
+
+        mostrarAviso(
+          "Arquivo de backup inválido."
+        );
+
+      }
+
+    };
+
+
+  leitor.readAsText(
+    arquivo
+  );
+
+}
+
+
+/* =========================================================
+   APAGAR TUDO
+========================================================= */
+
+function apagarTodos() {
+
+  const confirmar =
+    confirm(
+      "ATENÇÃO!\n\nTodos os empréstimos serão apagados.\n\nDeseja realmente continuar?"
+    );
+
+
+  if (
+    !confirmar
+  ) {
+
+    return;
+
+  }
+
+
+  emprestimos = [];
+
+
+  salvar();
+
+  atualizarDashboard();
+
+  mostrarEmprestimos();
+
+
+  mostrarAviso(
+    "Todos os dados foram apagados."
+  );
+
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+atualizarDashboard();
+
+mostrarEmprestimos();
+
+
+/* =========================================================
+   SERVICE WORKER / PWA
+========================================================= */
 
 if (
-  "serviceWorker"
-  in navigator
+  "serviceWorker" in navigator
 ) {
 
   window.addEventListener(
     "load",
-    () => {
+    function() {
 
       navigator
         .serviceWorker
-        .register("./sw.js")
+        .register(
+          "./sw.js"
+        )
         .then(
-          () =>
+          function() {
+
             console.log(
-              "PWA ativada com sucesso."
-            )
+              "PWA ativada."
+            );
+
+          }
         )
         .catch(
-          erro =>
+          function(erro) {
+
             console.error(
-              "Erro ao ativar PWA:",
+              "Erro no Service Worker:",
               erro
-            )
+            );
+
+          }
         );
 
     }
