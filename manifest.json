@@ -1,7 +1,7 @@
 {
   "name": "Meu Controle de Empréstimos",
   "short_name": "Empréstimos",
-  "description": "Controle completo de empréstimos, pagamentos e valores a receber.",
+  "description": "Controle de empréstimos, juros mensais, pagamentos e vencimentos.",
   "lang": "pt-BR",
   "start_url": "./",
   "scope": "./",
