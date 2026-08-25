@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta name="theme-color" content="#111827">
 
-<meta name="description"
-      content="Meu Controle de Empréstimos">
+<meta name="description" content="Meu Controle de Empréstimos">
 
 <link rel="manifest" href="./manifest.json">
 
@@ -17,293 +15,281 @@
 
 <style>
 
-* {
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+*{
+box-sizing:border-box;
+font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-  margin: 0;
-  background: #f3f4f6;
-  color: #111827;
-  padding-bottom: 40px;
+body{
+margin:0;
+background:#f3f4f6;
+color:#111827;
+padding-bottom:40px;
 }
 
-header {
-  background: #111827;
-  color: white;
-  padding: 18px 15px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+header{
+background:#111827;
+color:white;
+padding:18px 15px;
+position:sticky;
+top:0;
+z-index:100;
 }
 
-header h1 {
-  margin: 0;
-  text-align: center;
-  font-size: 21px;
+header h1{
+margin:0;
+text-align:center;
+font-size:21px;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 14px;
+.container{
+max-width:900px;
+margin:auto;
+padding:14px;
 }
 
-/* DASHBOARD */
-
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 15px;
+.dashboard{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:15px;
 }
 
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+.card{
+background:white;
+padding:15px;
+border-radius:14px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.card small {
-  color: #6b7280;
-  font-size: 12px;
+.card small{
+color:#6b7280;
+font-size:12px;
 }
 
-.card strong {
-  display: block;
-  font-size: 18px;
-  margin-top: 6px;
+.card strong{
+display:block;
+font-size:18px;
+margin-top:6px;
 }
 
-/* MENU */
-
-.menu {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
-  margin-bottom: 15px;
+.menu{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:7px;
+margin-bottom:15px;
 }
 
-.menu button {
-  margin: 0;
-  padding: 11px 5px;
-  font-size: 13px;
+.menu button{
+margin:0;
+padding:11px 5px;
+font-size:13px;
 }
-
-/* FORM */
 
 form,
 .panel,
-.emprestimo {
-  background: white;
-  padding: 16px;
-  border-radius: 14px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+.emprestimo{
+background:white;
+padding:16px;
+border-radius:14px;
+margin-bottom:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 form h2,
-.panel h2 {
-  margin-top: 0;
+.panel h2{
+margin-top:0;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
-label {
-  display: block;
-  margin-top: 7px;
-  font-size: 13px;
-  font-weight: bold;
+label{
+display:block;
+margin-top:7px;
+font-size:13px;
+font-weight:bold;
 }
 
 input,
 select,
 textarea,
-button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 6px;
-  margin-bottom: 10px;
-  border-radius: 9px;
-  border: 1px solid #d1d5db;
-  font-size: 16px;
+button{
+width:100%;
+padding:13px;
+margin-top:6px;
+margin-bottom:10px;
+border-radius:9px;
+border:1px solid #d1d5db;
+font-size:16px;
 }
 
-textarea {
-  min-height: 80px;
-  resize: vertical;
+textarea{
+min-height:80px;
+resize:vertical;
 }
 
-button {
-  background: #111827;
-  color: white;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
+button{
+background:#111827;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
 
-button.success {
-  background: #16a34a;
+button.success{
+background:#16a34a;
 }
 
-button.danger {
-  background: #dc2626;
+button.danger{
+background:#dc2626;
 }
 
-button.blue {
-  background: #2563eb;
+button.blue{
+background:#2563eb;
 }
 
-button.orange {
-  background: #d97706;
+button.orange{
+background:#d97706;
 }
 
-button.gray {
-  background: #6b7280;
+button.gray{
+background:#6b7280;
 }
 
-button.light {
-  background: #e5e7eb;
-  color: #111827;
+button.light{
+background:#e5e7eb;
+color:#111827;
 }
 
-/* EMPRESTIMO */
-
-.emprestimo {
-  margin-bottom: 12px;
+.emprestimo h3{
+margin:0 0 8px;
+font-size:19px;
 }
 
-.emprestimo h3 {
-  margin: 0 0 7px;
-  font-size: 19px;
+.emprestimo p{
+margin:7px 0;
 }
 
-.emprestimo p {
-  margin: 7px 0;
+.valor-grande{
+font-size:21px;
+font-weight:bold;
 }
 
-.valor-grande {
-  font-size: 21px;
-  font-weight: bold;
+.status{
+display:inline-block;
+padding:6px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+margin:5px 0;
 }
 
-.status {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  margin: 5px 0;
+.aberto{
+background:#fef3c7;
+color:#92400e;
 }
 
-.aberto {
-  background: #fef3c7;
-  color: #92400e;
+.atrasado{
+background:#fee2e2;
+color:#991b1b;
 }
 
-.atrasado {
-  background: #fee2e2;
-  color: #991b1b;
+.pago{
+background:#dcfce7;
+color:#166534;
 }
 
-.pago {
-  background: #dcfce7;
-  color: #166534;
+.acoes{
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+margin-top:8px;
 }
 
-.acoes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 8px;
+.acoes button{
+flex:1;
+min-width:120px;
+margin:0;
+padding:10px;
+font-size:13px;
 }
 
-.acoes button {
-  flex: 1;
-  min-width: 120px;
-  margin: 0;
-  padding: 10px;
-  font-size: 13px;
+.info{
+color:#6b7280;
+font-size:13px;
 }
 
-.info {
-  color: #6b7280;
-  font-size: 13px;
+.aviso{
+background:#eff6ff;
+border:1px solid #bfdbfe;
+padding:11px;
+border-radius:10px;
+font-size:13px;
+margin-bottom:12px;
 }
 
-.aviso {
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  padding: 11px;
-  border-radius: 10px;
-  font-size: 13px;
-  margin-bottom: 12px;
+.vazio{
+text-align:center;
+color:#6b7280;
+padding:30px 15px;
+background:white;
+border-radius:14px;
 }
 
-.vazio {
-  text-align: center;
-  color: #6b7280;
-  padding: 30px 15px;
-  background: white;
-  border-radius: 14px;
+.hidden{
+display:none!important;
 }
 
-.hidden {
-  display: none !important;
+.historico{
+background:#f9fafb;
+border-radius:10px;
+padding:10px;
+margin-top:10px;
 }
 
-.historico {
-  background: #f9fafb;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 10px;
+.pagamento-item{
+padding:8px 0;
+border-bottom:1px solid #e5e7eb;
 }
 
-.pagamento-item {
-  padding: 8px 0;
-  border-bottom: 1px solid #e5e7eb;
+.pagamento-item:last-child{
+border-bottom:none;
 }
 
-.pagamento-item:last-child {
-  border-bottom: none;
+.relatorio-item{
+padding:10px 0;
+border-bottom:1px solid #e5e7eb;
 }
 
-.relatorio-item {
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
+#toast{
+display:none;
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#111827;
+color:white;
+padding:12px 18px;
+border-radius:10px;
+z-index:999;
+max-width:90%;
+text-align:center;
 }
 
-#toast {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111827;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 10px;
-  z-index: 999;
-  max-width: 90%;
-  text-align: center;
+@media(max-width:600px){
+
+.row{
+grid-template-columns:1fr;
+gap:0;
 }
 
-@media (max-width: 600px) {
-
-  .row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .menu {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.menu{
+grid-template-columns:repeat(2,1fr);
+}
 
 }
 
@@ -313,7 +299,11 @@ button.light {
 <body>
 
 <header>
-<h1>💰 Meu Controle de Empréstimos</h1>
+
+<h1>
+💰 Meu Controle de Empréstimos
+</h1>
+
 </header>
 
 <div class="container">
@@ -323,41 +313,67 @@ button.light {
 <div class="dashboard">
 
 <div class="card">
-<small>💰 Total emprestado</small>
+
+<small>
+💰 Total emprestado
+</small>
+
 <strong id="totalEmprestado">
 R$ 0,00
 </strong>
+
 </div>
 
 <div class="card">
-<small>💵 Total recebido</small>
+
+<small>
+💵 Total recebido
+</small>
+
 <strong id="totalRecebido">
 R$ 0,00
 </strong>
+
 </div>
 
 <div class="card">
-<small>🔴 A receber</small>
+
+<small>
+🔴 A receber
+</small>
+
 <strong id="totalAReceber">
 R$ 0,00
 </strong>
+
 </div>
 
 <div class="card">
-<small>📋 Em aberto</small>
+
+<small>
+📋 Em aberto
+</small>
+
 <strong id="quantidadeAberta">
 0
 </strong>
+
 </div>
 
 <div class="card">
-<small>⚠️ Em atraso</small>
+
+<small>
+⚠️ Em atraso
+</small>
+
 <strong id="quantidadeAtrasada">
 0
 </strong>
+
 </div>
 
 </div>
+
 
 <!-- MENU -->
 
@@ -381,6 +397,7 @@ R$ 0,00
 
 </div>
 
+
 <!-- CADASTRO -->
 
 <section id="cadastro">
@@ -391,16 +408,20 @@ R$ 0,00
 Novo empréstimo
 </h2>
 
+
 <input
 type="hidden"
 id="idEdicao"
 >
 
+
 <div class="row">
 
 <div>
 
-<label>Nome do cliente</label>
+<label>
+👤 Nome do cliente
+</label>
 
 <input
 type="text"
@@ -411,9 +432,12 @@ required
 
 </div>
 
+
 <div>
 
-<label>Telefone / WhatsApp</label>
+<label>
+📱 Telefone / WhatsApp
+</label>
 
 <input
 type="tel"
@@ -425,11 +449,14 @@ placeholder="(11) 99999-9999"
 
 </div>
 
+
 <div class="row">
 
 <div>
 
-<label>Valor emprestado</label>
+<label>
+💰 Valor emprestado
+</label>
 
 <input
 type="number"
@@ -442,9 +469,12 @@ required
 
 </div>
 
+
 <div>
 
-<label>Juros mensal (%)</label>
+<label>
+📊 Juros mensal (%)
+</label>
 
 <input
 type="number"
@@ -459,11 +489,48 @@ required
 
 </div>
 
+
 <div class="row">
 
 <div>
 
-<label>Quantidade de parcelas</label>
+<label>
+📅 Data de início
+</label>
+
+<input
+type="date"
+id="dataInicio"
+required
+>
+
+</div>
+
+
+<div>
+
+<label>
+📅 Primeiro vencimento
+</label>
+
+<input
+type="date"
+id="vencimento"
+required
+>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div>
+
+<label>
+🔢 Quantidade de parcelas
+</label>
 
 <input
 type="number"
@@ -477,63 +544,103 @@ required
 
 <div>
 
-<label>Data de vencimento</label>
+<label>
+📝 Observação
+</label>
 
 <input
-type="date"
-id="vencimento"
-required
+type="text"
+id="observacao"
+placeholder="Opcional"
 >
 
 </div>
 
 </div>
 
-<label>Observações</label>
-
-<textarea
-id="observacoes"
-placeholder="Anotações sobre o empréstimo"
-></textarea>
 
 <div class="aviso">
 
-<strong>Exemplo:</strong><br>
+<strong>
+Exemplo:
+</strong>
 
-Empréstimo de R$ 1.000,00 +
-30% de juros = R$ 1.300,00.<br><br>
+<br><br>
 
-Se receber R$ 300,00, o saldo fica
-R$ 1.000,00 e o vencimento passa
-automaticamente para o próximo mês.
-No próximo vencimento, os 30% serão
-calculados novamente sobre o saldo.
+Empréstimo:
+<strong>R$ 1.000,00</strong>
+
+<br>
+
+Juros:
+<strong>30%</strong>
+
+<br>
+
+Parcela:
+<strong>R$ 1.300,00</strong>
+
+<br>
+
+Juros:
+<strong>R$ 300,00</strong>
+
+<br><br>
+
+Se forem 3 parcelas:
+
+<strong>
+3 → 2 → 1 → quitado
+</strong>
+
+<br><br>
+
+Se forem 1 parcela:
+
+<strong>
+continua renovando mensalmente
+</strong>
+
+até você quitar ou excluir.
 
 </div>
 
+
 <button type="submit">
+
 💾 Salvar empréstimo
+
 </button>
+
 
 <button
 type="button"
 class="light"
 onclick="limparFormulario()"
 >
+
 Limpar
+
 </button>
 
 </form>
 
 </section>
 
+
 <!-- LISTA -->
 
-<section id="lista" class="hidden">
+<section
+id="lista"
+class="hidden"
+>
 
 <div class="panel">
 
-<h2>📋 Meus empréstimos</h2>
+<h2>
+📋 Meus empréstimos
+</h2>
+
 
 <input
 type="search"
@@ -541,6 +648,7 @@ id="pesquisa"
 placeholder="🔎 Pesquisar cliente ou telefone"
 oninput="mostrarEmprestimos()"
 >
+
 
 <select
 id="filtro"
@@ -567,13 +675,19 @@ Quitados
 
 </div>
 
-<div id="listaEmprestimos"></div>
+
+<div id="listaEmprestimos">
+</div>
 
 </section>
 
-<!-- RELATÓRIO -->
 
-<section id="relatorio" class="hidden">
+<!-- RELATORIO -->
+
+<section
+id="relatorio"
+class="hidden"
+>
 
 <div class="panel">
 
@@ -581,37 +695,44 @@ Quitados
 📊 Relatório
 </h2>
 
-<div id="conteudoRelatorio"></div>
+<div id="conteudoRelatorio">
+</div>
 
 </div>
 
 </section>
 
+
 <!-- BACKUP -->
 
-<section id="backup" class="hidden">
+<section
+id="backup"
+class="hidden"
+>
 
 <div class="panel">
 
 <h2>
-💾 Backup dos dados
+💾 Backup
 </h2>
 
 <p class="info">
 
-Os dados ficam armazenados
-neste aparelho.
-
-Faça backups regularmente.
+Faça backup regularmente para não perder
+os dados caso o navegador seja apagado.
 
 </p>
+
 
 <button
 class="blue"
 onclick="exportarBackup()"
 >
+
 ⬇️ Exportar backup
+
 </button>
+
 
 <input
 type="file"
@@ -621,18 +742,24 @@ style="display:none"
 onchange="importarBackup(event)"
 >
 
+
 <button
 class="success"
 onclick="document.getElementById('arquivoBackup').click()"
 >
+
 ⬆️ Importar backup
+
 </button>
+
 
 <button
 class="danger"
 onclick="apagarTodos()"
 >
+
 🗑️ Apagar todos
+
 </button>
 
 </div>
@@ -641,7 +768,10 @@ onclick="apagarTodos()"
 
 </div>
 
-<div id="toast"></div>
+
+<div id="toast">
+</div>
+
 
 <script>
 
@@ -650,7 +780,8 @@ onclick="apagarTodos()"
 ===================================================== */
 
 const CHAVE =
-"meu_controle_emprestimos_v4";
+"meu_controle_emprestimos_v6";
+
 
 let emprestimos =
 JSON.parse(
@@ -659,10 +790,10 @@ localStorage.getItem(CHAVE)
 
 
 /* =====================================================
-   FUNÇÕES
+   FORMATAÇÃO
 ===================================================== */
 
-function dinheiro(valor) {
+function dinheiro(valor){
 
 return Number(valor || 0)
 .toLocaleString(
@@ -676,17 +807,47 @@ currency:"BRL"
 }
 
 
-function salvar() {
+function escapar(texto){
+
+return String(texto || "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+function formatarData(data){
+
+if(!data)
+return "-";
+
+const partes =
+data.split("-");
+
+if(partes.length !== 3)
+return data;
+
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+function salvar(){
 
 localStorage.setItem(
 CHAVE,
-JSON.stringify(emprestimos)
+JSON.stringify(
+emprestimos
+)
 );
 
 }
 
 
-function aviso(texto) {
+function aviso(texto){
 
 const toast =
 document.getElementById(
@@ -712,96 +873,187 @@ toast.style.display =
 }
 
 
-function escapar(texto) {
-
-return String(texto || "")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-function formatarData(data) {
-
-if(!data)
-return "-";
-
-const partes =
-data.split("-");
-
-if(partes.length !== 3)
-return data;
-
-return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-}
-
-
 /* =====================================================
-   DATA ATUAL
+   DATA DE HOJE
 ===================================================== */
 
-function hoje() {
+function dataHoje(){
 
-const agora =
+const d =
 new Date();
 
-return new Date(
-agora.getFullYear(),
-agora.getMonth(),
-agora.getDate()
+return `${d.getFullYear()}-${
+String(d.getMonth()+1).padStart(2,"0")
+}-${
+String(d.getDate()).padStart(2,"0")
+}`;
+
+}
+
+
+/* =====================================================
+   CALCULO
+===================================================== */
+
+function calcularJuros(e){
+
+const valor =
+Number(
+e.valorAtual ??
+e.valorInicial ??
+e.valor ??
+0
+);
+
+const percentual =
+Number(
+e.juros || 0
+);
+
+return valor *
+percentual /
+100;
+
+}
+
+
+function calcularParcela(e){
+
+const valor =
+Number(
+e.valorAtual ??
+e.valorInicial ??
+e.valor ??
+0
+);
+
+return valor +
+calcularJuros(e);
+
+}
+
+
+/* =====================================================
+   PARCELAS
+===================================================== */
+
+function parcelasRestantes(e){
+
+if(
+e.parcelasRestantes !== undefined
+){
+
+return Number(
+e.parcelasRestantes
+);
+
+}
+
+return Number(
+e.parcelas || 1
 );
 
 }
 
 
 /* =====================================================
-   JUROS
+   PROXIMO MES
 ===================================================== */
 
+function proximoMes(data){
+
+if(!data)
+return data;
+
+const p =
+data.split("-");
+
+const ano =
+Number(p[0]);
+
+const mes =
+Number(p[1]);
+
+const dia =
+Number(p[2]);
+
+
 /*
-
-O PRINCIPAL É O SALDO DO EMPRÉSTIMO.
-
-Exemplo:
-
-Principal = 1000
-Juros = 30%
-
-Juros = 300
-Parcela mensal = 1300
-
-Se receber 300:
-
-Principal restante = 1000
-
-No próximo mês:
-
-Juros = 1000 x 30% = 300
-Parcela = 1300
-
+Calcula o próximo mês.
 */
 
-function calcularJuros(principal, percentual) {
+let novoAno =
+ano;
 
-return principal *
-(percentual / 100);
+let novoMes =
+mes + 1;
+
+if(
+novoMes > 12
+){
+
+novoMes = 1;
+
+novoAno++;
 
 }
 
 
-function calcularParcela(principal, percentual) {
+/*
+Mantém o mesmo dia.
+Se o próximo mês não possuir
+esse dia, usa o último dia.
+*/
 
-const juros =
-calcularJuros(
-principal,
-percentual
+const ultimoDia =
+new Date(
+novoAno,
+novoMes,
+0
+).getDate();
+
+const novoDia =
+Math.min(
+dia,
+ultimoDia
 );
 
-return principal + juros;
+
+return `${novoAno}-${String(novoMes).padStart(2,"0")}-${String(novoDia).padStart(2,"0")}`;
+
+}
+
+
+/* =====================================================
+   ATRASO
+===================================================== */
+
+function estaAtrasado(e){
+
+if(
+parcelasRestantes(e) <= 0
+){
+
+return false;
+
+}
+
+if(!e.vencimento)
+return false;
+
+const hoje =
+new Date(
+dataHoje() +
+"T00:00:00"
+);
+
+const vencimento =
+new Date(
+e.vencimento +
+"T00:00:00"
+);
+
+return vencimento < hoje;
 
 }
 
@@ -810,24 +1062,24 @@ return principal + juros;
    PAGAMENTOS
 ===================================================== */
 
-function totalRecebido(e) {
+function totalRecebido(e){
 
 if(
 !Array.isArray(
 e.pagamentos
 )
-) {
+){
 
 return 0;
 
 }
 
 return e.pagamentos.reduce(
-function(total,pagamento){
+function(total,p){
 
 return total +
 Number(
-pagamento.valor || 0
+p.valor || 0
 );
 
 },
@@ -837,217 +1089,52 @@ pagamento.valor || 0
 }
 
 
-/*
-O campo principalAtual representa
-o saldo do principal.
-
-Quando o cliente paga:
-
-- primeiro reduz o principal;
-- depois o próximo mês calcula
-  os juros novamente sobre o
-  principal restante.
-*/
-
-function principalAtual(e) {
-
-return Math.max(
-Number(
-e.valorInicial || e.valor || 0
-) -
-totalRecebido(e),
-0
-);
-
-}
-
-
-function jurosAtual(e) {
-
-const principal =
-principalAtual(e);
-
-return calcularJuros(
-principal,
-Number(e.juros || 0)
-);
-
-}
-
-
-function parcelaAtual(e) {
-
-const principal =
-principalAtual(e);
-
-if(principal <= 0)
-return 0;
-
-return calcularParcela(
-principal,
-Number(e.juros || 0)
-);
-
-}
-
-
-/*
-Saldo exibido representa
-o valor que precisa ser pago
-no vencimento atual.
-
-Exemplo:
-
-Principal 1000
-Juros 30%
-Parcela atual 1300
-
-Se recebeu 300:
-principal fica 700
-próxima parcela será 910.
-
-*/
-
-function saldoAtual(e) {
-
-return parcelaAtual(e);
-
-}
-
-
-/* =====================================================
-   ATRASO
-===================================================== */
-
-function estaAtrasado(e) {
-
-if(
-principalAtual(e) <= 0
-) {
-
-return false;
-
-}
-
-if(!e.vencimento)
-return false;
-
-const vencimento =
-new Date(
-e.vencimento +
-"T00:00:00"
-);
-
-return vencimento < hoje();
-
-}
-
-
-/* =====================================================
-   AVANÇAR UM MÊS
-===================================================== */
-
-function proximoMesMesmoDia(data) {
-
-const partes =
-data.split("-");
-
-const ano =
-Number(partes[0]);
-
-const mes =
-Number(partes[1]) - 1;
-
-const dia =
-Number(partes[2]);
-
-
-/*
-Primeiro colocamos no dia 1.
-Isso evita problemas com datas como
-31/01 -> fevereiro.
-*/
-
-const novaData =
-new Date(
-ano,
-mes + 1,
-1
-);
-
-
-/*
-Se o próximo mês não tiver
-o mesmo dia, usamos o último
-dia daquele mês.
-*/
-
-const ultimoDia =
-new Date(
-novaData.getFullYear(),
-novaData.getMonth() + 1,
-0
-).getDate();
-
-
-const novoDia =
-Math.min(
-dia,
-ultimoDia
-);
-
-
-return `${novaData.getFullYear()}-${
-String(novaData.getMonth()+1)
-.padStart(2,"0")
-}-${
-String(novoDia)
-.padStart(2,"0")
-}`;
-
-}
-
-
 /* =====================================================
    DASHBOARD
 ===================================================== */
 
-function atualizarDashboard() {
+function atualizarDashboard(){
 
-let emprestado = 0;
-let recebido = 0;
-let receber = 0;
+let totalEmprestado = 0;
+
+let totalRecebidoValor = 0;
+
+let totalAReceber = 0;
+
 let abertas = 0;
+
 let atrasadas = 0;
 
 
 emprestimos.forEach(
 function(e){
 
-emprestado +=
+totalEmprestado +=
 Number(
 e.valorInicial ||
 e.valor ||
 0
 );
 
-recebido +=
+totalRecebidoValor +=
 totalRecebido(e);
 
+
 if(
-principalAtual(e) > 0
-) {
+parcelasRestantes(e) > 0
+){
 
 abertas++;
 
-receber +=
-saldoAtual(e);
+totalAReceber +=
+calcularParcela(e);
 
 }
 
+
 if(
 estaAtrasado(e)
-) {
+){
 
 atrasadas++;
 
@@ -1061,7 +1148,7 @@ document.getElementById(
 "totalEmprestado"
 ).textContent =
 dinheiro(
-emprestado
+totalEmprestado
 );
 
 
@@ -1069,7 +1156,7 @@ document.getElementById(
 "totalRecebido"
 ).textContent =
 dinheiro(
-recebido
+totalRecebidoValor
 );
 
 
@@ -1077,7 +1164,7 @@ document.getElementById(
 "totalAReceber"
 ).textContent =
 dinheiro(
-receber
+totalAReceber
 );
 
 
@@ -1099,7 +1186,7 @@ atrasadas;
    ABAS
 ===================================================== */
 
-function abrirAba(nome) {
+function abrirAba(nome){
 
 [
 "cadastro",
@@ -1108,11 +1195,13 @@ function abrirAba(nome) {
 "backup"
 ]
 .forEach(
-function(aba){
+function(id){
 
 document
-.getElementById(aba)
-.classList.add("hidden");
+.getElementById(id)
+.classList.add(
+"hidden"
+);
 
 }
 );
@@ -1120,17 +1209,23 @@ document
 
 document
 .getElementById(nome)
-.classList.remove("hidden");
+.classList.remove(
+"hidden"
+);
 
 
-if(nome === "lista") {
+if(
+nome === "lista"
+){
 
 mostrarEmprestimos();
 
 }
 
 
-if(nome === "relatorio") {
+if(
+nome === "relatorio"
+){
 
 mostrarRelatorio();
 
@@ -1140,7 +1235,7 @@ mostrarRelatorio();
 
 
 /* =====================================================
-   CADASTRO
+   NOVO EMPRESTIMO
 ===================================================== */
 
 document
@@ -1188,12 +1283,10 @@ document.getElementById(
 );
 
 
-const parcelas =
-Number(
+const dataInicio =
 document.getElementById(
-"parcelas"
-).value
-);
+"dataInicio"
+).value;
 
 
 const vencimento =
@@ -1202,21 +1295,31 @@ document.getElementById(
 ).value;
 
 
-const observacoes =
+const parcelas =
+Number(
 document.getElementById(
-"observacoes"
+"parcelas"
+).value
+);
+
+
+const observacao =
+document.getElementById(
+"observacao"
 ).value.trim();
 
 
 if(
 !cliente ||
-valor <= 0 ||
+!valor ||
 juros < 0 ||
-!vencimento
-) {
+!dataInicio ||
+!vencimento ||
+parcelas < 1
+){
 
 aviso(
-"Preencha os campos obrigatórios."
+"Preencha todos os campos obrigatórios."
 );
 
 return;
@@ -1224,91 +1327,11 @@ return;
 }
 
 
-/*
-Se estiver editando,
-mantém os pagamentos já existentes.
-*/
+/* =================================================
+   EDIÇÃO
+================================================= */
 
-let antigo = null;
-
-
-if(id) {
-
-antigo =
-emprestimos.find(
-function(e){
-
-return String(e.id) ===
-String(id);
-
-}
-);
-
-}
-
-
-const novo = {
-
-id:
-id || Date.now(),
-
-cliente:
-cliente,
-
-telefone:
-telefone,
-
-valorInicial:
-antigo
-? Number(
-antigo.valorInicial ||
-antigo.valor ||
-0
-)
-: valor,
-
-valor:
-valor,
-
-juros:
-juros,
-
-parcelas:
-parcelas,
-
-vencimento:
-vencimento,
-
-observacoes:
-observacoes,
-
-pagamentos:
-antigo &&
-Array.isArray(
-antigo.pagamentos
-)
-? antigo.pagamentos
-: []
-
-};
-
-
-/*
-Se for novo, valorInicial = valor.
-
-Se estiver editando o valor,
-preservamos o valorInicial original.
-*/
-
-if(!antigo) {
-
-novo.valorInicial =
-valor;
-
-}
-
-
-if(id) {
+if(id){
 
 const indice =
 emprestimos.findIndex(
@@ -1321,39 +1344,191 @@ String(id);
 );
 
 
-if(indice !== -1) {
+if(indice === -1){
 
-emprestimos[indice] =
-novo;
-
-}
-
-} else {
-
-emprestimos.push(
-novo
+aviso(
+"Empréstimo não encontrado."
 );
 
+return;
+
 }
+
+
+const antigo =
+emprestimos[indice];
+
+
+emprestimos[indice] = {
+
+...antigo,
+
+cliente:
+cliente,
+
+telefone:
+telefone,
+
+juros:
+juros,
+
+dataInicio:
+dataInicio,
+
+vencimento:
+vencimento,
+
+observacao:
+observacao
+
+};
 
 
 salvar();
 
+
 limparFormulario();
 
+
 atualizarDashboard();
+
+
+mostrarEmprestimos();
+
 
 abrirAba(
 "lista"
 );
 
+
+aviso(
+"Empréstimo atualizado!"
+);
+
+
+return;
+
+}
+
+
+/* =================================================
+   NOVO
+================================================= */
+
+const novo = {
+
+id:
+Date.now(),
+
+cliente:
+cliente,
+
+telefone:
+telefone,
+
+valorInicial:
+valor,
+
+valorAtual:
+valor,
+
+juros:
+juros,
+
+dataInicio:
+dataInicio,
+
+vencimento:
+vencimento,
+
+parcelasIniciais:
+parcelas,
+
+parcelasRestantes:
+parcelas,
+
+observacao:
+observacao,
+
+pagamentos:
+[],
+
+criadoEm:
+new Date().toISOString()
+
+};
+
+
+/*
+ADICIONA AO ARRAY
+*/
+
+emprestimos.push(
+novo
+);
+
+
+/*
+SALVA IMEDIATAMENTE
+*/
+
+salvar();
+
+
+/*
+CONFIRMA QUE SALVOU
+*/
+
+const verificacao =
+JSON.parse(
+localStorage.getItem(CHAVE)
+) || [];
+
+
+if(
+!verificacao.some(
+function(e){
+
+return String(e.id) ===
+String(novo.id);
+
+}
+)
+){
+
+aviso(
+"Erro ao salvar. Tente novamente."
+);
+
+return;
+
+}
+
+
+/*
+LIMPA
+*/
+
+limparFormulario();
+
+
+/*
+ATUALIZA
+*/
+
+atualizarDashboard();
+
+
+abrirAba(
+"lista"
+);
+
+
 mostrarEmprestimos();
 
 
 aviso(
-id
-? "Empréstimo atualizado!"
-: "Empréstimo cadastrado!"
+"✅ Empréstimo salvo com sucesso!"
 );
 
 }
@@ -1361,10 +1536,10 @@ id
 
 
 /* =====================================================
-   LIMPAR
+   LIMPAR FORMULARIO
 ===================================================== */
 
-function limparFormulario() {
+function limparFormulario(){
 
 document
 .getElementById(
@@ -1375,7 +1550,8 @@ document
 
 document.getElementById(
 "idEdicao"
-).value = "";
+).value =
+"";
 
 
 document.getElementById(
@@ -1386,16 +1562,34 @@ document.getElementById(
 
 document.getElementById(
 "parcelas"
-).value = 1;
+).value =
+1;
+
+
+/*
+Coloca a data de hoje
+automaticamente.
+*/
+
+document.getElementById(
+"dataInicio"
+).value =
+dataHoje();
+
+
+document.getElementById(
+"vencimento"
+).value =
+dataHoje();
 
 }
 
 
 /* =====================================================
-   MOSTRAR LISTA
+   MOSTRAR EMPRESTIMOS
 ===================================================== */
 
-function mostrarEmprestimos() {
+function mostrarEmprestimos(){
 
 atualizarDashboard();
 
@@ -1410,7 +1604,8 @@ const pesquisa =
 (
 document.getElementById(
 "pesquisa"
-)?.value || ""
+)?.value ||
+""
 )
 .toLowerCase()
 .trim();
@@ -1423,7 +1618,7 @@ document.getElementById(
 "todos";
 
 
-let resultados =
+const resultados =
 emprestimos.filter(
 function(e){
 
@@ -1440,7 +1635,7 @@ if(
 !texto.includes(
 pesquisa
 )
-) {
+){
 
 return false;
 
@@ -1452,8 +1647,8 @@ let status =
 
 
 if(
-principalAtual(e) <= 0
-) {
+parcelasRestantes(e) <= 0
+){
 
 status =
 "quitado";
@@ -1461,7 +1656,7 @@ status =
 }
 else if(
 estaAtrasado(e)
-) {
+){
 
 status =
 "atrasado";
@@ -1472,7 +1667,7 @@ status =
 if(
 filtro !== "todos" &&
 filtro !== status
-) {
+){
 
 return false;
 
@@ -1485,23 +1680,9 @@ return true;
 );
 
 
-resultados.sort(
-function(a,b){
-
-return new Date(
-a.vencimento
-) -
-new Date(
-b.vencimento
-);
-
-}
-);
-
-
 if(
 resultados.length === 0
-) {
+){
 
 lista.innerHTML = `
 
@@ -1512,7 +1693,7 @@ lista.innerHTML = `
 </div>
 
 <p>
-Nenhum empréstimo encontrado.
+Nenhum empréstimo cadastrado.
 </p>
 
 </div>
@@ -1524,7 +1705,8 @@ return;
 }
 
 
-lista.innerHTML = "";
+lista.innerHTML =
+"";
 
 
 resultados.forEach(
@@ -1541,28 +1723,33 @@ String(e.id);
 );
 
 
-const principal =
-principalAtual(e);
-
-
-const percentual =
-Number(e.juros || 0);
+const valor =
+Number(
+e.valorAtual ??
+e.valorInicial ??
+e.valor ??
+0
+);
 
 
 const juros =
-jurosAtual(e);
+calcularJuros(e);
 
 
 const parcela =
-parcelaAtual(e);
+calcularParcela(e);
 
 
 const recebido =
 totalRecebido(e);
 
 
+const restantes =
+parcelasRestantes(e);
+
+
 const quitado =
-principal <= 0;
+restantes <= 0;
 
 
 const atrasado =
@@ -1572,12 +1759,13 @@ estaAtrasado(e);
 let classe =
 "aberto";
 
-
 let texto =
 "● EM ABERTO";
 
 
-if(quitado) {
+if(
+quitado
+){
 
 classe =
 "pago";
@@ -1586,7 +1774,9 @@ texto =
 "✓ QUITADO";
 
 }
-else if(atrasado) {
+else if(
+atrasado
+){
 
 classe =
 "atrasado";
@@ -1613,8 +1803,786 @@ div.innerHTML = `
 👤 ${escapar(e.cliente)}
 </h3>
 
+
 <p>
 📱 ${
 escapar(
 e.telefone ||
-"
+"Sem telefone"
+)
+}
+</p>
+
+
+<p>
+📅 Data de início:
+<strong>
+${formatarData(
+e.dataInicio
+)}
+</strong>
+</p>
+
+
+<p>
+💰 Valor emprestado:
+<strong>
+${dinheiro(
+e.valorInicial
+)}
+</strong>
+</p>
+
+
+<p>
+📊 Juros:
+<strong>
+${e.juros}%
+</strong>
+</p>
+
+
+<p>
+💵 Valor da parcela:
+<strong class="valor-grande">
+${dinheiro(
+parcela
+)}
+</strong>
+</p>
+
+
+<p>
+📈 Juros:
+<strong>
+${dinheiro(
+juros
+)}
+</strong>
+</p>
+
+
+<p>
+💳 Total recebido:
+<strong>
+${dinheiro(
+recebido
+)}
+</strong>
+</p>
+
+
+<p>
+🔢 Parcelas restantes:
+<strong>
+${restantes}
+</strong>
+</p>
+
+
+<p>
+📅 Próximo vencimento:
+<strong>
+${formatarData(
+e.vencimento
+)}
+</strong>
+</p>
+
+
+${
+e.observacao
+?
+`
+<p>
+📝 ${escapar(
+e.observacao
+)}
+</p>
+`
+:
+""
+}
+
+
+<span class="status ${classe}">
+${texto}
+</span>
+
+
+<div class="acoes">
+
+
+${
+!quitado
+?
+`
+<button
+class="success"
+onclick="registrarPagamento(${indice})"
+>
+💵 Receber
+</button>
+`
+:
+""
+}
+
+
+<button
+class="blue"
+onclick="editarEmprestimo(${indice})"
+>
+✏️ Editar
+</button>
+
+
+<button
+class="orange"
+onclick="enviarWhatsApp(${indice})"
+>
+💬 WhatsApp
+</button>
+
+
+<button
+class="gray"
+onclick="mostrarHistorico(${indice})"
+>
+📜 Histórico
+</button>
+
+
+<button
+class="danger"
+onclick="excluirEmprestimo(${indice})"
+>
+🗑️ Excluir
+</button>
+
+
+</div>
+
+
+<div
+id="historico-${indice}"
+class="historico hidden"
+></div>
+
+`;
+
+
+lista.appendChild(
+div
+);
+
+}
+);
+
+}
+
+
+/* =====================================================
+   RECEBER
+===================================================== */
+
+function registrarPagamento(
+indice
+){
+
+const e =
+emprestimos[indice];
+
+
+const valorParcela =
+calcularParcela(e);
+
+
+const recebido =
+prompt(
+`Valor da parcela: ${dinheiro(valorParcela)}
+
+Digite o valor recebido:`
+);
+
+
+if(
+recebido === null
+){
+
+return;
+
+}
+
+
+const valorPago =
+Number(
+String(
+recebido
+)
+.replace(
+",",
+"."
+)
+);
+
+
+if(
+!Number.isFinite(
+valorPago
+) ||
+valorPago <= 0
+){
+
+aviso(
+"Digite um valor válido."
+);
+
+return;
+
+}
+
+
+/*
+Não permite receber
+mais que a parcela.
+*/
+
+if(
+valorPago >
+valorParcela
+){
+
+aviso(
+"O valor recebido não pode ser maior que a parcela."
+);
+
+return;
+
+}
+
+
+/*
+Cria histórico.
+*/
+
+if(
+!Array.isArray(
+e.pagamentos
+)
+){
+
+e.pagamentos =
+[];
+
+}
+
+
+e.pagamentos.push({
+
+id:
+Date.now(),
+
+data:
+new Date().toISOString(),
+
+valor:
+valorPago,
+
+parcela:
+parcelasRestantes(e)
+
+});
+
+
+/* =================================================
+   REGRA DE PARCELAS
+================================================= */
+
+let restantes =
+parcelasRestantes(e);
+
+
+/*
+Se for 1:
+
+1 continua 1.
+
+Se for maior que 1:
+
+3 -> 2
+2 -> 1
+1 -> 0
+*/
+
+if(
+restantes === 1
+){
+
+/*
+RENOVAÇÃO INDEFINIDA
+*/
+
+restantes =
+1;
+
+}
+else{
+
+restantes =
+restantes - 1;
+
+}
+
+
+e.parcelasRestantes =
+restantes;
+
+
+/*
+Atualiza o próximo vencimento.
+*/
+
+e.vencimento =
+proximoMes(
+e.vencimento
+);
+
+
+/* =================================================
+   SALVAR
+================================================= */
+
+salvar();
+
+
+atualizarDashboard();
+
+
+mostrarEmprestimos();
+
+
+/*
+Se era empréstimo parcelado
+e chegou a zero.
+*/
+
+if(
+restantes === 0
+){
+
+aviso(
+"🎉 Última parcela recebida. Empréstimo quitado!"
+);
+
+}
+else if(
+parcelasRestantes(e) === 1 &&
+Number(
+e.parcelasIniciais
+) === 1
+){
+
+aviso(
+"Pagamento registrado. Empréstimo renovado para o próximo mês."
+);
+
+}
+else{
+
+aviso(
+`Pagamento registrado. ${restantes} parcela(s) restante(s).`
+);
+
+}
+
+}
+
+
+/* =====================================================
+   HISTORICO
+===================================================== */
+
+function mostrarHistorico(
+indice
+){
+
+const e =
+emprestimos[indice];
+
+
+const elemento =
+document.getElementById(
+`historico-${indice}`
+);
+
+
+if(!elemento)
+return;
+
+
+if(
+!elemento.classList.contains(
+"hidden"
+)
+){
+
+elemento.classList.add(
+"hidden"
+);
+
+return;
+
+}
+
+
+const pagamentos =
+e.pagamentos || [];
+
+
+if(
+pagamentos.length === 0
+){
+
+elemento.innerHTML =
+"<p>Nenhum pagamento registrado.</p>";
+
+}
+else{
+
+elemento.innerHTML = `
+
+<strong>
+📜 Histórico de pagamentos
+</strong>
+
+${
+pagamentos
+.map(
+function(p,n){
+
+return `
+
+<div class="pagamento-item">
+
+<strong>
+${n+1}.
+</strong>
+
+${formatarData(
+p.data.substring(
+0,
+10
+)
+)}
+
+<br>
+
+💵 Recebido:
+<strong>
+${dinheiro(
+p.valor
+)}
+</strong>
+
+<br>
+
+🔢 Parcela:
+${p.parcela}
+
+</div>
+
+`;
+
+}
+)
+.join("")
+}
+
+`;
+
+}
+
+
+elemento.classList.remove(
+"hidden"
+);
+
+}
+
+
+/* =====================================================
+   EDITAR
+===================================================== */
+
+function editarEmprestimo(
+indice
+){
+
+const e =
+emprestimos[indice];
+
+
+abrirAba(
+"cadastro"
+);
+
+
+document.getElementById(
+"tituloFormulario"
+).textContent =
+"Editar empréstimo";
+
+
+document.getElementById(
+"idEdicao"
+).value =
+e.id;
+
+
+document.getElementById(
+"cliente"
+).value =
+e.cliente;
+
+
+document.getElementById(
+"telefone"
+).value =
+e.telefone || "";
+
+
+document.getElementById(
+"valor"
+).value =
+e.valorInicial;
+
+
+document.getElementById(
+"juros"
+).value =
+e.juros;
+
+
+document.getElementById(
+"dataInicio"
+).value =
+e.dataInicio;
+
+
+document.getElementById(
+"vencimento"
+).value =
+e.vencimento;
+
+
+document.getElementById(
+"parcelas"
+).value =
+e.parcelasRestantes;
+
+
+document.getElementById(
+"observacao"
+).value =
+e.observacao || "";
+
+
+window.scrollTo(
+0,
+0
+);
+
+}
+
+
+/* =====================================================
+   EXCLUIR
+===================================================== */
+
+function excluirEmprestimo(
+indice
+){
+
+const cliente =
+emprestimos[indice]
+.cliente;
+
+
+if(
+!confirm(
+`Excluir o empréstimo de ${cliente}?`
+)
+){
+
+return;
+
+}
+
+
+emprestimos.splice(
+indice,
+1
+);
+
+
+salvar();
+
+
+atualizarDashboard();
+
+
+mostrarEmprestimos();
+
+
+aviso(
+"Empréstimo excluído."
+);
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function enviarWhatsApp(
+indice
+){
+
+const e =
+emprestimos[indice];
+
+
+if(
+!e.telefone
+){
+
+aviso(
+"Cadastre o telefone primeiro."
+);
+
+return;
+
+}
+
+
+const mensagem =
+
+`Olá, ${e.cliente}!
+
+Segue a situação do seu empréstimo:
+
+💰 Valor emprestado: ${dinheiro(e.valorInicial)}
+
+📊 Juros mensal: ${e.juros}%
+
+💵 Valor da parcela: ${dinheiro(calcularParcela(e))}
+
+📈 Juros: ${dinheiro(calcularJuros(e))}
+
+🔢 Parcelas restantes: ${parcelasRestantes(e)}
+
+📅 Próximo vencimento: ${formatarData(e.vencimento)}
+
+📅 Início do empréstimo: ${formatarData(e.dataInicio)}
+
+💳 Total recebido: ${dinheiro(totalRecebido(e))}`;
+
+
+let telefone =
+String(
+e.telefone
+)
+.replace(
+/\D/g,
+""
+);
+
+
+if(
+telefone.length === 10 ||
+telefone.length === 11
+){
+
+telefone =
+"55" +
+telefone;
+
+}
+
+
+const url =
+"https://wa.me/" +
+telefone +
+"?text=" +
+encodeURIComponent(
+mensagem
+);
+
+
+window.open(
+url,
+"_blank"
+);
+
+}
+
+
+/* =====================================================
+   RELATORIO
+===================================================== */
+
+function mostrarRelatorio(){
+
+let capital = 0;
+
+let recebido = 0;
+
+let abertas = 0;
+
+let atrasadas = 0;
+
+let quitados = 0;
+
+
+emprestimos.forEach(
+function(e){
+
+capital +=
+Number(
+e.valorInicial ||
+0
+);
+
+recebido +=
+totalRecebido(e);
+
+
+if(
+parcelasRestantes(e) > 0
+){
+
+abertas++;
+
+}
+else{
+
+quitados++;
+
+}
+
+
+if(
+estaAtrasado(e)
+){
+
+atrasadas++;
+
+}
+
+}
+);
+
+
+document.getElementById(
