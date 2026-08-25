@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no">
+      content="width=device-width, initial-scale=1.0">
 
 <meta name="theme-color" content="#111827">
 
@@ -39,7 +36,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,.20);
 }
 
 header h1 {
@@ -49,7 +45,6 @@ header h1 {
 }
 
 .container {
-  width: 100%;
   max-width: 900px;
   margin: auto;
   padding: 14px;
@@ -82,7 +77,7 @@ header h1 {
   margin-top: 6px;
 }
 
-/* BOTÕES DE NAVEGAÇÃO */
+/* MENU */
 
 .menu {
   display: grid;
@@ -145,23 +140,12 @@ textarea {
   resize: vertical;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: #111827;
-}
-
 button {
   background: #111827;
   color: white;
   border: none;
   font-weight: bold;
   cursor: pointer;
-}
-
-button:active {
-  transform: scale(.98);
 }
 
 button.success {
@@ -274,12 +258,6 @@ button.light {
   display: none !important;
 }
 
-.total-relatorio {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 8px 0;
-}
-
 .historico {
   background: #f9fafb;
   border-radius: 10px;
@@ -294,6 +272,11 @@ button.light {
 
 .pagamento-item:last-child {
   border-bottom: none;
+}
+
+.relatorio-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 #toast {
@@ -311,8 +294,6 @@ button.light {
   text-align: center;
 }
 
-/* MOBILE */
-
 @media (max-width: 600px) {
 
   .row {
@@ -324,14 +305,6 @@ button.light {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .dashboard {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .acoes button {
-    min-width: 100%;
-  }
-
 }
 
 </style>
@@ -340,7 +313,7 @@ button.light {
 <body>
 
 <header>
-  <h1>💰 Meu Controle de Empréstimos</h1>
+<h1>💰 Meu Controle de Empréstimos</h1>
 </header>
 
 <div class="container">
@@ -349,35 +322,40 @@ button.light {
 
 <div class="dashboard">
 
-  <div class="card">
-    <small>💰 Capital emprestado</small>
-    <strong id="totalEmprestado">R$ 0,00</strong>
-  </div>
+<div class="card">
+<small>💰 Total emprestado</small>
+<strong id="totalEmprestado">
+R$ 0,00
+</strong>
+</div>
 
-  <div class="card">
-    <small>📈 Total contratado</small>
-    <strong id="totalContratado">R$ 0,00</strong>
-  </div>
+<div class="card">
+<small>💵 Total recebido</small>
+<strong id="totalRecebido">
+R$ 0,00
+</strong>
+</div>
 
-  <div class="card">
-    <small>💵 Total recebido</small>
-    <strong id="totalRecebido">R$ 0,00</strong>
-  </div>
+<div class="card">
+<small>🔴 A receber</small>
+<strong id="totalAReceber">
+R$ 0,00
+</strong>
+</div>
 
-  <div class="card">
-    <small>🔴 A receber</small>
-    <strong id="totalAReceber">R$ 0,00</strong>
-  </div>
+<div class="card">
+<small>📋 Em aberto</small>
+<strong id="quantidadeAberta">
+0
+</strong>
+</div>
 
-  <div class="card">
-    <small>📋 Em aberto</small>
-    <strong id="quantidadeAberta">0</strong>
-  </div>
-
-  <div class="card">
-    <small>⚠️ Em atraso</small>
-    <strong id="quantidadeAtrasada">0</strong>
-  </div>
+<div class="card">
+<small>⚠️ Em atraso</small>
+<strong id="quantidadeAtrasada">
+0
+</strong>
+</div>
 
 </div>
 
@@ -385,21 +363,21 @@ button.light {
 
 <div class="menu">
 
-  <button onclick="abrirAba('cadastro')">
-    ➕ Novo
-  </button>
+<button onclick="abrirAba('cadastro')">
+➕ Novo
+</button>
 
-  <button onclick="abrirAba('lista')">
-    📋 Empréstimos
-  </button>
+<button onclick="abrirAba('lista')">
+📋 Empréstimos
+</button>
 
-  <button onclick="abrirAba('relatorio')">
-    📊 Relatório
-  </button>
+<button onclick="abrirAba('relatorio')">
+📊 Relatório
+</button>
 
-  <button onclick="abrirAba('backup')">
-    💾 Backup
-  </button>
+<button onclick="abrirAba('backup')">
+💾 Backup
+</button>
 
 </div>
 
@@ -410,12 +388,12 @@ button.light {
 <form id="formEmprestimo">
 
 <h2 id="tituloFormulario">
-  Novo empréstimo
+Novo empréstimo
 </h2>
 
 <input
-  type="hidden"
-  id="idEdicao"
+type="hidden"
+id="idEdicao"
 >
 
 <div class="row">
@@ -425,10 +403,10 @@ button.light {
 <label>Nome do cliente</label>
 
 <input
-  type="text"
-  id="cliente"
-  placeholder="Nome completo"
-  required
+type="text"
+id="cliente"
+placeholder="Nome completo"
+required
 >
 
 </div>
@@ -438,9 +416,9 @@ button.light {
 <label>Telefone / WhatsApp</label>
 
 <input
-  type="tel"
-  id="telefone"
-  placeholder="(11) 99999-9999"
+type="tel"
+id="telefone"
+placeholder="(11) 99999-9999"
 >
 
 </div>
@@ -454,27 +432,27 @@ button.light {
 <label>Valor emprestado</label>
 
 <input
-  type="number"
-  id="valor"
-  step="0.01"
-  min="0"
-  placeholder="0,00"
-  required
+type="number"
+id="valor"
+step="0.01"
+min="0"
+placeholder="1000,00"
+required
 >
 
 </div>
 
 <div>
 
-<label>Juros</label>
+<label>Juros mensal (%)</label>
 
 <input
-  type="number"
-  id="juros"
-  step="0.01"
-  min="0"
-  placeholder="0,00"
-  value="0"
+type="number"
+id="juros"
+step="0.01"
+min="0"
+placeholder="30"
+required
 >
 
 </div>
@@ -482,50 +460,17 @@ button.light {
 </div>
 
 <div class="row">
-
-<div>
-
-<label>Juros diário</label>
-
-<input
-  type="number"
-  id="jurosDiario"
-  step="0.01"
-  min="0"
-  placeholder="0,00"
-  value="0"
->
-
-</div>
 
 <div>
 
 <label>Quantidade de parcelas</label>
 
 <input
-  type="number"
-  id="parcelas"
-  min="1"
-  value="1"
-  required
->
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div>
-
-<label>Valor de cada parcela</label>
-
-<input
-  type="number"
-  id="valorParcela"
-  step="0.01"
-  min="0"
-  placeholder="Automático"
+type="number"
+id="parcelas"
+min="1"
+value="1"
+required
 >
 
 </div>
@@ -535,9 +480,9 @@ button.light {
 <label>Data de vencimento</label>
 
 <input
-  type="date"
-  id="vencimento"
-  required
+type="date"
+id="vencimento"
+required
 >
 
 </div>
@@ -547,30 +492,35 @@ button.light {
 <label>Observações</label>
 
 <textarea
-  id="observacoes"
-  placeholder="Anotações sobre o empréstimo"
+id="observacoes"
+placeholder="Anotações sobre o empréstimo"
 ></textarea>
 
 <div class="aviso">
 
-O sistema calcula automaticamente o
-<strong>total contratado = valor emprestado + juros</strong>.
+<strong>Exemplo:</strong><br>
 
-Se o valor da parcela não for informado,
-ele será calculado automaticamente.
+Empréstimo de R$ 1.000,00 +
+30% de juros = R$ 1.300,00.<br><br>
+
+Se receber R$ 300,00, o saldo fica
+R$ 1.000,00 e o vencimento passa
+automaticamente para o próximo mês.
+No próximo vencimento, os 30% serão
+calculados novamente sobre o saldo.
 
 </div>
 
 <button type="submit">
-  💾 Salvar empréstimo
+💾 Salvar empréstimo
 </button>
 
 <button
-  type="button"
-  class="light"
-  onclick="limparFormulario()"
+type="button"
+class="light"
+onclick="limparFormulario()"
 >
-  Limpar
+Limpar
 </button>
 
 </form>
@@ -586,15 +536,15 @@ ele será calculado automaticamente.
 <h2>📋 Meus empréstimos</h2>
 
 <input
-  type="search"
-  id="pesquisa"
-  placeholder="🔎 Pesquisar cliente ou telefone"
-  oninput="mostrarEmprestimos()"
+type="search"
+id="pesquisa"
+placeholder="🔎 Pesquisar cliente ou telefone"
+oninput="mostrarEmprestimos()"
 >
 
 <select
-  id="filtro"
-  onchange="mostrarEmprestimos()"
+id="filtro"
+onchange="mostrarEmprestimos()"
 >
 
 <option value="todos">
@@ -621,13 +571,15 @@ Quitados
 
 </section>
 
-<!-- RELATORIO -->
+<!-- RELATÓRIO -->
 
 <section id="relatorio" class="hidden">
 
 <div class="panel">
 
-<h2>📊 Relatório financeiro</h2>
+<h2>
+📊 Relatório
+</h2>
 
 <div id="conteudoRelatorio"></div>
 
@@ -641,44 +593,46 @@ Quitados
 
 <div class="panel">
 
-<h2>💾 Backup dos dados</h2>
+<h2>
+💾 Backup dos dados
+</h2>
 
 <p class="info">
 
-Os empréstimos ficam salvos no armazenamento
-do navegador deste aparelho.
+Os dados ficam armazenados
+neste aparelho.
 
 Faça backups regularmente.
 
 </p>
 
 <button
-  class="blue"
-  onclick="exportarBackup()"
+class="blue"
+onclick="exportarBackup()"
 >
-  ⬇️ Exportar backup
+⬇️ Exportar backup
 </button>
 
 <input
-  type="file"
-  id="arquivoBackup"
-  accept=".json"
-  style="display:none"
-  onchange="importarBackup(event)"
+type="file"
+id="arquivoBackup"
+accept=".json"
+style="display:none"
+onchange="importarBackup(event)"
 >
 
 <button
-  class="success"
-  onclick="document.getElementById('arquivoBackup').click()"
+class="success"
+onclick="document.getElementById('arquivoBackup').click()"
 >
-  ⬆️ Importar backup
+⬆️ Importar backup
 </button>
 
 <button
-  class="danger"
-  onclick="apagarTodos()"
+class="danger"
+onclick="apagarTodos()"
 >
-  🗑️ Apagar todos os empréstimos
+🗑️ Apagar todos
 </button>
 
 </div>
@@ -691,1875 +645,976 @@ Faça backups regularmente.
 
 <script>
 
-/* =========================================================
-   BANCO DE DADOS
-========================================================= */
+/* =====================================================
+   BANCO
+===================================================== */
 
 const CHAVE =
-  "meu_controle_emprestimos_v3";
+"meu_controle_emprestimos_v4";
 
 let emprestimos =
-  JSON.parse(
-    localStorage.getItem(CHAVE)
-  ) || [];
+JSON.parse(
+localStorage.getItem(CHAVE)
+) || [];
 
 
-/* =========================================================
-   FUNÇÕES BÁSICAS
-========================================================= */
+/* =====================================================
+   FUNÇÕES
+===================================================== */
 
 function dinheiro(valor) {
 
-  return Number(valor || 0)
-    .toLocaleString(
-      "pt-BR",
-      {
-        style: "currency",
-        currency: "BRL"
-      }
-    );
+return Number(valor || 0)
+.toLocaleString(
+"pt-BR",
+{
+style:"currency",
+currency:"BRL"
+}
+);
 
 }
 
 
 function salvar() {
 
-  localStorage.setItem(
-    CHAVE,
-    JSON.stringify(emprestimos)
-  );
+localStorage.setItem(
+CHAVE,
+JSON.stringify(emprestimos)
+);
 
 }
 
 
-function mostrarAviso(mensagem) {
+function aviso(texto) {
 
-  const toast =
-    document.getElementById("toast");
+const toast =
+document.getElementById(
+"toast"
+);
 
-  toast.textContent =
-    mensagem;
+toast.textContent =
+texto;
 
-  toast.style.display =
-    "block";
+toast.style.display =
+"block";
 
-  setTimeout(
-    () => {
-      toast.style.display =
-        "none";
-    },
-    2500
-  );
+setTimeout(
+function(){
+
+toast.style.display =
+"none";
+
+},
+2500
+);
 
 }
 
 
 function escapar(texto) {
 
-  return String(texto || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+return String(texto || "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
 
 function formatarData(data) {
 
-  if (!data) {
-    return "-";
-  }
+if(!data)
+return "-";
 
-  const partes =
-    data.split("-");
+const partes =
+data.split("-");
 
-  if (partes.length !== 3) {
-    return data;
-  }
+if(partes.length !== 3)
+return data;
 
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
 
-function dataHoje() {
+/* =====================================================
+   DATA ATUAL
+===================================================== */
 
-  const agora =
-    new Date();
+function hoje() {
 
-  return new Date(
-    agora.getFullYear(),
-    agora.getMonth(),
-    agora.getDate()
-  );
+const agora =
+new Date();
 
-}
-
-
-/* =========================================================
-   CÁLCULOS
-========================================================= */
-
-function totalContratado(emprestimo) {
-
-  return Number(
-    emprestimo.valor || 0
-  ) +
-  Number(
-    emprestimo.juros || 0
-  );
+return new Date(
+agora.getFullYear(),
+agora.getMonth(),
+agora.getDate()
+);
 
 }
 
 
-function totalRecebido(emprestimo) {
+/* =====================================================
+   JUROS
+===================================================== */
 
-  if (
-    !Array.isArray(
-      emprestimo.pagamentos
-    )
-  ) {
-    return Number(
-      emprestimo.recebido || 0
-    );
-  }
+/*
 
-  return emprestimo.pagamentos
-    .reduce(
-      (total, pagamento) =>
-        total +
-        Number(
-          pagamento.valor || 0
-        ),
-      0
-    );
+O PRINCIPAL É O SALDO DO EMPRÉSTIMO.
 
-}
+Exemplo:
 
+Principal = 1000
+Juros = 30%
 
-function saldoRestante(emprestimo) {
+Juros = 300
+Parcela mensal = 1300
 
-  return Math.max(
-    totalContratado(emprestimo) -
-    totalRecebido(emprestimo),
-    0
-  );
+Se receber 300:
 
-}
+Principal restante = 1000
 
+No próximo mês:
 
-function estaAtrasado(emprestimo) {
+Juros = 1000 x 30% = 300
+Parcela = 1300
 
-  if (
-    saldoRestante(emprestimo) <= 0
-  ) {
-    return false;
-  }
+*/
 
-  if (!emprestimo.vencimento) {
-    return false;
-  }
+function calcularJuros(principal, percentual) {
 
-  const vencimento =
-    new Date(
-      emprestimo.vencimento +
-      "T00:00:00"
-    );
-
-  return vencimento < dataHoje();
+return principal *
+(percentual / 100);
 
 }
 
 
-/* =========================================================
+function calcularParcela(principal, percentual) {
+
+const juros =
+calcularJuros(
+principal,
+percentual
+);
+
+return principal + juros;
+
+}
+
+
+/* =====================================================
+   PAGAMENTOS
+===================================================== */
+
+function totalRecebido(e) {
+
+if(
+!Array.isArray(
+e.pagamentos
+)
+) {
+
+return 0;
+
+}
+
+return e.pagamentos.reduce(
+function(total,pagamento){
+
+return total +
+Number(
+pagamento.valor || 0
+);
+
+},
+0
+);
+
+}
+
+
+/*
+O campo principalAtual representa
+o saldo do principal.
+
+Quando o cliente paga:
+
+- primeiro reduz o principal;
+- depois o próximo mês calcula
+  os juros novamente sobre o
+  principal restante.
+*/
+
+function principalAtual(e) {
+
+return Math.max(
+Number(
+e.valorInicial || e.valor || 0
+) -
+totalRecebido(e),
+0
+);
+
+}
+
+
+function jurosAtual(e) {
+
+const principal =
+principalAtual(e);
+
+return calcularJuros(
+principal,
+Number(e.juros || 0)
+);
+
+}
+
+
+function parcelaAtual(e) {
+
+const principal =
+principalAtual(e);
+
+if(principal <= 0)
+return 0;
+
+return calcularParcela(
+principal,
+Number(e.juros || 0)
+);
+
+}
+
+
+/*
+Saldo exibido representa
+o valor que precisa ser pago
+no vencimento atual.
+
+Exemplo:
+
+Principal 1000
+Juros 30%
+Parcela atual 1300
+
+Se recebeu 300:
+principal fica 700
+próxima parcela será 910.
+
+*/
+
+function saldoAtual(e) {
+
+return parcelaAtual(e);
+
+}
+
+
+/* =====================================================
+   ATRASO
+===================================================== */
+
+function estaAtrasado(e) {
+
+if(
+principalAtual(e) <= 0
+) {
+
+return false;
+
+}
+
+if(!e.vencimento)
+return false;
+
+const vencimento =
+new Date(
+e.vencimento +
+"T00:00:00"
+);
+
+return vencimento < hoje();
+
+}
+
+
+/* =====================================================
+   AVANÇAR UM MÊS
+===================================================== */
+
+function proximoMesMesmoDia(data) {
+
+const partes =
+data.split("-");
+
+const ano =
+Number(partes[0]);
+
+const mes =
+Number(partes[1]) - 1;
+
+const dia =
+Number(partes[2]);
+
+
+/*
+Primeiro colocamos no dia 1.
+Isso evita problemas com datas como
+31/01 -> fevereiro.
+*/
+
+const novaData =
+new Date(
+ano,
+mes + 1,
+1
+);
+
+
+/*
+Se o próximo mês não tiver
+o mesmo dia, usamos o último
+dia daquele mês.
+*/
+
+const ultimoDia =
+new Date(
+novaData.getFullYear(),
+novaData.getMonth() + 1,
+0
+).getDate();
+
+
+const novoDia =
+Math.min(
+dia,
+ultimoDia
+);
+
+
+return `${novaData.getFullYear()}-${
+String(novaData.getMonth()+1)
+.padStart(2,"0")
+}-${
+String(novoDia)
+.padStart(2,"0")
+}`;
+
+}
+
+
+/* =====================================================
    DASHBOARD
-========================================================= */
+===================================================== */
 
 function atualizarDashboard() {
 
-  let emprestado = 0;
-  let contratado = 0;
-  let recebido = 0;
-  let aReceber = 0;
-  let abertas = 0;
-  let atrasadas = 0;
-
-  emprestimos.forEach(
-    emprestimo => {
-
-      emprestado +=
-        Number(
-          emprestimo.valor || 0
-        );
-
-      contratado +=
-        totalContratado(
-          emprestimo
-        );
-
-      recebido +=
-        totalRecebido(
-          emprestimo
-        );
-
-      aReceber +=
-        saldoRestante(
-          emprestimo
-        );
-
-      if (
-        saldoRestante(
-          emprestimo
-        ) > 0
-      ) {
-
-        abertas++;
-
-      }
-
-      if (
-        estaAtrasado(
-          emprestimo
-        )
-      ) {
-
-        atrasadas++;
-
-      }
-
-    }
-  );
+let emprestado = 0;
+let recebido = 0;
+let receber = 0;
+let abertas = 0;
+let atrasadas = 0;
 
 
-  document.getElementById(
-    "totalEmprestado"
-  ).textContent =
-    dinheiro(emprestado);
+emprestimos.forEach(
+function(e){
+
+emprestado +=
+Number(
+e.valorInicial ||
+e.valor ||
+0
+);
+
+recebido +=
+totalRecebido(e);
+
+if(
+principalAtual(e) > 0
+) {
+
+abertas++;
+
+receber +=
+saldoAtual(e);
+
+}
+
+if(
+estaAtrasado(e)
+) {
+
+atrasadas++;
+
+}
+
+}
+);
 
 
-  document.getElementById(
-    "totalContratado"
-  ).textContent =
-    dinheiro(contratado);
+document.getElementById(
+"totalEmprestado"
+).textContent =
+dinheiro(
+emprestado
+);
 
 
-  document.getElementById(
-    "totalRecebido"
-  ).textContent =
-    dinheiro(recebido);
+document.getElementById(
+"totalRecebido"
+).textContent =
+dinheiro(
+recebido
+);
 
 
-  document.getElementById(
-    "totalAReceber"
-  ).textContent =
-    dinheiro(aReceber);
+document.getElementById(
+"totalAReceber"
+).textContent =
+dinheiro(
+receber
+);
 
 
-  document.getElementById(
-    "quantidadeAberta"
-  ).textContent =
-    abertas;
+document.getElementById(
+"quantidadeAberta"
+).textContent =
+abertas;
 
 
-  document.getElementById(
-    "quantidadeAtrasada"
-  ).textContent =
-    atrasadas;
+document.getElementById(
+"quantidadeAtrasada"
+).textContent =
+atrasadas;
 
 }
 
 
-/* =========================================================
+/* =====================================================
    ABAS
-========================================================= */
+===================================================== */
 
 function abrirAba(nome) {
 
-  const abas = [
-    "cadastro",
-    "lista",
-    "relatorio",
-    "backup"
-  ];
-
-  abas.forEach(
-    aba => {
-
-      document
-        .getElementById(aba)
-        .classList.add("hidden");
-
-    }
-  );
-
-
-  document
-    .getElementById(nome)
-    .classList.remove("hidden");
-
-
-  if (
-    nome === "lista"
-  ) {
-
-    mostrarEmprestimos();
-
-  }
-
-
-  if (
-    nome === "relatorio"
-  ) {
-
-    mostrarRelatorio();
-
-  }
-
-}
-
-
-/* =========================================================
-   CADASTRO
-========================================================= */
+[
+"cadastro",
+"lista",
+"relatorio",
+"backup"
+]
+.forEach(
+function(aba){
 
 document
-  .getElementById(
-    "formEmprestimo"
-  )
-  .addEventListener(
-    "submit",
-    function(event) {
+.getElementById(aba)
+.classList.add("hidden");
 
-      event.preventDefault();
+}
+);
 
 
-      const idEdicao =
-        document.getElementById(
-          "idEdicao"
-        ).value;
+document
+.getElementById(nome)
+.classList.remove("hidden");
 
 
-      const cliente =
-        document.getElementById(
-          "cliente"
-        ).value.trim();
+if(nome === "lista") {
 
-
-      const telefone =
-        document.getElementById(
-          "telefone"
-        ).value.trim();
-
-
-      const valor =
-        Number(
-          document.getElementById(
-            "valor"
-          ).value
-        );
-
-
-      const juros =
-        Number(
-          document.getElementById(
-            "juros"
-          ).value || 0
-        );
-
-
-      const jurosDiario =
-        Number(
-          document.getElementById(
-            "jurosDiario"
-          ).value || 0
-        );
-
-
-      const parcelas =
-        Number(
-          document.getElementById(
-            "parcelas"
-          ).value || 1
-        );
-
-
-      let valorParcela =
-        Number(
-          document.getElementById(
-            "valorParcela"
-          ).value || 0
-        );
-
-
-      const vencimento =
-        document.getElementById(
-          "vencimento"
-        ).value;
-
-
-      const observacoes =
-        document.getElementById(
-          "observacoes"
-        ).value.trim();
-
-
-      if (
-        !cliente ||
-        valor <= 0 ||
-        !vencimento
-      ) {
-
-        mostrarAviso(
-          "Preencha os campos obrigatórios."
-        );
-
-        return;
-
-      }
-
-
-      const total =
-        valor + juros;
-
-
-      if (
-        valorParcela <= 0
-      ) {
-
-        valorParcela =
-          total / parcelas;
-
-      }
-
-
-      let antigo = null;
-
-      if (idEdicao) {
-
-        antigo =
-          emprestimos.find(
-            e =>
-              String(e.id) ===
-              String(idEdicao)
-          );
-
-      }
-
-
-      const novoEmprestimo = {
-
-        id:
-          idEdicao ||
-          Date.now(),
-
-        cliente:
-          cliente,
-
-        telefone:
-          telefone,
-
-        valor:
-          valor,
-
-        juros:
-          juros,
-
-        jurosDiario:
-          jurosDiario,
-
-        parcelas:
-          parcelas,
-
-        valorParcela:
-          valorParcela,
-
-        vencimento:
-          vencimento,
-
-        observacoes:
-          observacoes,
-
-        pagamentos:
-          antigo &&
-          Array.isArray(
-            antigo.pagamentos
-          )
-            ? antigo.pagamentos
-            : []
-
-      };
-
-
-      if (idEdicao) {
-
-        const indice =
-          emprestimos.findIndex(
-            e =>
-              String(e.id) ===
-              String(idEdicao)
-          );
-
-
-        if (indice !== -1) {
-
-          emprestimos[indice] =
-            novoEmprestimo;
-
-        }
-
-      } else {
-
-        emprestimos.push(
-          novoEmprestimo
-        );
-
-      }
-
-
-      salvar();
-
-      limparFormulario();
-
-      atualizarDashboard();
-
-      mostrarEmprestimos();
-
-      abrirAba("lista");
-
-
-      mostrarAviso(
-        idEdicao
-          ? "Empréstimo atualizado!"
-          : "Empréstimo cadastrado!"
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   LIMPAR FORMULÁRIO
-========================================================= */
-
-function limparFormulario() {
-
-  document
-    .getElementById(
-      "formEmprestimo"
-    )
-    .reset();
-
-
-  document.getElementById(
-    "idEdicao"
-  ).value = "";
-
-
-  document.getElementById(
-    "tituloFormulario"
-  ).textContent =
-    "Novo empréstimo";
-
-
-  document.getElementById(
-    "parcelas"
-  ).value = 1;
-
-
-  document.getElementById(
-    "juros"
-  ).value = 0;
-
-
-  document.getElementById(
-    "jurosDiario"
-  ).value = 0;
+mostrarEmprestimos();
 
 }
 
 
-/* =========================================================
-   MOSTRAR EMPRÉSTIMOS
-========================================================= */
+if(nome === "relatorio") {
 
-function mostrarEmprestimos() {
+mostrarRelatorio();
 
-  atualizarDashboard();
-
-
-  const lista =
-    document.getElementById(
-      "listaEmprestimos"
-    );
-
-
-  const pesquisa =
-    (
-      document.getElementById(
-        "pesquisa"
-      )?.value || ""
-    )
-    .toLowerCase()
-    .trim();
-
-
-  const filtro =
-    document.getElementById(
-      "filtro"
-    )?.value ||
-    "todos";
-
-
-  let resultados =
-    emprestimos.filter(
-      emprestimo => {
-
-        const texto =
-          (
-            emprestimo.cliente +
-            " " +
-            (
-              emprestimo.telefone ||
-              ""
-            )
-          )
-          .toLowerCase();
-
-
-        if (
-          !texto.includes(
-            pesquisa
-          )
-        ) {
-
-          return false;
-
-        }
-
-
-        const saldo =
-          saldoRestante(
-            emprestimo
-          );
-
-
-        let status =
-          "aberto";
-
-
-        if (
-          saldo <= 0
-        ) {
-
-          status =
-            "quitado";
-
-        } else if (
-          estaAtrasado(
-            emprestimo
-          )
-        ) {
-
-          status =
-            "atrasado";
-
-        }
-
-
-        if (
-          filtro !== "todos" &&
-          filtro !== status
-        ) {
-
-          return false;
-
-        }
-
-
-        return true;
-
-      }
-    );
-
-
-  resultados.sort(
-    (a, b) =>
-      new Date(
-        a.vencimento
-      ) -
-      new Date(
-        b.vencimento
-      )
-  );
-
-
-  if (
-    resultados.length === 0
-  ) {
-
-    lista.innerHTML = `
-      <div class="vazio">
-        <div style="font-size:42px">
-          💰
-        </div>
-
-        <p>
-          Nenhum empréstimo encontrado.
-        </p>
-
-        <p class="info">
-          Cadastre um empréstimo ou altere o filtro.
-        </p>
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  lista.innerHTML = "";
-
-
-  resultados.forEach(
-    emprestimo => {
-
-      const indice =
-        emprestimos.findIndex(
-          e =>
-            String(e.id) ===
-            String(emprestimo.id)
-        );
-
-
-      const total =
-        totalContratado(
-          emprestimo
-        );
-
-
-      const recebido =
-        totalRecebido(
-          emprestimo
-        );
-
-
-      const saldo =
-        saldoRestante(
-          emprestimo
-        );
-
-
-      const quitado =
-        saldo <= 0;
-
-
-      const atrasado =
-        estaAtrasado(
-          emprestimo
-        );
-
-
-      let statusClasse =
-        "aberto";
-
-
-      let statusTexto =
-        "● EM ABERTO";
-
-
-      if (quitado) {
-
-        statusClasse =
-          "pago";
-
-        statusTexto =
-          "✓ QUITADO";
-
-      } else if (
-        atrasado
-      ) {
-
-        statusClasse =
-          "atrasado";
-
-        statusTexto =
-          "⚠️ EM ATRASO";
-
-      }
-
-
-      const div =
-        document.createElement(
-          "div"
-        );
-
-
-      div.className =
-        "emprestimo";
-
-
-      div.innerHTML = `
-
-        <h3>
-          👤 ${escapar(
-            emprestimo.cliente
-          )}
-        </h3>
-
-        <p>
-          📱 ${
-            escapar(
-              emprestimo.telefone ||
-              "Sem telefone"
-            )
-          }
-        </p>
-
-        <p>
-          💰 Valor emprestado:
-          <strong>
-            ${dinheiro(
-              emprestimo.valor
-            )}
-          </strong>
-        </p>
-
-        <p>
-          📈 Juros:
-          ${dinheiro(
-            emprestimo.juros
-          )}
-        </p>
-
-        ${
-          Number(
-            emprestimo.jurosDiario ||
-            0
-          ) > 0
-            ? `
-              <p>
-                📆 Juros diário:
-                ${dinheiro(
-                  emprestimo.jurosDiario
-                )}
-              </p>
-            `
-            : ""
-        }
-
-        <p>
-          💵 Total contratado:
-          <strong>
-            ${dinheiro(total)}
-          </strong>
-        </p>
-
-        <p>
-          📋 Parcelas:
-          ${emprestimo.parcelas}
-        </p>
-
-        <p>
-          💳 Valor da parcela:
-          ${dinheiro(
-            emprestimo.valorParcela
-          )}
-        </p>
-
-        <p>
-          📅 Vencimento:
-          ${formatarData(
-            emprestimo.vencimento
-          )}
-        </p>
-
-        <p>
-          💵 Total recebido:
-          ${dinheiro(recebido)}
-        </p>
-
-        <p>
-          🔴 Saldo restante:
-          <strong>
-            ${dinheiro(saldo)}
-          </strong>
-        </p>
-
-        ${
-          emprestimo.observacoes
-            ? `
-              <p>
-                📝 ${escapar(
-                  emprestimo.observacoes
-                )}
-              </p>
-            `
-            : ""
-        }
-
-        <span class="status ${statusClasse}">
-          ${statusTexto}
-        </span>
-
-        <div class="acoes">
-
-          ${
-            !quitado
-              ? `
-                <button
-                  class="success"
-                  onclick="
-                    registrarPagamento(
-                      ${indice}
-                    )
-                  "
-                >
-                  💵 Receber
-                </button>
-              `
-              : ""
-          }
-
-          <button
-            class="blue"
-            onclick="
-              editarEmprestimo(
-                ${indice}
-              )
-            "
-          >
-            ✏️ Editar
-          </button>
-
-          <button
-            class="orange"
-            onclick="
-              enviarWhatsApp(
-                ${indice}
-              )
-            "
-          >
-            💬 WhatsApp
-          </button>
-
-          <button
-            class="gray"
-            onclick="
-              mostrarHistorico(
-                ${indice}
-              )
-            "
-          >
-            📜 Histórico
-          </button>
-
-          <button
-            class="danger"
-            onclick="
-              excluirEmprestimo(
-                ${indice}
-              )
-            "
-          >
-            🗑️ Excluir
-          </button>
-
-        </div>
-
-        <div
-          id="historico-${indice}"
-          class="historico hidden"
-        ></div>
-
-      `;
-
-
-      lista.appendChild(
-        div
-      );
-
-    }
-  );
+}
 
 }
 
 
-/* =========================================================
-   REGISTRAR PAGAMENTO
-========================================================= */
+/* =====================================================
+   CADASTRO
+===================================================== */
 
-function registrarPagamento(
-  indice
+document
+.getElementById(
+"formEmprestimo"
+)
+.addEventListener(
+"submit",
+function(event){
+
+event.preventDefault();
+
+
+const id =
+document.getElementById(
+"idEdicao"
+).value;
+
+
+const cliente =
+document.getElementById(
+"cliente"
+).value.trim();
+
+
+const telefone =
+document.getElementById(
+"telefone"
+).value.trim();
+
+
+const valor =
+Number(
+document.getElementById(
+"valor"
+).value
+);
+
+
+const juros =
+Number(
+document.getElementById(
+"juros"
+).value
+);
+
+
+const parcelas =
+Number(
+document.getElementById(
+"parcelas"
+).value
+);
+
+
+const vencimento =
+document.getElementById(
+"vencimento"
+).value;
+
+
+const observacoes =
+document.getElementById(
+"observacoes"
+).value.trim();
+
+
+if(
+!cliente ||
+valor <= 0 ||
+juros < 0 ||
+!vencimento
 ) {
 
-  const emprestimo =
-    emprestimos[indice];
+aviso(
+"Preencha os campos obrigatórios."
+);
 
-
-  const saldo =
-    saldoRestante(
-      emprestimo
-    );
-
-
-  const valorDigitado =
-    prompt(
-      `Saldo restante: ${dinheiro(
-        saldo
-      )}
-
-Digite o valor recebido:`
-    );
-
-
-  if (
-    valorDigitado === null
-  ) {
-
-    return;
-
-  }
-
-
-  const valor =
-    Number(
-      String(
-        valorDigitado
-      ).replace(
-        ",",
-        "."
-      )
-    );
-
-
-  if (
-    !Number.isFinite(valor) ||
-    valor <= 0
-  ) {
-
-    mostrarAviso(
-      "Digite um valor válido."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    valor > saldo
-  ) {
-
-    mostrarAviso(
-      "O pagamento não pode ser maior que o saldo."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !Array.isArray(
-      emprestimo.pagamentos
-    )
-  ) {
-
-    emprestimo.pagamentos = [];
-
-  }
-
-
-  emprestimo.pagamentos.push({
-
-    id:
-      Date.now(),
-
-    data:
-      new Date()
-        .toISOString(),
-
-    valor:
-      valor
-
-  });
-
-
-  salvar();
-
-  mostrarEmprestimos();
-
-  atualizarDashboard();
-
-
-  if (
-    saldoRestante(
-      emprestimo
-    ) <= 0
-  ) {
-
-    mostrarAviso(
-      "🎉 Empréstimo quitado!"
-    );
-
-  } else {
-
-    mostrarAviso(
-      "Pagamento registrado!"
-    );
-
-  }
+return;
 
 }
 
 
-/* =========================================================
-   HISTÓRICO
-========================================================= */
+/*
+Se estiver editando,
+mantém os pagamentos já existentes.
+*/
 
-function mostrarHistorico(
-  indice
-) {
-
-  const emprestimo =
-    emprestimos[indice];
+let antigo = null;
 
 
-  const elemento =
-    document.getElementById(
-      `historico-${indice}`
-    );
+if(id) {
 
+antigo =
+emprestimos.find(
+function(e){
 
-  if (
-    !elemento
-  ) {
+return String(e.id) ===
+String(id);
 
-    return;
-
-  }
-
-
-  if (
-    elemento.classList.contains(
-      "hidden"
-    )
-  ) {
-
-    const pagamentos =
-      emprestimo.pagamentos ||
-      [];
-
-
-    if (
-      pagamentos.length === 0
-    ) {
-
-      elemento.innerHTML =
-        "<p>Nenhum pagamento registrado.</p>";
-
-    } else {
-
-      elemento.innerHTML = `
-
-        <strong>
-          📜 Histórico de pagamentos
-        </strong>
-
-        ${
-          pagamentos
-            .map(
-              (pagamento, numero) => `
-
-                <div class="pagamento-item">
-
-                  ${numero + 1}.
-                  ${formatarData(
-                    pagamento.data
-                      .substring(
-                        0,
-                        10
-                      )
-                  )}
-
-                  —
-                  <strong>
-                    ${dinheiro(
-                      pagamento.valor
-                    )}
-                  </strong>
-
-                </div>
-
-              `
-            )
-            .join("")
-        }
-
-      `;
-
-    }
-
-
-    elemento.classList.remove(
-      "hidden"
-    );
-
-  } else {
-
-    elemento.classList.add(
-      "hidden"
-    );
-
-  }
+}
+);
 
 }
 
 
-/* =========================================================
-   EDITAR
-========================================================= */
+const novo = {
 
-function editarEmprestimo(
-  indice
-) {
+id:
+id || Date.now(),
 
-  const e =
-    emprestimos[indice];
+cliente:
+cliente,
 
+telefone:
+telefone,
 
-  abrirAba(
-    "cadastro"
-  );
+valorInicial:
+antigo
+? Number(
+antigo.valorInicial ||
+antigo.valor ||
+0
+)
+: valor,
 
+valor:
+valor,
 
-  document.getElementById(
-    "tituloFormulario"
-  ).textContent =
-    "Editar empréstimo";
+juros:
+juros,
 
+parcelas:
+parcelas,
 
-  document.getElementById(
-    "idEdicao"
-  ).value =
-    e.id;
+vencimento:
+vencimento,
 
+observacoes:
+observacoes,
 
-  document.getElementById(
-    "cliente"
-  ).value =
-    e.cliente;
+pagamentos:
+antigo &&
+Array.isArray(
+antigo.pagamentos
+)
+? antigo.pagamentos
+: []
 
-
-  document.getElementById(
-    "telefone"
-  ).value =
-    e.telefone || "";
-
-
-  document.getElementById(
-    "valor"
-  ).value =
-    e.valor;
-
-
-  document.getElementById(
-    "juros"
-  ).value =
-    e.juros || 0;
+};
 
 
-  document.getElementById(
-    "jurosDiario"
-  ).value =
-    e.jurosDiario || 0;
+/*
+Se for novo, valorInicial = valor.
 
+Se estiver editando o valor,
+preservamos o valorInicial original.
+*/
 
-  document.getElementById(
-    "parcelas"
-  ).value =
-    e.parcelas || 1;
+if(!antigo) {
 
-
-  document.getElementById(
-    "valorParcela"
-  ).value =
-    e.valorParcela || "";
-
-
-  document.getElementById(
-    "vencimento"
-  ).value =
-    e.vencimento;
-
-
-  document.getElementById(
-    "observacoes"
-  ).value =
-    e.observacoes || "";
-
-
-  window.scrollTo(
-    0,
-    0
-  );
+novo.valorInicial =
+valor;
 
 }
 
 
-/* =========================================================
-   EXCLUIR
-========================================================= */
+if(id) {
 
-function excluirEmprestimo(
-  indice
-) {
+const indice =
+emprestimos.findIndex(
+function(e){
 
-  const cliente =
-    emprestimos[indice]
-      .cliente;
+return String(e.id) ===
+String(id);
 
-
-  const confirmar =
-    confirm(
-      `Excluir o empréstimo de ${cliente}?`
-    );
+}
+);
 
 
-  if (!confirmar) {
+if(indice !== -1) {
 
-    return;
+emprestimos[indice] =
+novo;
 
-  }
+}
 
+} else {
 
-  emprestimos.splice(
-    indice,
-    1
-  );
-
-
-  salvar();
-
-  atualizarDashboard();
-
-  mostrarEmprestimos();
-
-  mostrarAviso(
-    "Empréstimo excluído."
-  );
+emprestimos.push(
+novo
+);
 
 }
 
 
-/* =========================================================
-   WHATSAPP
-========================================================= */
+salvar();
 
-function enviarWhatsApp(
-  indice
-) {
-
-  const e =
-    emprestimos[indice];
-
-
-  if (
-    !e.telefone
-  ) {
-
-    mostrarAviso(
-      "Cadastre o telefone do cliente primeiro."
-    );
-
-    return;
-
-  }
-
-
-  const total =
-    totalContratado(e);
-
-
-  const recebido =
-    totalRecebido(e);
-
-
-  const saldo =
-    saldoRestante(e);
-
-
-  let mensagem =
-
-`Olá, ${e.cliente}!
-
-Segue a situação do seu empréstimo:
-
-💰 Valor emprestado: ${dinheiro(e.valor)}
-📈 Juros: ${dinheiro(e.juros || 0)}
-💵 Total contratado: ${dinheiro(total)}
-💳 Total recebido: ${dinheiro(recebido)}
-🔴 Saldo restante: ${dinheiro(saldo)}
-📅 Vencimento: ${formatarData(e.vencimento)}
-📋 Parcelas: ${e.parcelas || 1}`;
-
-  if (
-    e.jurosDiario
-  ) {
-
-    mensagem +=
-      `\n📆 Juros diário: ${dinheiro(
-        e.jurosDiario
-      )}`;
-
-  }
-
-
-  if (
-    e.observacoes
-  ) {
-
-    mensagem +=
-      `\n📝 Observação: ${e.observacoes}`;
-
-  }
-
-
-  mensagem +=
-    "\n\nObrigado.";
-
-
-  let telefone =
-    String(
-      e.telefone
-    ).replace(
-      /\D/g,
-      ""
-    );
-
-
-  if (
-    telefone.length === 10 ||
-    telefone.length === 11
-  ) {
-
-    telefone =
-      "55" +
-      telefone;
-
-  }
-
-
-  const url =
-    "https://wa.me/" +
-    telefone +
-    "?text=" +
-    encodeURIComponent(
-      mensagem
-    );
-
-
-  window.open(
-    url,
-    "_blank"
-  );
-
-}
-
-
-/* =========================================================
-   RELATÓRIO
-========================================================= */
-
-function mostrarRelatorio() {
-
-  let capital = 0;
-  let contratado = 0;
-  let recebido = 0;
-  let receber = 0;
-  let abertos = 0;
-  let atrasados = 0;
-  let quitados = 0;
-
-
-  emprestimos.forEach(
-    e => {
-
-      capital +=
-        Number(
-          e.valor || 0
-        );
-
-
-      contratado +=
-        totalContratado(e);
-
-
-      recebido +=
-        totalRecebido(e);
-
-
-      receber +=
-        saldoRestante(e);
-
-
-      if (
-        saldoRestante(e) <= 0
-      ) {
-
-        quitados++;
-
-      } else {
-
-        abertos++;
-
-      }
-
-
-      if (
-        estaAtrasado(e)
-      ) {
-
-        atrasados++;
-
-      }
-
-    }
-  );
-
-
-  document.getElementById(
-    "conteudoRelatorio"
-  ).innerHTML = `
-
-    <p>
-      Quantidade total:
-      <strong>
-        ${emprestimos.length}
-      </strong>
-    </p>
-
-    <p>
-      Em aberto:
-      <strong>
-        ${abertos}
-      </strong>
-    </p>
-
-    <p>
-      Em atraso:
-      <strong>
-        ${atrasados}
-      </strong>
-    </p>
-
-    <p>
-      Quitados:
-      <strong>
-        ${quitados}
-      </strong>
-    </p>
-
-    <hr>
-
-    <p class="total-relatorio">
-      Capital emprestado:
-      ${dinheiro(capital)}
-    </p>
-
-    <p class="total-relatorio">
-      Total contratado:
-      ${dinheiro(contratado)}
-    </p>
-
-    <p class="total-relatorio">
-      Total recebido:
-      ${dinheiro(recebido)}
-    </p>
-
-    <p class="total-relatorio">
-      Total a receber:
-      ${dinheiro(receber)}
-    </p>
-
-  `;
-
-}
-
-
-/* =========================================================
-   BACKUP
-========================================================= */
-
-function exportarBackup() {
-
-  const dados = {
-
-    aplicativo:
-      "Meu Controle de Empréstimos",
-
-    versao:
-      "3.0",
-
-    dataExportacao:
-      new Date()
-        .toISOString(),
-
-    emprestimos:
-      emprestimos
-
-  };
-
-
-  const arquivo =
-    new Blob(
-      [
-        JSON.stringify(
-          dados,
-          null,
-          2
-        )
-      ],
-      {
-        type:
-          "application/json"
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      arquivo
-    );
-
-
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href =
-    url;
-
-
-  link.download =
-    "backup-meu-controle-emprestimos.json";
-
-
-  link.click();
-
-
-  URL.revokeObjectURL(
-    url
-  );
-
-
-  mostrarAviso(
-    "Backup exportado!"
-  );
-
-}
-
-
-/* =========================================================
-   IMPORTAR BACKUP
-========================================================= */
-
-function importarBackup(
-  evento
-) {
-
-  const arquivo =
-    evento.target.files[0];
-
-
-  if (!arquivo) {
-
-    return;
-
-  }
-
-
-  const leitor =
-    new FileReader();
-
-
-  leitor.onload =
-    function() {
-
-      try {
-
-        const dados =
-          JSON.parse(
-            leitor.result
-          );
-
-
-        const lista =
-          Array.isArray(
-            dados
-              .emprestimos
-          )
-            ? dados.emprestimos
-            : dados;
-
-
-        if (
-          !Array.isArray(
-            lista
-          )
-        ) {
-
-          throw new Error(
-            "Backup inválido"
-          );
-
-        }
-
-
-        const confirmar =
-          confirm(
-            "Isso substituirá os dados atuais. Deseja continuar?"
-          );
-
-
-        if (
-          !confirmar
-        ) {
-
-          return;
-
-        }
-
-
-        emprestimos =
-          lista;
-
-
-        salvar();
-
-        atualizarDashboard();
-
-        mostrarEmprestimos();
-
-        mostrarAviso(
-          "Backup restaurado com sucesso!"
-        );
-
-      }
-
-      catch (erro) {
-
-        mostrarAviso(
-          "Arquivo de backup inválido."
-        );
-
-      }
-
-    };
-
-
-  leitor.readAsText(
-    arquivo
-  );
-
-}
-
-
-/* =========================================================
-   APAGAR TUDO
-========================================================= */
-
-function apagarTodos() {
-
-  const confirmar =
-    confirm(
-      "ATENÇÃO!\n\nTodos os empréstimos serão apagados.\n\nDeseja realmente continuar?"
-    );
-
-
-  if (
-    !confirmar
-  ) {
-
-    return;
-
-  }
-
-
-  emprestimos = [];
-
-
-  salvar();
-
-  atualizarDashboard();
-
-  mostrarEmprestimos();
-
-
-  mostrarAviso(
-    "Todos os dados foram apagados."
-  );
-
-}
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-========================================================= */
+limparFormulario();
 
 atualizarDashboard();
+
+abrirAba(
+"lista"
+);
 
 mostrarEmprestimos();
 
 
-/* =========================================================
-   SERVICE WORKER / PWA
-========================================================= */
+aviso(
+id
+? "Empréstimo atualizado!"
+: "Empréstimo cadastrado!"
+);
 
-if (
-  "serviceWorker" in navigator
-) {
+}
+);
 
-  window.addEventListener(
-    "load",
-    function() {
 
-      navigator
-        .serviceWorker
-        .register(
-          "./sw.js"
-        )
-        .then(
-          function() {
+/* =====================================================
+   LIMPAR
+===================================================== */
 
-            console.log(
-              "PWA ativada."
-            );
+function limparFormulario() {
 
-          }
-        )
-        .catch(
-          function(erro) {
+document
+.getElementById(
+"formEmprestimo"
+)
+.reset();
 
-            console.error(
-              "Erro no Service Worker:",
-              erro
-            );
 
-          }
-        );
+document.getElementById(
+"idEdicao"
+).value = "";
 
-    }
-  );
+
+document.getElementById(
+"tituloFormulario"
+).textContent =
+"Novo empréstimo";
+
+
+document.getElementById(
+"parcelas"
+).value = 1;
 
 }
 
-</script>
 
-</body>
-</html>
+/* =====================================================
+   MOSTRAR LISTA
+===================================================== */
+
+function mostrarEmprestimos() {
+
+atualizarDashboard();
+
+
+const lista =
+document.getElementById(
+"listaEmprestimos"
+);
+
+
+const pesquisa =
+(
+document.getElementById(
+"pesquisa"
+)?.value || ""
+)
+.toLowerCase()
+.trim();
+
+
+const filtro =
+document.getElementById(
+"filtro"
+)?.value ||
+"todos";
+
+
+let resultados =
+emprestimos.filter(
+function(e){
+
+const texto =
+(
+e.cliente +
+" " +
+(e.telefone || "")
+)
+.toLowerCase();
+
+
+if(
+!texto.includes(
+pesquisa
+)
+) {
+
+return false;
+
+}
+
+
+let status =
+"aberto";
+
+
+if(
+principalAtual(e) <= 0
+) {
+
+status =
+"quitado";
+
+}
+else if(
+estaAtrasado(e)
+) {
+
+status =
+"atrasado";
+
+}
+
+
+if(
+filtro !== "todos" &&
+filtro !== status
+) {
+
+return false;
+
+}
+
+
+return true;
+
+}
+);
+
+
+resultados.sort(
+function(a,b){
+
+return new Date(
+a.vencimento
+) -
+new Date(
+b.vencimento
+);
+
+}
+);
+
+
+if(
+resultados.length === 0
+) {
+
+lista.innerHTML = `
+
+<div class="vazio">
+
+<div style="font-size:42px">
+💰
+</div>
+
+<p>
+Nenhum empréstimo encontrado.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+lista.innerHTML = "";
+
+
+resultados.forEach(
+function(e){
+
+const indice =
+emprestimos.findIndex(
+function(x){
+
+return String(x.id) ===
+String(e.id);
+
+}
+);
+
+
+const principal =
+principalAtual(e);
+
+
+const percentual =
+Number(e.juros || 0);
+
+
+const juros =
+jurosAtual(e);
+
+
+const parcela =
+parcelaAtual(e);
+
+
+const recebido =
+totalRecebido(e);
+
+
+const quitado =
+principal <= 0;
+
+
+const atrasado =
+estaAtrasado(e);
+
+
+let classe =
+"aberto";
+
+
+let texto =
+"● EM ABERTO";
+
+
+if(quitado) {
+
+classe =
+"pago";
+
+texto =
+"✓ QUITADO";
+
+}
+else if(atrasado) {
+
+classe =
+"atrasado";
+
+texto =
+"⚠️ EM ATRASO";
+
+}
+
+
+const div =
+document.createElement(
+"div"
+);
+
+
+div.className =
+"emprestimo";
+
+
+div.innerHTML = `
+
+<h3>
+👤 ${escapar(e.cliente)}
+</h3>
+
+<p>
+📱 ${
+escapar(
+e.telefone ||
+"
