@@ -230,10 +230,6 @@ button.light{
   border-radius:14px;
 }
 
-.hidden{
-  display:none!important;
-}
-
 .historico{
   background:#f9fafb;
   border-radius:10px;
@@ -253,6 +249,10 @@ button.light{
 .relatorio-item{
   padding:10px 0;
   border-bottom:1px solid #e5e7eb;
+}
+
+.hidden{
+  display:none!important;
 }
 
 #mensagem{
@@ -294,8 +294,6 @@ button.light{
 
 <div class="container">
 
-<!-- DASHBOARD -->
-
 <div class="dashboard">
 
   <div class="card">
@@ -325,9 +323,6 @@ button.light{
 
 </div>
 
-
-<!-- MENU -->
-
 <div class="menu">
 
   <button onclick="abrirAba('cadastro')">
@@ -347,9 +342,6 @@ button.light{
   </button>
 
 </div>
-
-
-<!-- CADASTRO -->
 
 <section id="cadastro">
 
@@ -393,7 +385,6 @@ button.light{
 
   </div>
 
-
   <div class="row">
 
     <div>
@@ -428,7 +419,6 @@ button.light{
 
   </div>
 
-
   <div class="row">
 
     <div>
@@ -456,7 +446,6 @@ button.light{
     </div>
 
   </div>
-
 
   <div class="row">
 
@@ -488,7 +477,6 @@ button.light{
     </div>
 
   </div>
-
 
   <div class="aviso">
 
@@ -524,7 +512,6 @@ button.light{
 
   </div>
 
-
   <button type="submit">
     💾 Salvar empréstimo
   </button>
@@ -540,9 +527,6 @@ button.light{
 </form>
 
 </section>
-
-
-<!-- LISTA -->
 
 <section id="lista" class="hidden">
 
@@ -563,11 +547,8 @@ button.light{
     >
 
       <option value="todos">Todos</option>
-
       <option value="aberto">Em aberto</option>
-
       <option value="atrasado">Em atraso</option>
-
       <option value="quitado">Quitados</option>
 
     </select>
@@ -577,9 +558,6 @@ button.light{
   <div id="listaEmprestimos"></div>
 
 </section>
-
-
-<!-- RELATÓRIO -->
 
 <section id="relatorio" class="hidden">
 
@@ -592,9 +570,6 @@ button.light{
   </div>
 
 </section>
-
-
-<!-- BACKUP -->
 
 <section id="backup" class="hidden">
 
@@ -643,24 +618,17 @@ button.light{
 
 <div id="mensagem"></div>
 
-
 <script>
-
-/* =====================================================
-   BANCO DE DADOS
-   CHAVE NOVA PARA EVITAR CONFLITO COM VERSÕES ANTIGAS
-===================================================== */
 
 const CHAVE =
 "meu_controle_emprestimos_final_2026";
 
-
 let emprestimos = [];
 
 
-/* =====================================================
-   CARREGAR DADOS
-===================================================== */
+/* =========================
+   CARREGAR
+========================= */
 
 function carregarDados(){
 
@@ -682,16 +650,17 @@ function carregarDados(){
 
     if(Array.isArray(convertido)){
 
-      emprestimos =
-        convertido;
+      emprestimos = convertido;
 
-    }else{
+    }
+    else{
 
       emprestimos = [];
 
     }
 
-  }catch(erro){
+  }
+  catch(erro){
 
     console.error(
       "Erro ao carregar:",
@@ -705,9 +674,9 @@ function carregarDados(){
 }
 
 
-/* =====================================================
-   SALVAR DADOS
-===================================================== */
+/* =========================
+   SALVAR
+========================= */
 
 function salvarDados(){
 
@@ -722,8 +691,6 @@ function salvarDados(){
       CHAVE,
       dados
     );
-
-    /* CONFIRMAÇÃO REAL */
 
     const conferido =
       localStorage.getItem(
@@ -740,7 +707,8 @@ function salvarDados(){
 
     return true;
 
-  }catch(erro){
+  }
+  catch(erro){
 
     console.error(
       "Erro ao salvar:",
@@ -759,9 +727,9 @@ function salvarDados(){
 }
 
 
-/* =====================================================
-   FORMATAÇÃO
-===================================================== */
+/* =========================
+   DINHEIRO
+========================= */
 
 function dinheiro(valor){
 
@@ -778,6 +746,10 @@ function dinheiro(valor){
 }
 
 
+/* =========================
+   ESCAPAR TEXTO
+========================= */
+
 function escapar(texto){
 
   return String(
@@ -791,6 +763,10 @@ function escapar(texto){
 
 }
 
+
+/* =========================
+   DATA
+========================= */
 
 function formatarData(data){
 
@@ -820,9 +796,9 @@ function formatarData(data){
 }
 
 
-/* =====================================================
+/* =========================
    MENSAGEM
-===================================================== */
+========================= */
 
 function mostrarMensagem(texto){
 
@@ -850,9 +826,9 @@ function mostrarMensagem(texto){
 }
 
 
-/* =====================================================
+/* =========================
    DATA HOJE
-===================================================== */
+========================= */
 
 function dataHoje(){
 
@@ -874,9 +850,9 @@ function dataHoje(){
 }
 
 
-/* =====================================================
+/* =========================
    PRÓXIMO MÊS
-===================================================== */
+========================= */
 
 function proximoMes(data){
 
@@ -932,9 +908,9 @@ function proximoMes(data){
 }
 
 
-/* =====================================================
+/* =========================
    JUROS
-===================================================== */
+========================= */
 
 function calcularJuros(e){
 
@@ -957,9 +933,9 @@ function calcularJuros(e){
 }
 
 
-/* =====================================================
+/* =========================
    VALOR DA PARCELA
-===================================================== */
+========================= */
 
 function calcularValorParcela(e){
 
@@ -979,11 +955,6 @@ function calcularValorParcela(e){
       e.parcelasIniciais || 1
     );
 
-  /*
-   * O valor total com juros é dividido
-   * pela quantidade inicial de parcelas.
-   */
-
   if(parcelas <= 1){
 
     return total;
@@ -995,9 +966,9 @@ function calcularValorParcela(e){
 }
 
 
-/* =====================================================
+/* =========================
    PARCELAS RESTANTES
-===================================================== */
+========================= */
 
 function obterParcelasRestantes(e){
 
@@ -1018,9 +989,9 @@ function obterParcelasRestantes(e){
 }
 
 
-/* =====================================================
-   PAGAMENTOS
-===================================================== */
+/* =========================
+   TOTAL RECEBIDO
+========================= */
 
 function obterTotalRecebido(e){
 
@@ -1051,9 +1022,9 @@ function obterTotalRecebido(e){
 }
 
 
-/* =====================================================
-   ATRASADO
-===================================================== */
+/* =========================
+   ATRASO
+========================= */
 
 function estaAtrasado(e){
 
@@ -1090,22 +1061,17 @@ function estaAtrasado(e){
 }
 
 
-/* =====================================================
+/* =========================
    DASHBOARD
-===================================================== */
+========================= */
 
 function atualizarDashboard(){
 
   let totalEmprestado = 0;
-
   let totalRecebido = 0;
-
   let totalAReceber = 0;
-
   let abertas = 0;
-
   let atrasadas = 0;
-
 
   emprestimos.forEach(
     function(e){
@@ -1118,29 +1084,18 @@ function atualizarDashboard(){
       totalRecebido +=
         obterTotalRecebido(e);
 
-
       const restantes =
         obterParcelasRestantes(e);
-
 
       if(restantes > 0){
 
         abertas++;
-
-        /*
-         * Para empréstimos parcelados,
-         * mostra as parcelas restantes.
-         *
-         * Para 1 parcela, mostra o valor
-         * da renovação mensal.
-         */
 
         totalAReceber +=
           calcularValorParcela(e) *
           restantes;
 
       }
-
 
       if(
         estaAtrasado(e)
@@ -1153,36 +1108,25 @@ function atualizarDashboard(){
     }
   );
 
-
   document.getElementById(
     "totalEmprestado"
   ).textContent =
-    dinheiro(
-      totalEmprestado
-    );
-
+    dinheiro(totalEmprestado);
 
   document.getElementById(
     "totalRecebido"
   ).textContent =
-    dinheiro(
-      totalRecebido
-    );
-
+    dinheiro(totalRecebido);
 
   document.getElementById(
     "totalAReceber"
   ).textContent =
-    dinheiro(
-      totalAReceber
-    );
-
+    dinheiro(totalAReceber);
 
   document.getElementById(
     "quantidadeAberta"
   ).textContent =
     abertas;
-
 
   document.getElementById(
     "quantidadeAtrasada"
@@ -1192,9 +1136,9 @@ function atualizarDashboard(){
 }
 
 
-/* =====================================================
+/* =========================
    ABAS
-===================================================== */
+========================= */
 
 function abrirAba(nome){
 
@@ -1204,7 +1148,6 @@ function abrirAba(nome){
     "relatorio",
     "backup"
   ];
-
 
   abas.forEach(
     function(aba){
@@ -1218,20 +1161,17 @@ function abrirAba(nome){
     }
   );
 
-
   document
     .getElementById(nome)
     .classList.remove(
       "hidden"
     );
 
-
   if(nome === "lista"){
 
     mostrarEmprestimos();
 
   }
-
 
   if(nome === "relatorio"){
 
@@ -1242,9 +1182,9 @@ function abrirAba(nome){
 }
 
 
-/* =====================================================
-   FORMULÁRIO
-===================================================== */
+/* =========================
+   SALVAR NOVO / EDITAR
+========================= */
 
 document
   .getElementById(
@@ -1255,9 +1195,7 @@ document
     function(event){
 
       event.preventDefault();
-
       event.stopPropagation();
-
 
       try{
 
@@ -1266,18 +1204,15 @@ document
             "idEdicao"
           ).value;
 
-
         const cliente =
           document.getElementById(
             "cliente"
           ).value.trim();
 
-
         const telefone =
           document.getElementById(
             "telefone"
           ).value.trim();
-
 
         const valor =
           Number(
@@ -1286,7 +1221,6 @@ document
             ).value
           );
 
-
         const juros =
           Number(
             document.getElementById(
@@ -1294,18 +1228,15 @@ document
             ).value
           );
 
-
         const dataInicio =
           document.getElementById(
             "dataInicio"
           ).value;
 
-
         const vencimento =
           document.getElementById(
             "vencimento"
           ).value;
-
 
         const parcelas =
           Number(
@@ -1314,14 +1245,10 @@ document
             ).value
           );
 
-
         const observacao =
           document.getElementById(
             "observacao"
           ).value.trim();
-
-
-        /* VALIDAÇÃO */
 
         if(!cliente){
 
@@ -1332,7 +1259,6 @@ document
           return;
 
         }
-
 
         if(
           !Number.isFinite(valor) ||
@@ -1347,7 +1273,6 @@ document
 
         }
 
-
         if(
           !Number.isFinite(juros) ||
           juros < 0
@@ -1361,7 +1286,6 @@ document
 
         }
 
-
         if(!dataInicio){
 
           alert(
@@ -1372,7 +1296,6 @@ document
 
         }
 
-
         if(!vencimento){
 
           alert(
@@ -1382,7 +1305,6 @@ document
           return;
 
         }
-
 
         if(
           !Number.isInteger(parcelas) ||
@@ -1397,11 +1319,6 @@ document
 
         }
 
-
-        /* =================================================
-           EDITAR
-        ================================================= */
-
         if(idEdicao){
 
           const indice =
@@ -1414,7 +1331,6 @@ document
               }
             );
 
-
           if(indice === -1){
 
             alert(
@@ -1425,10 +1341,8 @@ document
 
           }
 
-
           const antigo =
             emprestimos[indice];
-
 
           emprestimos[indice] = {
 
@@ -1454,7 +1368,6 @@ document
 
           };
 
-
           if(
             !salvarDados()
           ){
@@ -1462,7 +1375,6 @@ document
             return;
 
           }
-
 
           limparFormulario();
 
@@ -1479,11 +1391,6 @@ document
           return;
 
         }
-
-
-        /* =================================================
-           NOVO EMPRÉSTIMO
-        ================================================= */
 
         const novo = {
 
@@ -1528,30 +1435,14 @@ document
 
         };
 
-
-        /*
-         * PRIMEIRO adiciona ao array.
-         */
-
         emprestimos.push(
           novo
         );
 
-
-        /*
-         * DEPOIS salva.
-         */
-
         const salvou =
           salvarDados();
 
-
         if(!salvou){
-
-          /*
-           * Se falhou,
-           * remove o item da memória.
-           */
 
           emprestimos.pop();
 
@@ -1559,13 +1450,7 @@ document
 
         }
 
-
-        /*
-         * CONFIRMAÇÃO EXTRA
-         */
-
         carregarDados();
-
 
         const existe =
           emprestimos.some(
@@ -1577,7 +1462,6 @@ document
             }
           );
 
-
         if(!existe){
 
           alert(
@@ -1587,11 +1471,6 @@ document
           return;
 
         }
-
-
-        /*
-         * SUCESSO
-         */
 
         limparFormulario();
 
@@ -1623,9 +1502,9 @@ document
   );
 
 
-/* =====================================================
-   LIMPAR
-===================================================== */
+/* =========================
+   LIMPAR FORMULÁRIO
+========================= */
 
 function limparFormulario(){
 
@@ -1635,30 +1514,25 @@ function limparFormulario(){
     )
     .reset();
 
-
   document.getElementById(
     "idEdicao"
   ).value =
     "";
-
 
   document.getElementById(
     "tituloFormulario"
   ).textContent =
     "Novo empréstimo";
 
-
   document.getElementById(
     "parcelas"
   ).value =
     1;
 
-
   document.getElementById(
     "dataInicio"
   ).value =
     dataHoje();
-
 
   document.getElementById(
     "vencimento"
@@ -1668,32 +1542,28 @@ function limparFormulario(){
 }
 
 
-/* =====================================================
-   MOSTRAR EMPRESTIMOS
-===================================================== */
+/* =========================
+   MOSTRAR EMPRÉSTIMOS
+========================= */
 
 function mostrarEmprestimos(){
 
   atualizarDashboard();
-
 
   const lista =
     document.getElementById(
       "listaEmprestimos"
     );
 
-
   const pesquisaElemento =
     document.getElementById(
       "pesquisa"
     );
 
-
   const filtroElemento =
     document.getElementById(
       "filtro"
     );
-
 
   const pesquisa =
     pesquisaElemento
@@ -1704,14 +1574,12 @@ function mostrarEmprestimos(){
       :
       "";
 
-
   const filtro =
     filtroElemento
       ?
       filtroElemento.value
       :
       "todos";
-
 
   const resultados =
     emprestimos.filter(
@@ -1728,7 +1596,6 @@ function mostrarEmprestimos(){
           )
           .toLowerCase();
 
-
         if(
           !texto.includes(
             pesquisa
@@ -1739,10 +1606,8 @@ function mostrarEmprestimos(){
 
         }
 
-
         let status =
           "aberto";
-
 
         if(
           obterParcelasRestantes(e)
@@ -1762,7 +1627,6 @@ function mostrarEmprestimos(){
 
         }
 
-
         if(
           filtro !== "todos" &&
           filtro !== status
@@ -1772,12 +1636,10 @@ function mostrarEmprestimos(){
 
         }
 
-
         return true;
 
       }
     );
-
 
   if(
     resultados.length === 0
@@ -1803,10 +1665,8 @@ function mostrarEmprestimos(){
 
   }
 
-
   lista.innerHTML =
     "";
-
 
   resultados.forEach(
     function(e){
@@ -1821,38 +1681,29 @@ function mostrarEmprestimos(){
           }
         );
 
-
       const juros =
         calcularJuros(e);
-
 
       const parcela =
         calcularValorParcela(e);
 
-
       const recebido =
         obterTotalRecebido(e);
-
 
       const restantes =
         obterParcelasRestantes(e);
 
-
       const quitado =
         restantes <= 0;
-
 
       const atrasado =
         estaAtrasado(e);
 
-
       let classe =
         "aberto";
 
-
       let textoStatus =
         "● EM ABERTO";
-
 
       if(quitado){
 
@@ -1873,16 +1724,13 @@ function mostrarEmprestimos(){
 
       }
 
-
       const div =
         document.createElement(
           "div"
         );
 
-
       div.className =
         "emprestimo";
-
 
       div.innerHTML = `
 
@@ -2024,7 +1872,6 @@ function mostrarEmprestimos(){
 
       `;
 
-
       lista.appendChild(
         div
       );
@@ -2035,17 +1882,15 @@ function mostrarEmprestimos(){
 }
 
 
-/* =====================================================
-   REGISTRAR PAGAMENTO
-===================================================== */
+/* =========================================================
+   ÚNICA ALTERAÇÃO SOLICITADA:
+   RECEBER AUTOMATICAMENTE O VALOR DOS JUROS
+========================================================= */
 
-function registrarPagamento(
-  indice
-){
+function registrarPagamento(indice){
 
   const e =
     emprestimos[indice];
-
 
   if(!e){
 
@@ -2058,44 +1903,28 @@ function registrarPagamento(
   }
 
 
-  const parcela =
-    calcularValorParcela(e);
+  /*
+   * O valor recebido é automaticamente
+   * o valor dos juros.
+   *
+   * Exemplo:
+   *
+   * R$ 1.000 x 30% = R$ 300
+   */
 
-
-  const resposta =
-    prompt(
-      "Valor da parcela: " +
-      dinheiro(parcela) +
-      "\n\n" +
-      "Digite o valor recebido:"
-    );
-
-
-  if(
-    resposta === null
-  ){
-
-    return;
-
-  }
-
-
-  const valorPago =
-    Number(
-      resposta
-        .replace(",",".")
-    );
+  const valorRecebido =
+    calcularJuros(e);
 
 
   if(
     !Number.isFinite(
-      valorPago
+      valorRecebido
     ) ||
-    valorPago <= 0
+    valorRecebido <= 0
   ){
 
     alert(
-      "Digite um valor válido."
+      "Este empréstimo não possui juros cadastrados."
     );
 
     return;
@@ -2104,22 +1933,38 @@ function registrarPagamento(
 
 
   /*
-   * Não permite receber mais que
-   * o valor da parcela.
+   * Apenas confirma.
+   * NÃO pede para digitar valor.
    */
 
-  if(
-    valorPago > parcela
-  ){
+  const confirmar =
+    confirm(
 
-    alert(
-      "O valor recebido não pode ser maior que a parcela."
+      "Registrar recebimento?\n\n" +
+
+      "Cliente: " +
+      e.cliente +
+
+      "\n\n" +
+
+      "💵 Valor dos juros: " +
+      dinheiro(
+        valorRecebido
+      )
+
     );
+
+
+  if(!confirmar){
 
     return;
 
   }
 
+
+  /*
+   * Garante histórico.
+   */
 
   if(
     !Array.isArray(
@@ -2134,7 +1979,8 @@ function registrarPagamento(
 
 
   /*
-   * Guarda o pagamento.
+   * REGISTRA AUTOMATICAMENTE
+   * O VALOR DOS JUROS.
    */
 
   e.pagamentos.push({
@@ -2146,7 +1992,7 @@ function registrarPagamento(
       new Date().toISOString(),
 
     valor:
-      valorPago,
+      valorRecebido,
 
     parcela:
       obterParcelasRestantes(e)
@@ -2159,19 +2005,11 @@ function registrarPagamento(
 
 
   /*
-   * REGRA:
+   * SE COMEÇOU COM 1 PARCELA:
    *
-   * 3 -> 2
-   * 2 -> 1
-   * 1 -> 0
+   * 1 → 1 → 1 → 1...
    *
-   * PORÉM:
-   *
-   * Se o empréstimo começou
-   * com apenas 1 parcela,
-   * ele renova:
-   *
-   * 1 -> 1 -> 1 -> 1...
+   * Continua renovando mensalmente.
    */
 
   if(
@@ -2184,6 +2022,13 @@ function registrarPagamento(
       1;
 
   }
+
+  /*
+   * SE TIVER MAIS DE 1:
+   *
+   * 3 → 2 → 1 → 0
+   */
+
   else{
 
     restantes =
@@ -2200,8 +2045,9 @@ function registrarPagamento(
 
 
   /*
-   * PASSA O VENCIMENTO PARA
-   * O PRÓXIMO MÊS.
+   * PASSA O VENCIMENTO
+   * PARA O PRÓXIMO MÊS,
+   * MANTENDO O DIA.
    */
 
   e.vencimento =
@@ -2223,10 +2069,18 @@ function registrarPagamento(
   }
 
 
+  /*
+   * ATUALIZA A TELA.
+   */
+
   atualizarDashboard();
 
   mostrarEmprestimos();
 
+
+  /*
+   * MENSAGEM.
+   */
 
   if(
     Number(
@@ -2235,25 +2089,57 @@ function registrarPagamento(
   ){
 
     mostrarMensagem(
-      "✅ Recebimento registrado. O empréstimo foi renovado para o próximo mês."
+
+      "✅ Recebido " +
+
+      dinheiro(
+        valorRecebido
+      ) +
+
+      " de juros. " +
+
+      "Empréstimo renovado para o próximo mês."
+
     );
 
   }
+
   else if(
     restantes === 0
   ){
 
     mostrarMensagem(
-      "🎉 Última parcela recebida. Empréstimo quitado!"
+
+      "🎉 Recebido " +
+
+      dinheiro(
+        valorRecebido
+      ) +
+
+      ". Última parcela! " +
+
+      "Empréstimo quitado."
+
     );
 
   }
+
   else{
 
     mostrarMensagem(
-      "✅ Recebido! Restam " +
+
+      "✅ Recebido " +
+
+      dinheiro(
+        valorRecebido
+      ) +
+
+      ". Restam " +
+
       restantes +
-      " parcela(s). Vencimento atualizado."
+
+      " parcela(s)."
+
     );
 
   }
@@ -2261,17 +2147,14 @@ function registrarPagamento(
 }
 
 
-/* =====================================================
+/* =========================
    HISTÓRICO
-===================================================== */
+========================= */
 
-function mostrarHistorico(
-  indice
-){
+function mostrarHistorico(indice){
 
   const e =
     emprestimos[indice];
-
 
   const elemento =
     document.getElementById(
@@ -2279,13 +2162,11 @@ function mostrarHistorico(
       indice
     );
 
-
   if(!elemento){
 
     return;
 
   }
-
 
   if(
     !elemento.classList.contains(
@@ -2301,10 +2182,8 @@ function mostrarHistorico(
 
   }
 
-
   const pagamentos =
     e.pagamentos || [];
-
 
   if(
     pagamentos.length === 0
@@ -2369,7 +2248,6 @@ function mostrarHistorico(
 
   }
 
-
   elemento.classList.remove(
     "hidden"
   );
@@ -2377,17 +2255,14 @@ function mostrarHistorico(
 }
 
 
-/* =====================================================
+/* =========================
    EDITAR
-===================================================== */
+========================= */
 
-function editarEmprestimo(
-  indice
-){
+function editarEmprestimo(indice){
 
   const e =
     emprestimos[indice];
-
 
   if(!e){
 
@@ -2395,71 +2270,59 @@ function editarEmprestimo(
 
   }
 
-
   abrirAba(
     "cadastro"
   );
-
 
   document.getElementById(
     "tituloFormulario"
   ).textContent =
     "Editar empréstimo";
 
-
   document.getElementById(
     "idEdicao"
   ).value =
     e.id;
-
 
   document.getElementById(
     "cliente"
   ).value =
     e.cliente;
 
-
   document.getElementById(
     "telefone"
   ).value =
     e.telefone || "";
-
 
   document.getElementById(
     "valor"
   ).value =
     e.valorInicial;
 
-
   document.getElementById(
     "juros"
   ).value =
     e.juros;
-
 
   document.getElementById(
     "dataInicio"
   ).value =
     e.dataInicio;
 
-
   document.getElementById(
     "vencimento"
   ).value =
     e.vencimento;
-
 
   document.getElementById(
     "parcelas"
   ).value =
     e.parcelasIniciais;
 
-
   document.getElementById(
     "observacao"
   ).value =
     e.observacao || "";
-
 
   window.scrollTo(
     0,
@@ -2469,24 +2332,20 @@ function editarEmprestimo(
 }
 
 
-/* =====================================================
+/* =========================
    EXCLUIR
-===================================================== */
+========================= */
 
-function excluirEmprestimo(
-  indice
-){
+function excluirEmprestimo(indice){
 
   const e =
     emprestimos[indice];
-
 
   if(!e){
 
     return;
 
   }
-
 
   if(
     !confirm(
@@ -2500,12 +2359,10 @@ function excluirEmprestimo(
 
   }
 
-
   emprestimos.splice(
     indice,
     1
   );
-
 
   if(
     !salvarDados()
@@ -2514,7 +2371,6 @@ function excluirEmprestimo(
     return;
 
   }
-
 
   atualizarDashboard();
 
@@ -2527,17 +2383,14 @@ function excluirEmprestimo(
 }
 
 
-/* =====================================================
+/* =========================
    WHATSAPP
-===================================================== */
+========================= */
 
-function enviarWhatsApp(
-  indice
-){
+function enviarWhatsApp(indice){
 
   const e =
     emprestimos[indice];
-
 
   if(
     !e.telefone
@@ -2551,7 +2404,6 @@ function enviarWhatsApp(
 
   }
 
-
   let telefone =
     String(
       e.telefone
@@ -2560,7 +2412,6 @@ function enviarWhatsApp(
       /\D/g,
       ""
     );
-
 
   if(
     telefone.length === 10 ||
@@ -2572,7 +2423,6 @@ function enviarWhatsApp(
       telefone;
 
   }
-
 
   const mensagem =
 
@@ -2594,7 +2444,6 @@ Segue a situação do seu empréstimo:
 
 💳 Total recebido: ${dinheiro(obterTotalRecebido(e))}`;
 
-
   const url =
     "https://wa.me/" +
     telefone +
@@ -2602,7 +2451,6 @@ Segue a situação do seu empréstimo:
     encodeURIComponent(
       mensagem
     );
-
 
   window.open(
     url,
@@ -2612,27 +2460,17 @@ Segue a situação do seu empréstimo:
 }
 
 
-/* =====================================================
+/* =========================
    RELATÓRIO
-===================================================== */
+========================= */
 
 function mostrarRelatorio(){
 
-  let capital =
-    0;
-
-  let recebido =
-    0;
-
-  let abertas =
-    0;
-
-  let atrasadas =
-    0;
-
-  let quitados =
-    0;
-
+  let capital = 0;
+  let recebido = 0;
+  let abertas = 0;
+  let atrasadas = 0;
+  let quitados = 0;
 
   emprestimos.forEach(
     function(e){
@@ -2642,10 +2480,8 @@ function mostrarRelatorio(){
           e.valorInicial || 0
         );
 
-
       recebido +=
         obterTotalRecebido(e);
-
 
       if(
         obterParcelasRestantes(e)
@@ -2661,7 +2497,6 @@ function mostrarRelatorio(){
 
       }
 
-
       if(
         estaAtrasado(e)
       ){
@@ -2672,7 +2507,6 @@ function mostrarRelatorio(){
 
     }
   );
-
 
   document.getElementById(
     "conteudoRelatorio"
@@ -2725,9 +2559,9 @@ function mostrarRelatorio(){
 }
 
 
-/* =====================================================
+/* =========================
    EXPORTAR BACKUP
-===================================================== */
+========================= */
 
 function exportarBackup(){
 
@@ -2747,7 +2581,6 @@ function exportarBackup(){
 
   };
 
-
   const arquivo =
     new Blob(
       [
@@ -2763,44 +2596,35 @@ function exportarBackup(){
       }
     );
 
-
   const url =
     URL.createObjectURL(
       arquivo
     );
-
 
   const link =
     document.createElement(
       "a"
     );
 
-
   link.href =
     url;
 
-
   link.download =
     "backup-meu-controle-emprestimos.json";
-
 
   document.body.appendChild(
     link
   );
 
-
   link.click();
-
 
   document.body.removeChild(
     link
   );
 
-
   URL.revokeObjectURL(
     url
   );
-
 
   mostrarMensagem(
     "✅ Backup exportado!"
@@ -2809,17 +2633,14 @@ function exportarBackup(){
 }
 
 
-/* =====================================================
+/* =========================
    IMPORTAR BACKUP
-===================================================== */
+========================= */
 
-function importarBackup(
-  event
-){
+function importarBackup(event){
 
   const arquivo =
     event.target.files[0];
-
 
   if(!arquivo){
 
@@ -2827,10 +2648,8 @@ function importarBackup(
 
   }
 
-
   const leitor =
     new FileReader();
-
 
   leitor.onload =
     function(){
@@ -2842,17 +2661,14 @@ function importarBackup(
             leitor.result
           );
 
-
         const lista =
           Array.isArray(
-            dados
-              .emprestimos
+            dados.emprestimos
           )
           ?
           dados.emprestimos
           :
           dados;
-
 
         if(
           !Array.isArray(
@@ -2866,7 +2682,6 @@ function importarBackup(
 
         }
 
-
         if(
           !confirm(
             "Substituir os dados atuais pelo backup?"
@@ -2877,10 +2692,8 @@ function importarBackup(
 
         }
 
-
         emprestimos =
           lista;
-
 
         if(
           !salvarDados()
@@ -2889,7 +2702,6 @@ function importarBackup(
           return;
 
         }
-
 
         atualizarDashboard();
 
@@ -2910,7 +2722,6 @@ function importarBackup(
 
     };
 
-
   leitor.readAsText(
     arquivo
   );
@@ -2918,9 +2729,9 @@ function importarBackup(
 }
 
 
-/* =====================================================
+/* =========================
    APAGAR TODOS
-===================================================== */
+========================= */
 
 function apagarTodos(){
 
@@ -2936,10 +2747,8 @@ function apagarTodos(){
 
   }
 
-
   emprestimos =
     [];
-
 
   if(
     !salvarDados()
@@ -2948,7 +2757,6 @@ function apagarTodos(){
     return;
 
   }
-
 
   atualizarDashboard();
 
@@ -2961,9 +2769,9 @@ function apagarTodos(){
 }
 
 
-/* =====================================================
+/* =========================
    INICIALIZAÇÃO
-===================================================== */
+========================= */
 
 carregarDados();
 
@@ -2972,9 +2780,9 @@ limparFormulario();
 atualizarDashboard();
 
 
-/* =====================================================
-   SERVICE WORKER / PWA
-===================================================== */
+/* =========================
+   PWA
+========================= */
 
 if(
   "serviceWorker" in navigator
