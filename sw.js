@@ -1,4 +1,4 @@
-const CACHE_NAME = "meu-controle-emprestimos-v4";
+const CACHE_NAME = "meu-controle-emprestimos-v5";
 
 const ARQUIVOS = [
   "./",
@@ -40,9 +40,9 @@ self.addEventListener(
       caches
         .keys()
         .then(
-          cachesExistentes =>
+          cachesExistentes => {
 
-            Promise.all(
+            return Promise.all(
 
               cachesExistentes
                 .filter(
@@ -57,8 +57,9 @@ self.addEventListener(
                     )
                 )
 
-            )
+            );
 
+          }
         )
         .then(
           () =>
@@ -75,7 +76,7 @@ self.addEventListener(
   "fetch",
   event => {
 
-    if (
+    if(
       event.request.method !==
       "GET"
     ) {
