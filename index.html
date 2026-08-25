@@ -250,10 +250,6 @@ grid-template-columns:1fr 1fr
 
 <body>
 
-<!-- =========================
-TELA DE SEGURANÇA
-========================= -->
-
 <div id="telaSeguranca" class="segurança">
 
 <h2>🔐 Meu Controle</h2>
@@ -324,10 +320,6 @@ dados criptografados sem um backup válido.
 </div>
 
 
-<!-- =========================
-APLICATIVO
-========================= -->
-
 <div id="aplicativo" class="hidden">
 
 <header>
@@ -393,10 +385,6 @@ onclick="bloquear()"
 </div>
 
 
-<!-- =========================
-MENSAL
-========================= -->
-
 <section id="mensal">
 
 <form id="formMensal">
@@ -458,10 +446,6 @@ MENSAL
 
 </section>
 
-
-<!-- =========================
-PARCELADO
-========================= -->
 
 <section id="parcelado" class="hidden">
 
@@ -531,10 +515,6 @@ required
 </section>
 
 
-<!-- =========================
-LISTA
-========================= -->
-
 <section id="lista" class="hidden">
 
 <div class="panel">
@@ -565,20 +545,12 @@ oninput="mostrarLista()"
 </section>
 
 
-<!-- =========================
-DETALHES
-========================= -->
-
 <section id="detalhes" class="hidden">
 
 <div id="conteudoDetalhes"></div>
 
 </section>
 
-
-<!-- =========================
-CONFIGURAÇÕES
-========================= -->
 
 <section id="configuracoes" class="hidden">
 
@@ -662,10 +634,6 @@ onclick="abrirAba('mensal')"
 
 <script>
 
-/* =====================================================
-CONFIGURAÇÃO DE SEGURANÇA
-===================================================== */
-
 const CHAVE_BANCO =
 "mce_banco_seguro_v1";
 
@@ -675,6 +643,9 @@ const CHAVE_CONFIG =
 const CHAVE_PIN =
 "mce_pin_v1";
 
+const CHAVE_LIMPEZA_TESTE =
+"mce_limpeza_teste_v1";
+
 let chaveCriptografica = null;
 
 let emprestimos = [];
@@ -683,10 +654,6 @@ let configuracoes = {
 pix:""
 };
 
-
-/* =====================================================
-FUNÇÕES CRIPTOGRÁFICAS
-===================================================== */
 
 function textoBytes(texto){
 
@@ -856,10 +823,6 @@ new Uint8Array(decifrado)
 }
 
 
-/* =====================================================
-PIN
-===================================================== */
-
 async function hashPIN(pin){
 
 const dados=
@@ -919,10 +882,7 @@ hash
 );
 
 chaveCriptografica=
-await gerarChavePIN(
-pin,
-new Uint8Array(16)
-);
+pin;
 
 localStorage.setItem(
 CHAVE_CONFIG,
@@ -1027,10 +987,6 @@ alert(
 }
 
 
-/* =====================================================
-BANCO CRIPTOGRAFADO
-===================================================== */
-
 async function salvarBanco(pin){
 
 const registro=
@@ -1049,7 +1005,7 @@ JSON.stringify(registro)
 
 async function carregarBanco(pin){
 
-const salvo=
+const salvo =
 localStorage.getItem(CHAVE_BANCO);
 
 if(!salvo){
@@ -1058,14 +1014,21 @@ emprestimos=[];
 
 await salvarBanco(pin);
 
+localStorage.setItem(
+CHAVE_LIMPEZA_TESTE,
+"ok"
+);
+
 return;
 
 }
 
-const registro=
+try{
+
+const registro =
 JSON.parse(salvo);
 
-emprestimos=
+emprestimos =
 await descriptografar(
 registro,
 pin
@@ -1077,12 +1040,47 @@ emprestimos=[];
 
 }
 
+/*
+LIMPEZA ÚNICA DOS EMPRÉSTIMOS DE TESTE
+
+Mantém PIN e configurações.
+*/
+
+const limpezaFeita =
+localStorage.getItem(
+CHAVE_LIMPEZA_TESTE
+);
+
+if(!limpezaFeita){
+
+emprestimos=[];
+
+await salvarBanco(pin);
+
+localStorage.setItem(
+CHAVE_LIMPEZA_TESTE,
+"ok"
+);
+
 }
 
+}catch(erro){
 
-/* =====================================================
-SALVAR
-===================================================== */
+console.error(erro);
+
+emprestimos=[];
+
+await salvarBanco(pin);
+
+localStorage.setItem(
+CHAVE_LIMPEZA_TESTE,
+"ok"
+);
+
+}
+
+}
+
 
 async function salvar(){
 
@@ -1110,10 +1108,6 @@ return false;
 
 }
 
-
-/* =====================================================
-UTILIDADES
-===================================================== */
 
 function dinheiro(v){
 
@@ -1162,9 +1156,20 @@ return String(t||"")
 }
 
 
-/* =====================================================
-DATA +30 DIAS IGNORANDO DIA 31
-===================================================== */
+/*
+=====================================================
+VENCIMENTO MENSAL
+=====================================================
+
+Mantém o mesmo dia no mês seguinte.
+
+25/08/2026 → 25/09/2026
+
+Se o próximo mês não tiver aquele dia,
+usa o último dia disponível.
+
+31/08/2026 → 30/09/2026
+*/
 
 function adicionar30DiasIgnorando31(data){
 
@@ -1172,38 +1177,41 @@ if(!data)return "";
 
 const partes=data.split("-");
 
-let atual=new Date(
-Number(partes[0]),
-Number(partes[1])-1,
-Number(partes[2])
+const ano=Number(partes[0]);
+const mes=Number(partes[1]);
+const dia=Number(partes[2]);
+
+let novoAno=ano;
+
+let novoMes=mes+1;
+
+if(novoMes>12){
+
+novoMes=1;
+
+novoAno++;
+
+}
+
+const ultimoDia=
+new Date(
+novoAno,
+novoMes,
+0
+).getDate();
+
+const novoDia=
+Math.min(
+dia,
+ultimoDia
 );
 
-let contagem=0;
-
-while(contagem<30){
-
-atual.setDate(
-atual.getDate()+1
-);
-
-if(atual.getDate()===31){
-continue;
-}
-
-contagem++;
+return novoAno+"-"+
+String(novoMes).padStart(2,"0")+"-"+
+String(novoDia).padStart(2,"0");
 
 }
 
-return atual.getFullYear()+"-"+
-String(atual.getMonth()+1).padStart(2,"0")+"-"+
-String(atual.getDate()).padStart(2,"0");
-
-}
-
-
-/* =====================================================
-NAVEGAÇÃO
-===================================================== */
 
 function abrirAba(nome){
 
@@ -1229,10 +1237,6 @@ mostrarLista();
 
 }
 
-
-/* =====================================================
-FORM MENSAL
-===================================================== */
 
 document.getElementById(
 "formMensal"
@@ -1332,10 +1336,6 @@ abrirAba("lista");
 });
 
 
-/* =====================================================
-FORM PARCELADO
-===================================================== */
-
 document.getElementById(
 "formParcelado"
 ).addEventListener(
@@ -1429,10 +1429,6 @@ abrirAba("lista");
 });
 
 
-/* =====================================================
-DIAS DE ATRASO
-===================================================== */
-
 function diasAtraso(e){
 
 if(!e.vencimento)return 0;
@@ -1465,20 +1461,12 @@ diferenca/86400000
 }
 
 
-/* =====================================================
-PRÓXIMO VENCIMENTO
-===================================================== */
-
 function proximoVencimento(data){
 
 return adicionar30DiasIgnorando31(data);
 
 }
 
-
-/* =====================================================
-LISTA
-===================================================== */
 
 function mostrarLista(){
 
@@ -1690,10 +1678,6 @@ lista.appendChild(div);
 }
 
 
-/* =====================================================
-DETALHES
-===================================================== */
-
 function abrirDetalhes(indice){
 
 const e=emprestimos[indice];
@@ -1857,10 +1841,6 @@ document.getElementById(
 }
 
 
-/* =====================================================
-RECEBIMENTO
-===================================================== */
-
 async function receber(indice){
 
 const e=emprestimos[indice];
@@ -1960,10 +1940,6 @@ mostrarLista();
 }
 
 
-/* =====================================================
-WHATSAPP
-===================================================== */
-
 function abrirWhatsApp(indice){
 
 const e=emprestimos[indice];
@@ -2046,10 +2022,6 @@ encodeURIComponent(mensagem),
 }
 
 
-/* =====================================================
-EXCLUIR
-===================================================== */
-
 async function excluir(indice){
 
 const e=emprestimos[indice];
@@ -2072,10 +2044,6 @@ abrirAba("lista");
 
 }
 
-
-/* =====================================================
-CONFIGURAÇÕES
-===================================================== */
 
 async function salvarConfiguracoes(){
 
@@ -2149,11 +2117,6 @@ return;
 
 }
 
-/*
-Descriptografa com o PIN antigo
-e grava novamente com o novo.
-*/
-
 try{
 
 await carregarBanco(antigo);
@@ -2184,10 +2147,6 @@ alert(
 }
 
 
-/* =====================================================
-APAGAR BANCO
-===================================================== */
-
 function apagarBanco(){
 
 const confirmacao=
@@ -2214,10 +2173,6 @@ mostrarLista();
 
 }
 
-
-/* =====================================================
-BACKUP
-===================================================== */
 
 async function exportarBackup(){
 
@@ -2347,10 +2302,6 @@ event.target.value="";
 }
 
 
-/* =====================================================
-BLOQUEIO
-===================================================== */
-
 function bloquear(){
 
 chaveCriptografica=null;
@@ -2377,10 +2328,6 @@ document.getElementById(
 
 }
 
-
-/* =====================================================
-BLOQUEIO AUTOMÁTICO
-===================================================== */
 
 let ultimoUso=
 Date.now();
@@ -2426,10 +2373,6 @@ alert(
 
 },30000);
 
-
-/* =====================================================
-DASHBOARD
-===================================================== */
 
 function dashboard(){
 
@@ -2533,10 +2476,6 @@ atrasado;
 }
 
 
-/* =====================================================
-INICIALIZAÇÃO
-===================================================== */
-
 function inicializar(){
 
 const existePIN=
@@ -2590,9 +2529,46 @@ adicionar30DiasIgnorando31(hoje);
 inicializar();
 
 
-/* =====================================================
-SERVICE WORKER
-===================================================== */
+/*
+=========================================
+ATUALIZAÇÃO AUTOMÁTICA DO VENCIMENTO
+=========================================
+
+Quando o usuário alterar a data de início,
+a primeira parcela é recalculada automaticamente.
+*/
+
+document.getElementById(
+"mInicio"
+).addEventListener(
+"change",
+function(){
+
+document.getElementById(
+"mVencimento"
+).value=
+adicionar30DiasIgnorando31(
+this.value
+);
+
+});
+
+
+document.getElementById(
+"pInicio"
+).addEventListener(
+"change",
+function(){
+
+document.getElementById(
+"pVencimento"
+).value=
+adicionar30DiasIgnorando31(
+this.value
+);
+
+});
+
 
 if("serviceWorker" in navigator){
 
