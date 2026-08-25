@@ -2,11 +2,31 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111827">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#111827"
+  >
+
+  <meta
+    name="description"
+    content="Meu Controle de Empréstimos"
+  >
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
   <title>Meu Controle de Empréstimos</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       font-family: Arial, sans-serif;
@@ -23,6 +43,9 @@
       color: white;
       padding: 20px;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     header h1 {
@@ -56,7 +79,7 @@
 
     .card strong {
       display: block;
-      font-size: 20px;
+      font-size: 19px;
       margin-top: 6px;
     }
 
@@ -68,7 +91,12 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
 
-    input, button {
+    form h2 {
+      margin-top: 0;
+    }
+
+    input,
+    button {
       width: 100%;
       padding: 13px;
       margin-top: 8px;
@@ -78,11 +106,17 @@
       font-size: 16px;
     }
 
+    input:focus {
+      outline: none;
+      border-color: #111827;
+    }
+
     button {
       background: #111827;
       color: white;
       border: none;
       font-weight: bold;
+      cursor: pointer;
     }
 
     button:active {
@@ -99,6 +133,7 @@
 
     .emprestimo h3 {
       margin-top: 0;
+      font-size: 19px;
     }
 
     .valor {
@@ -107,11 +142,12 @@
     }
 
     .status {
-      padding: 5px 9px;
+      padding: 6px 10px;
       border-radius: 20px;
       font-size: 12px;
       display: inline-block;
-      margin-top: 8px;
+      margin: 5px 0 10px;
+      font-weight: bold;
     }
 
     .aberto {
@@ -124,21 +160,31 @@
       color: #166534;
     }
 
-    .danger {
-      background: #dc2626;
-      margin-top: 5px;
-    }
-
     .success {
       background: #16a34a;
-      margin-top: 5px;
+    }
+
+    .danger {
+      background: #dc2626;
     }
 
     .empty {
       text-align: center;
       color: #6b7280;
       padding: 30px;
+      background: white;
+      border-radius: 14px;
     }
+
+    .secao {
+      margin-top: 25px;
+    }
+
+    .info {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
   </style>
 </head>
 
@@ -151,25 +197,35 @@
 <div class="container">
 
   <div class="dashboard">
+
     <div class="card">
       <small>Total emprestado</small>
-      <strong id="totalEmprestado">R$ 0,00</strong>
+      <strong id="totalEmprestado">
+        R$ 0,00
+      </strong>
     </div>
 
     <div class="card">
       <small>Total recebido</small>
-      <strong id="totalRecebido">R$ 0,00</strong>
+      <strong id="totalRecebido">
+        R$ 0,00
+      </strong>
     </div>
 
     <div class="card">
       <small>A receber</small>
-      <strong id="totalAReceber">R$ 0,00</strong>
+      <strong id="totalAReceber">
+        R$ 0,00
+      </strong>
     </div>
 
     <div class="card">
       <small>Em aberto</small>
-      <strong id="quantidadeAberta">0</strong>
+      <strong id="quantidadeAberta">
+        0
+      </strong>
     </div>
+
   </div>
 
   <form id="formEmprestimo">
@@ -194,6 +250,7 @@
       id="valor"
       placeholder="Valor emprestado"
       step="0.01"
+      min="0"
       required
     >
 
@@ -208,8 +265,9 @@
     <input
       type="number"
       id="valorParcela"
-      placeholder="Valor da parcela"
+      placeholder="Valor de cada parcela"
       step="0.01"
+      min="0"
       required
     >
 
@@ -225,64 +283,121 @@
 
   </form>
 
-  <h2>Meus empréstimos</h2>
+  <div class="secao">
 
-  <div id="lista"></div>
+    <h2>📋 Meus empréstimos</h2>
+
+    <div id="lista"></div>
+
+  </div>
 
 </div>
 
 <script>
 
 let emprestimos =
-  JSON.parse(localStorage.getItem("emprestimos")) || [];
+  JSON.parse(
+    localStorage.getItem("emprestimos")
+  ) || [];
 
-const dinheiro = valor =>
-  Number(valor).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
+
+function dinheiro(valor) {
+
+  return Number(valor || 0).toLocaleString(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: "BRL"
+    }
+  );
+
+}
+
 
 function salvar() {
+
   localStorage.setItem(
     "emprestimos",
     JSON.stringify(emprestimos)
   );
+
 }
+
 
 function atualizarDashboard() {
 
   let emprestado = 0;
   let recebido = 0;
-  let aberto = 0;
-  let quantidadeAberta = 0;
+  let aReceber = 0;
+  let abertas = 0;
 
   emprestimos.forEach(e => {
 
-    emprestado += Number(e.valor);
-    recebido += Number(e.recebido || 0);
+    const valor =
+      Number(e.valor || 0);
+
+    const pago =
+      Number(e.recebido || 0);
+
+    emprestado += valor;
+
+    recebido += pago;
 
     const restante =
-      Number(e.valor) - Number(e.recebido || 0);
+      Math.max(valor - pago, 0);
+
+    aReceber += restante;
 
     if (restante > 0) {
-      aberto += restante;
-      quantidadeAberta++;
+      abertas++;
     }
 
   });
 
-  document.getElementById("totalEmprestado")
-    .textContent = dinheiro(emprestado);
 
-  document.getElementById("totalRecebido")
-    .textContent = dinheiro(recebido);
+  document.getElementById(
+    "totalEmprestado"
+  ).textContent =
+    dinheiro(emprestado);
 
-  document.getElementById("totalAReceber")
-    .textContent = dinheiro(aberto);
 
-  document.getElementById("quantidadeAberta")
-    .textContent = quantidadeAberta;
+  document.getElementById(
+    "totalRecebido"
+  ).textContent =
+    dinheiro(recebido);
+
+
+  document.getElementById(
+    "totalAReceber"
+  ).textContent =
+    dinheiro(aReceber);
+
+
+  document.getElementById(
+    "quantidadeAberta"
+  ).textContent =
+    abertas;
+
 }
+
+
+function formatarData(data) {
+
+  if (!data) {
+    return "-";
+  }
+
+  const partes =
+    data.split("-");
+
+  if (partes.length !== 3) {
+    return data;
+  }
+
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
 
 function mostrar() {
 
@@ -291,178 +406,316 @@ function mostrar() {
 
   lista.innerHTML = "";
 
+
   if (emprestimos.length === 0) {
 
-    lista.innerHTML =
-      '<div class="empty">Nenhum empréstimo cadastrado.</div>';
+    lista.innerHTML = `
+      <div class="empty">
+        <div style="font-size:40px;">💰</div>
+        <p>Nenhum empréstimo cadastrado.</p>
+        <p class="info">
+          Cadastre seu primeiro empréstimo acima.
+        </p>
+      </div>
+    `;
 
     atualizarDashboard();
+
     return;
   }
 
-  emprestimos.forEach((e, index) => {
 
-    const recebido =
-      Number(e.recebido || 0);
+  emprestimos.forEach(
+    (e, index) => {
 
-    const restante =
-      Number(e.valor) - recebido;
+      const recebido =
+        Number(e.recebido || 0);
 
-    const quitado =
-      restante <= 0;
+      const valor =
+        Number(e.valor || 0);
 
-    const div =
-      document.createElement("div");
+      const restante =
+        Math.max(
+          valor - recebido,
+          0
+        );
 
-    div.className = "emprestimo";
+      const quitado =
+        restante <= 0;
 
-    div.innerHTML = `
 
-      <h3>👤 ${e.cliente}</h3>
+      const div =
+        document.createElement("div");
 
-      <p>📱 ${e.telefone || "Sem telefone"}</p>
+      div.className =
+        "emprestimo";
 
-      <p>
-        💰 Emprestado:
-        <span class="valor">
-          ${dinheiro(e.valor)}
+
+      div.innerHTML = `
+
+        <h3>
+          👤 ${escapar(e.cliente)}
+        </h3>
+
+        <p>
+          📱 ${
+            escapar(
+              e.telefone || "Sem telefone"
+            )
+          }
+        </p>
+
+        <p>
+          💰 Valor emprestado:
+          <strong>
+            ${dinheiro(valor)}
+          </strong>
+        </p>
+
+        <p>
+          📅 Parcelas:
+          ${e.parcelas}
+        </p>
+
+        <p>
+          💵 Valor da parcela:
+          ${dinheiro(e.valorParcela)}
+        </p>
+
+        <p>
+          📆 Vencimento:
+          ${formatarData(e.vencimento)}
+        </p>
+
+        <p>
+          💳 Total recebido:
+          ${dinheiro(recebido)}
+        </p>
+
+        <p>
+          🔴 Saldo restante:
+          <strong>
+            ${dinheiro(restante)}
+          </strong>
+        </p>
+
+        <span class="status ${
+          quitado
+            ? "pago"
+            : "aberto"
+        }">
+          ${
+            quitado
+              ? "✓ QUITADO"
+              : "● EM ABERTO"
+          }
         </span>
-      </p>
 
-      <p>
-        📅 Parcelas:
-        ${e.parcelas}
-      </p>
+        ${
+          !quitado
+            ? `
+              <button
+                class="success"
+                onclick="registrarPagamento(${index})">
+                💵 Registrar pagamento
+              </button>
+            `
+            : ""
+        }
 
-      <p>
-        💵 Parcela:
-        ${dinheiro(e.valorParcela)}
-      </p>
+        <button
+          class="danger"
+          onclick="excluir(${index})">
+          🗑️ Excluir empréstimo
+        </button>
 
-      <p>
-        📆 Vencimento:
-        ${e.vencimento}
-      </p>
+      `;
 
-      <p>
-        💳 Recebido:
-        ${dinheiro(recebido)}
-      </p>
 
-      <p>
-        🔴 Restante:
-        ${dinheiro(Math.max(restante, 0))}
-      </p>
+      lista.appendChild(div);
 
-      <span class="status ${quitado ? "pago" : "aberto"}">
-        ${quitado ? "QUITADO" : "EM ABERTO"}
-      </span>
+    }
+  );
 
-      ${
-        !quitado
-        ?
-        `<button
-          class="success"
-          onclick="registrarPagamento(${index})">
-          💵 Registrar pagamento
-        </button>`
-        :
-        ""
-      }
-
-      <button
-        class="danger"
-        onclick="excluir(${index})">
-        🗑️ Excluir
-      </button>
-
-    `;
-
-    lista.appendChild(div);
-
-  });
 
   atualizarDashboard();
+
 }
+
+
+function escapar(texto) {
+
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
 
 document
   .getElementById("formEmprestimo")
-  .addEventListener("submit", function(event) {
+  .addEventListener(
+    "submit",
+    function(event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const novo = {
 
-      cliente:
-        document.getElementById("cliente").value,
+      const novo = {
 
-      telefone:
-        document.getElementById("telefone").value,
+        id:
+          Date.now(),
 
-      valor:
-        Number(document.getElementById("valor").value),
+        cliente:
+          document
+            .getElementById("cliente")
+            .value
+            .trim(),
 
-      parcelas:
-        Number(document.getElementById("parcelas").value),
+        telefone:
+          document
+            .getElementById("telefone")
+            .value
+            .trim(),
 
-      valorParcela:
-        Number(document.getElementById("valorParcela").value),
+        valor:
+          Number(
+            document
+              .getElementById("valor")
+              .value
+          ),
 
-      vencimento:
-        document.getElementById("vencimento").value,
+        parcelas:
+          Number(
+            document
+              .getElementById("parcelas")
+              .value
+          ),
 
-      recebido: 0
+        valorParcela:
+          Number(
+            document
+              .getElementById("valorParcela")
+              .value
+          ),
 
-    };
+        vencimento:
+          document
+            .getElementById("vencimento")
+            .value,
 
-    emprestimos.push(novo);
+        recebido: 0
 
-    salvar();
+      };
 
-    mostrar();
 
-    this.reset();
+      emprestimos.push(novo);
 
-  });
+      salvar();
+
+      mostrar();
+
+      this.reset();
+
+
+      alert(
+        "Empréstimo cadastrado com sucesso!"
+      );
+
+    }
+  );
+
 
 function registrarPagamento(index) {
 
-  const valor =
-    prompt("Digite o valor recebido:");
+  const e =
+    emprestimos[index];
 
-  if (valor === null) return;
+
+  const restante =
+    Number(e.valor)
+    - Number(e.recebido || 0);
+
+
+  const valor =
+    prompt(
+      `Saldo restante: ${dinheiro(restante)}
+
+Digite o valor recebido:`
+    );
+
+
+  if (valor === null) {
+    return;
+  }
+
 
   const numero =
     Number(
-      valor.replace(",", ".")
+      valor
+        .replace(",", ".")
     );
 
-  if (!numero || numero <= 0) {
 
-    alert("Digite um valor válido.");
+  if (
+    !Number.isFinite(numero)
+    || numero <= 0
+  ) {
+
+    alert(
+      "Digite um valor válido."
+    );
 
     return;
   }
 
-  emprestimos[index].recebido =
-    Number(emprestimos[index].recebido || 0)
+
+  if (numero > restante) {
+
+    alert(
+      "O pagamento não pode ser maior que o saldo restante."
+    );
+
+    return;
+  }
+
+
+  e.recebido =
+    Number(e.recebido || 0)
     + numero;
+
 
   salvar();
 
   mostrar();
 
+
+  alert(
+    "Pagamento registrado com sucesso!"
+  );
+
 }
+
 
 function excluir(index) {
 
+  const cliente =
+    emprestimos[index].cliente;
+
+
   if (
     confirm(
-      "Deseja realmente excluir este empréstimo?"
+      `Excluir o empréstimo de ${cliente}?`
     )
   ) {
 
-    emprestimos.splice(index, 1);
+    emprestimos.splice(
+      index,
+      1
+    );
 
     salvar();
 
@@ -472,7 +725,42 @@ function excluir(index) {
 
 }
 
+
 mostrar();
+
+
+/* ATIVAÇÃO DA PWA */
+
+if (
+  "serviceWorker"
+  in navigator
+) {
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator
+        .serviceWorker
+        .register("./sw.js")
+        .then(
+          () =>
+            console.log(
+              "PWA ativada com sucesso."
+            )
+        )
+        .catch(
+          erro =>
+            console.error(
+              "Erro ao ativar PWA:",
+              erro
+            )
+        );
+
+    }
+  );
+
+}
 
 </script>
 
