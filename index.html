@@ -201,9 +201,6 @@ padding:12px 8px;
 font-size:14px
 }
 
-.acoes button:last-child{
-}
-
 .acoes .full{
 grid-column:1 / -1
 }
@@ -484,7 +481,6 @@ min-height:44px
 
 <body>
 
-
 <!-- =====================================================
 SEGURANÇA
 ===================================================== -->
@@ -571,9 +567,6 @@ APLICATIVO
 
 <div class="container">
 
-
-<!-- DASHBOARD -->
-
 <div class="dashboard">
 
 <div class="card">
@@ -603,8 +596,6 @@ APLICATIVO
 
 </div>
 
-
-<!-- MENU -->
 
 <div class="menu">
 
@@ -1054,7 +1045,6 @@ onclick="abrirAba('mensal')"
 
 
 <script>
-
 
 /* =====================================================
 BANCO
@@ -1609,12 +1599,6 @@ return String(t||"")
 
 /* =====================================================
 VENCIMENTO
-
-25/08/2026 → 25/09/2026
-
-31/08/2026 → 30/09/2026
-
-30/01/2026 → 28/02/2026
 ===================================================== */
 
 function adicionar30DiasIgnorando31(data){
@@ -2152,7 +2136,7 @@ texto:"● EM ABERTO"
 
 
 /* =====================================================
-LISTA DOS EMPRÉSTIMOS
+LISTA
 ===================================================== */
 
 function mostrarLista(){
@@ -2807,49 +2791,80 @@ EMPRÉSTIMO MENSAL
 if(e.tipo==="mensal"){
 
 /*
-Valor original do empréstimo
+=====================================================
+VALORES DO CONTRATO
+=====================================================
+
+Exemplo:
+
+Valor emprestado = R$ 1.000,00
+Juros = 30%
+
+Valor total para quitar = R$ 1.300,00
+
+Se houver 1 dia de atraso:
+Multa = R$ 43,33
+
+Valor para quitar com multa:
+R$ 1.343,33
+=====================================================
 */
-const valorTotal=
+
+const valorEmprestado=
 Number(e.valor||0);
 
-
-/*
-Juros do contrato
-*/
 const juros=
 Number(calc.juros||0);
 
+/*
+Valor total original para quitar,
+sem multa.
+*/
+const valorTotalQuitar=
+valorEmprestado+
+juros;
 
 /*
-Multa acumulada pelo atraso
+Multa acumulada.
 */
 const multa=
 Number(calc.multa||0);
 
+/*
+Valor total para quitar incluindo
+a multa, somente quando houver atraso.
+*/
+const valorQuitarComMulta=
+valorTotalQuitar+
+multa;
 
 /*
-Valor para renovar:
+Valor para renovação:
 
 Sem atraso:
 somente juros.
 
 Com atraso:
-juros + multa acumulada.
+juros + multa.
 */
 const valorParaRenovar=
-juros+multa;
+juros+
+multa;
 
 
 /*
-Mensagem mensal
+=====================================================
+MENSAGEM WHATSAPP
+=====================================================
 */
+
 let mensagem=
 `Olá, ${e.cliente}!
 
 📅 Hoje vence o seu contrato.
 
-💵 Valor total:
-${dinheiro(valorTotal)}
+💵 Valor total para quitar:
+${dinheiro(valorTotalQuitar)}
 
 📈 Juros:
 ${dinheiro(juros)}
@@ -2863,9 +2878,11 @@ ${dinheiro(juros)}
 
 
 /*
-Se estiver atrasado, acrescenta
-a multa ao valor de renovação.
+=====================================================
+ATRASO
+=====================================================
 */
+
 if(calc.dias>0){
 
 mensagem+=
@@ -2878,14 +2895,20 @@ ${dinheiro(multa)}
 💰 Valor para renovar com multa:
 ${dinheiro(valorParaRenovar)}
 
+💰 Valor para quitar com multa:
+${dinheiro(valorQuitarComMulta)}
+
 `;
 
 }
 
 
 /*
-Multa diária, vencimento e Pix
+=====================================================
+INFORMAÇÕES FINAIS
+=====================================================
 */
+
 mensagem+=
 `⚠️ Multa diária após atraso:
 ${dinheiro(calc.multaDiaria)}
@@ -2943,21 +2966,17 @@ Number(calc.multa||0);
 
 
 /*
-Valor que será enviado:
-
-Sem atraso:
-valor normal da parcela.
-
-Com atraso:
-valor da parcela + multa acumulada.
+Valor da parcela com multa
 */
 const valorComMulta=
-valorParcela+multa;
+valorParcela+
+multa;
 
 
 /*
 Mensagem parcelada
 */
+
 let mensagem=
 `Olá, ${e.cliente}!
 
@@ -2981,8 +3000,9 @@ ${pix}`;
 
 /*
 Quando estiver atrasado,
-o valor acima já contém a multa.
+mostra a multa acumulada.
 */
+
 if(calc.dias>0){
 
 mensagem=
@@ -3004,6 +3024,9 @@ ${calc.dias}
 
 ⚠️ Multa acumulada:
 ${dinheiro(multa)}
+
+💰 Valor da parcela com multa:
+${dinheiro(valorComMulta)}
 
 📅 Vencimento:
 ${formatarData(e.vencimento)}
