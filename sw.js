@@ -1,191 +1,191 @@
-const CACHE_NAME =
-"meu-controle-emprestimos-v8";
+const CACHE_NAME = "meu-controle-emprestimos-v2.1.0";
 
 const ARQUIVOS = [
-
-"./",
-
-"./index.html",
-
-"./manifest.json",
-
-"./sw.js"
-
+    "./",
+    "./index.html",
+    "./manifest.json"
 ];
 
 
-/* =========================
-INSTALAÇÃO
-========================= */
+/* =========================================================
+   INSTALAÇÃO
+========================================================= */
 
-self.addEventListener(
-"install",
-event => {
+self.addEventListener("install", event => {
 
-event.waitUntil(
+    /*
+       Força a nova versão a assumir imediatamente
+       o controle.
+    */
 
-caches
-.open(CACHE_NAME)
-.then(
-cache =>
-cache.addAll(
-ARQUIVOS
-)
-)
+    self.skipWaiting();
 
-);
+    event.waitUntil(
 
-self.skipWaiting();
+        caches.open(CACHE_NAME)
+            .then(cache => {
 
-});
+                return cache.addAll(ARQUIVOS);
 
+            })
 
-/* =========================
-ATIVAÇÃO
-========================= */
-
-self.addEventListener(
-"activate",
-event => {
-
-event.waitUntil(
-
-caches
-.keys()
-.then(
-nomes =>
-
-Promise.all(
-
-nomes
-.filter(
-nome =>
-nome !== CACHE_NAME
-)
-.map(
-nome =>
-caches.delete(nome)
-)
-
-)
-
-)
-
-);
-
-self.clients.claim();
+    );
 
 });
 
 
-/* =========================
-ABRIR / CACHE
-========================= */
+/* =========================================================
+   ATIVAÇÃO
+========================================================= */
 
-self.addEventListener(
-"fetch",
-event => {
+self.addEventListener("activate", event => {
 
-if(
-event.request.method !== "GET"
-){
+    event.waitUntil(
 
-return;
+        caches.keys()
+            .then(keys => {
 
-}
+                return Promise.all(
 
-event.respondWith(
+                    keys
+                        .filter(key =>
+                            key !== CACHE_NAME
+                        )
+                        .map(key =>
+                            caches.delete(key)
+                        )
 
-fetch(event.request)
+                );
 
-.then(
-resposta => {
+            })
+            .then(() => {
 
-const copia =
-resposta.clone();
+                /*
+                   A nova versão assume imediatamente
+                   todas as páginas abertas.
+                */
 
-caches
-.open(CACHE_NAME)
-.then(
-cache => {
+                return self.clients.claim();
 
-cache.put(
-event.request,
-copia
-);
+            })
 
-});
-
-return resposta;
-
-}
-
-)
-
-.catch(
-() =>
-caches.match(
-event.request
-)
-
-)
-
-);
+    );
 
 });
 
 
-/* =========================
-CLIQUE NA NOTIFICAÇÃO
-========================= */
+/* =========================================================
+   BUSCA DE ARQUIVOS
+========================================================= */
 
-self.addEventListener(
-"notificationclick",
-event => {
+self.addEventListener("fetch", event => {
 
-event.notification.close();
+    const request =
+        event.request;
 
-event.waitUntil(
+    /*
+       Apenas requisições GET.
+    */
 
-clients
-.matchAll(
-{
-type:"window",
-includeUncontrolled:true
-}
-)
+    if(request.method !== "GET"){
 
-.then(
-lista => {
+        return;
 
-for(
-const cliente of lista
-){
+    }
 
-if(
-"focus" in cliente
-){
+    /*
+       Para index.html, manifest e sw.js,
+       sempre tenta buscar a versão mais recente
+       na internet.
+    */
 
-return cliente.focus();
+    const url =
+        new URL(request.url);
 
-}
+    const ehArquivoPrincipal =
+        url.pathname.endsWith("/index.html") ||
+        url.pathname.endsWith("/manifest.json") ||
+        url.pathname.endsWith("/sw.js");
 
-}
+    if(ehArquivoPrincipal){
 
-if(
-clients.openWindow
-){
+        event.respondWith(
 
-return clients.openWindow(
-"./"
-);
+            fetch(request, {
+                cache:"no-store"
+            })
+            .then(response => {
 
-}
+                if(response && response.ok){
 
-}
+                    const clone =
+                        response.clone();
 
-)
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
 
-);
+                            cache.put(
+                                request,
+                                clone
+                            );
+
+                        });
+
+                }
+
+                return response;
+
+            })
+            .catch(() => {
+
+                return caches.match(request);
+
+            })
+
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Para os demais arquivos:
+       tenta rede primeiro e usa cache
+       se estiver sem internet.
+    */
+
+    event.respondWith(
+
+        fetch(request)
+            .then(response => {
+
+                if(response && response.ok){
+
+                    const clone =
+                        response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+
+                            cache.put(
+                                request,
+                                clone
+                            );
+
+                        });
+
+                }
+
+                return response;
+
+            })
+            .catch(() => {
+
+                return caches.match(request);
+
+            })
+
+    );
 
 });
