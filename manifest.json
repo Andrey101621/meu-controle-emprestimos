@@ -1,181 +1,26 @@
-const CACHE_NAME =
-"meu-controle-emprestimos-v7";
-
-
-const ARQUIVOS = [
-
-"./",
-
-"./index.html",
-
-"./manifest.json",
-
-"./sw.js"
-
-];
-
-
-/* =========================
-INSTALAÇÃO
-========================= */
-
-self.addEventListener(
-"install",
-event => {
-
-event.waitUntil(
-
-caches
-.open(CACHE_NAME)
-.then(
-cache =>
-cache.addAll(
-ARQUIVOS
-)
-)
-
-);
-
-self.skipWaiting();
-
-});
-
-
-/* =========================
-ATIVAÇÃO
-========================= */
-
-self.addEventListener(
-"activate",
-event => {
-
-event.waitUntil(
-
-caches
-.keys()
-.then(
-nomes =>
-
-Promise.all(
-
-nomes
-.filter(
-nome =>
-nome !== CACHE_NAME
-)
-.map(
-nome =>
-caches.delete(
-nome
-)
-)
-
-)
-
-)
-
-);
-
-self.clients.claim();
-
-});
-
-
-/* =========================
-ABRIR / CACHE
-========================= */
-
-self.addEventListener(
-"fetch",
-event => {
-
-event.respondWith(
-
-fetch(event.request)
-.then(
-resposta => {
-
-const copia =
-resposta.clone();
-
-caches
-.open(CACHE_NAME)
-.then(
-cache =>
-cache.put(
-event.request,
-copia
-)
-);
-
-return resposta;
-
-}
-)
-.catch(
-() =>
-caches
-.match(
-event.request
-)
-)
-
-);
-
-});
-
-
-/* =========================
-CLIQUE NA NOTIFICAÇÃO
-========================= */
-
-self.addEventListener(
-"notificationclick",
-event => {
-
-event.notification.close();
-
-
-event.waitUntil(
-
-clients
-.matchAll(
 {
-type:"window",
-includeUncontrolled:true
+  "name": "Meu Controle de Empréstimos",
+  "short_name": "Empréstimos",
+  "description": "Controle pessoal de empréstimos",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
-)
-.then(
-lista => {
-
-for(
-const cliente of lista
-){
-
-if(
-"focus" in cliente
-){
-
-return cliente.focus();
-
-}
-
-}
-
-
-if(
-clients.openWindow
-){
-
-return clients.openWindow(
-"./"
-);
-
-}
-
-}
-)
-
-);
-
-});
