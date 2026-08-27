@@ -540,8 +540,6 @@ textarea{
 
     </div>
 
-    <!-- EMPRÉSTIMOS -->
-
     <section id="emprestimos" class="section active">
 
         <input
@@ -549,14 +547,12 @@ textarea{
             id="pesquisa"
             type="search"
             placeholder="🔎 Procurar cliente..."
-            oninput="renderizarEmprestimos"
+            oninput="renderizarEmprestimos()"
         >
 
         <div id="listaEmprestimos"></div>
 
     </section>
-
-    <!-- NOVO -->
 
     <section id="novo" class="section">
 
@@ -579,104 +575,50 @@ textarea{
             </select>
 
             <label>Nome</label>
-
-            <input
-                id="nome"
-                type="text"
-                placeholder="Nome do cliente"
-            >
+            <input id="nome" type="text" placeholder="Nome do cliente">
 
             <label>WhatsApp</label>
-
-            <input
-                id="whatsapp"
-                type="tel"
-                placeholder="(00) 00000-0000"
-            >
+            <input id="whatsapp" type="tel" placeholder="(00) 00000-0000">
 
             <label>Valor emprestado</label>
-
-            <input
-                id="valor"
-                type="number"
-                step="0.01"
-                placeholder="1000"
-            >
+            <input id="valor" type="number" step="0.01" placeholder="1000">
 
             <div id="campoJuros">
 
                 <label>Juros (%)</label>
-
-                <input
-                    id="juros"
-                    type="number"
-                    step="0.01"
-                    placeholder="30"
-                >
+                <input id="juros" type="number" step="0.01" placeholder="30">
 
             </div>
 
             <div id="campoParcela" style="display:none">
 
                 <label>Valor da parcela</label>
-
-                <input
-                    id="valorParcela"
-                    type="number"
-                    step="0.01"
-                    placeholder="1000"
-                >
+                <input id="valorParcela" type="number" step="0.01" placeholder="1000">
 
                 <label>Quantidade de parcelas</label>
-
-                <input
-                    id="parcelas"
-                    type="number"
-                    min="1"
-                    value="1"
-                >
+                <input id="parcelas" type="number" min="1" value="1">
 
                 <div class="notice">
-
                     ⚠️ A multa diária é calculada automaticamente:
-
                     <br><br>
-
-                    <strong>
-                        Valor da parcela ÷ 30 ÷ 2
-                    </strong>
-
+                    <strong>Valor da parcela ÷ 30 ÷ 2</strong>
                 </div>
 
             </div>
 
             <label>Data de início</label>
-
-            <input
-                id="inicio"
-                type="date"
-            >
+            <input id="inicio" type="date">
 
             <label>Data de vencimento</label>
-
-            <input
-                id="vencimento"
-                type="date"
-            >
+            <input id="vencimento" type="date">
 
             <div class="actions">
 
-                <button
-                    class="btn btn-primary"
-                    onclick="salvarEmprestimo()"
-                >
+                <button class="btn btn-primary" onclick="salvarEmprestimo()">
                     💾 Salvar empréstimo
                 </button>
 
-                <button
-                    class="btn btn-gray"
-                    onclick="limparFormulario()"
-                >
+                <button class="btn btn-gray" onclick="limparFormulario()">
                     Limpar
                 </button>
 
@@ -686,31 +628,21 @@ textarea{
 
     </section>
 
-    <!-- CALENDÁRIO -->
-
     <section id="calendario" class="section">
 
         <div class="calendar-card">
 
             <div class="calendar-header">
 
-                <button onclick="mudarMes(-1)">
-                    ‹
-                </button>
+                <button onclick="mudarMes(-1)">‹</button>
 
-                <div
-                    id="calendarTitle"
-                    class="calendar-title"
-                ></div>
+                <div id="calendarTitle" class="calendar-title"></div>
 
-                <button onclick="mudarMes(1)">
-                    ›
-                </button>
+                <button onclick="mudarMes(1)">›</button>
 
             </div>
 
             <div class="weekdays">
-
                 <div>DOM</div>
                 <div>SEG</div>
                 <div>TER</div>
@@ -718,13 +650,9 @@ textarea{
                 <div>QUI</div>
                 <div>SEX</div>
                 <div>SÁB</div>
-
             </div>
 
-            <div
-                id="calendarGrid"
-                class="calendar-grid"
-            ></div>
+            <div id="calendarGrid" class="calendar-grid"></div>
 
             <div class="legend">
 
@@ -743,8 +671,6 @@ textarea{
         </div>
 
     </section>
-
-    <!-- CONFIGURAÇÕES -->
 
     <section id="config" class="section">
 
@@ -786,10 +712,7 @@ textarea{
 
             </div>
 
-            <button
-                class="btn btn-primary"
-                onclick="salvarConfiguracao()"
-            >
+            <button class="btn btn-primary" onclick="salvarConfiguracao()">
                 💾 Salvar mensagem
             </button>
 
@@ -800,17 +723,11 @@ textarea{
             <h2>🔄 Atualização do aplicativo</h2>
 
             <p style="font-size:14px;line-height:1.6;margin-bottom:12px">
-
-                Se uma nova versão estiver disponível,
-                toque no botão abaixo.
+                Se uma nova versão estiver disponível, toque no botão abaixo.
                 Seus empréstimos ficam salvos no aparelho.
-
             </p>
 
-            <button
-                class="btn btn-primary"
-                onclick="atualizarAplicativo()"
-            >
+            <button class="btn btn-primary" onclick="atualizarAplicativo()">
                 🔄 Verificar atualização
             </button>
 
@@ -820,17 +737,11 @@ textarea{
 
             <h2>⚠️ Dados</h2>
 
-            <button
-                class="btn btn-danger"
-                onclick="exportarDados()"
-            >
+            <button class="btn btn-danger" onclick="exportarDados()">
                 📤 Fazer backup
             </button>
 
-            <button
-                class="btn btn-warning"
-                onclick="importarDados()"
-            >
+            <button class="btn btn-warning" onclick="importarDados()">
                 📥 Restaurar backup
             </button>
 
@@ -840,24 +751,15 @@ textarea{
 
 </div>
 
-<!-- MODAL -->
-
 <div id="modal" class="modal">
 
     <div class="modal-box">
 
         <div class="modal-header">
 
-            <h2 id="modalTitle">
-                Empréstimo
-            </h2>
+            <h2 id="modalTitle">Empréstimo</h2>
 
-            <button
-                class="close"
-                onclick="fecharModal()"
-            >
-                ×
-            </button>
+            <button class="close" onclick="fecharModal()">×</button>
 
         </div>
 
@@ -868,10 +770,6 @@ textarea{
 </div>
 
 <script>
-
-/* =========================================================
-   CONFIGURAÇÃO DA APLICAÇÃO
-========================================================= */
 
 const APP_VERSION = "2.1.0";
 
@@ -913,10 +811,6 @@ let dataCalendario = new Date();
 let deferredPrompt = null;
 
 
-/* =========================================================
-   UTILIDADES
-========================================================= */
-
 function dinheiro(valor){
 
     return Number(valor || 0).toLocaleString(
@@ -955,13 +849,9 @@ function formatoISO(d){
 
     const ano = d.getFullYear();
 
-    const mes = String(
-        d.getMonth()+1
-    ).padStart(2,"0");
+    const mes = String(d.getMonth()+1).padStart(2,"0");
 
-    const dia = String(
-        d.getDate()
-    ).padStart(2,"0");
+    const dia = String(d.getDate()).padStart(2,"0");
 
     return `${ano}-${mes}-${dia}`;
 
@@ -969,36 +859,23 @@ function formatoISO(d){
 
 function diferencaDias(data){
 
-    const hoje =
-        new Date(
-            hojeISO()+"T00:00:00"
-        );
+    const hoje = new Date(hojeISO()+"T00:00:00");
 
-    const venc =
-        new Date(
-            data+"T00:00:00"
-        );
+    const venc = new Date(data+"T00:00:00");
 
     return Math.floor(
-        (hoje-venc) /
-        (1000*60*60*24)
+        (hoje-venc)/(1000*60*60*24)
     );
 
 }
 
 function adicionarMes(data){
 
-    const d =
-        new Date(
-            data+"T00:00:00"
-        );
+    const d = new Date(data+"T00:00:00");
 
-    const diaOriginal =
-        d.getDate();
+    const diaOriginal = d.getDate();
 
-    d.setMonth(
-        d.getMonth()+1
-    );
+    d.setMonth(d.getMonth()+1);
 
     if(d.getDate() !== diaOriginal){
 
@@ -1025,66 +902,42 @@ function salvarDados(){
 }
 
 
-/* =========================================================
-   TIPO DE EMPRÉSTIMO
-========================================================= */
-
 document.getElementById("tipo").addEventListener(
     "change",
     function(){
 
-        const parcelado =
-            this.value === "parcelado";
+        const parcelado = this.value === "parcelado";
 
-        document.getElementById(
-            "campoJuros"
-        ).style.display =
-            parcelado
-            ? "none"
-            : "block";
+        document.getElementById("campoJuros").style.display =
+            parcelado ? "none" : "block";
 
-        document.getElementById(
-            "campoParcela"
-        ).style.display =
-            parcelado
-            ? "block"
-            : "none";
+        document.getElementById("campoParcela").style.display =
+            parcelado ? "block" : "none";
 
     }
 );
 
 
-/* =========================================================
-   SALVAR EMPRÉSTIMO
-========================================================= */
-
 function salvarEmprestimo(){
 
     const nome =
-        document.getElementById("nome")
-        .value.trim();
+        document.getElementById("nome").value.trim();
 
     const whatsapp =
-        document.getElementById("whatsapp")
-        .value.trim();
+        document.getElementById("whatsapp").value.trim();
 
     const tipo =
-        document.getElementById("tipo")
-        .value;
+        document.getElementById("tipo").value;
 
     const inicio =
-        document.getElementById("inicio")
-        .value;
+        document.getElementById("inicio").value;
 
     const vencimento =
-        document.getElementById("vencimento")
-        .value;
+        document.getElementById("vencimento").value;
 
     if(!nome){
 
-        alert(
-            "Digite o nome do cliente."
-        );
+        alert("Digite o nome do cliente.");
 
         return;
 
@@ -1092,9 +945,7 @@ function salvarEmprestimo(){
 
     if(!inicio){
 
-        alert(
-            "Informe a data de início."
-        );
+        alert("Informe a data de início.");
 
         return;
 
@@ -1102,9 +953,7 @@ function salvarEmprestimo(){
 
     if(!vencimento){
 
-        alert(
-            "Informe a data de vencimento."
-        );
+        alert("Informe a data de vencimento.");
 
         return;
 
@@ -1115,22 +964,14 @@ function salvarEmprestimo(){
     if(tipo === "mensal"){
 
         const valor =
-            Number(
-                document.getElementById("valor")
-                .value
-            );
+            Number(document.getElementById("valor").value);
 
         const juros =
-            Number(
-                document.getElementById("juros")
-                .value
-            );
+            Number(document.getElementById("juros").value);
 
         if(valor <= 0){
 
-            alert(
-                "Informe o valor emprestado."
-            );
+            alert("Informe o valor emprestado.");
 
             return;
 
@@ -1138,9 +979,7 @@ function salvarEmprestimo(){
 
         novo = {
 
-            id:
-                editandoId ||
-                Date.now(),
+            id: editandoId || Date.now(),
 
             tipo:"mensal",
 
@@ -1156,8 +995,7 @@ function salvarEmprestimo(){
 
             vencimento,
 
-            criadoEm:
-                new Date().toISOString(),
+            criadoEm:new Date().toISOString(),
 
             ativo:true
 
@@ -1166,24 +1004,14 @@ function salvarEmprestimo(){
     }else{
 
         const valorParcela =
-            Number(
-                document.getElementById(
-                    "valorParcela"
-                ).value
-            );
+            Number(document.getElementById("valorParcela").value);
 
         const parcelas =
-            Number(
-                document.getElementById(
-                    "parcelas"
-                ).value
-            );
+            Number(document.getElementById("parcelas").value);
 
         if(valorParcela <= 0){
 
-            alert(
-                "Informe o valor da parcela."
-            );
+            alert("Informe o valor da parcela.");
 
             return;
 
@@ -1191,9 +1019,7 @@ function salvarEmprestimo(){
 
         if(parcelas < 1){
 
-            alert(
-                "Informe a quantidade de parcelas."
-            );
+            alert("Informe a quantidade de parcelas.");
 
             return;
 
@@ -1201,9 +1027,7 @@ function salvarEmprestimo(){
 
         novo = {
 
-            id:
-                editandoId ||
-                Date.now(),
+            id: editandoId || Date.now(),
 
             tipo:"parcelado",
 
@@ -1221,8 +1045,7 @@ function salvarEmprestimo(){
 
             vencimento,
 
-            criadoEm:
-                new Date().toISOString(),
+            criadoEm:new Date().toISOString(),
 
             ativo:true
 
@@ -1233,9 +1056,7 @@ function salvarEmprestimo(){
     if(editandoId){
 
         const index =
-            emprestimos.findIndex(
-                x=>x.id===editandoId
-            );
+            emprestimos.findIndex(x=>x.id===editandoId);
 
         if(index >= 0){
 
@@ -1260,75 +1081,40 @@ function salvarEmprestimo(){
 
     atualizarTudo();
 
-    abrirAbaPorId(
-        "emprestimos"
-    );
+    abrirAbaPorId("emprestimos");
 
-    alert(
-        "Empréstimo salvo com sucesso!"
-    );
+    alert("Empréstimo salvo com sucesso!");
 
 }
 
-
-/* =========================================================
-   LIMPAR
-========================================================= */
 
 function limparFormulario(){
 
     editandoId = null;
 
-    document.getElementById(
-        "nome"
-    ).value="";
+    document.getElementById("nome").value="";
+    document.getElementById("whatsapp").value="";
+    document.getElementById("valor").value="";
+    document.getElementById("juros").value="";
+    document.getElementById("valorParcela").value="";
+    document.getElementById("parcelas").value="1";
 
-    document.getElementById(
-        "whatsapp"
-    ).value="";
-
-    document.getElementById(
-        "valor"
-    ).value="";
-
-    document.getElementById(
-        "juros"
-    ).value="";
-
-    document.getElementById(
-        "valorParcela"
-    ).value="";
-
-    document.getElementById(
-        "parcelas"
-    ).value="1";
-
-    document.getElementById(
-        "inicio"
-    ).value =
+    document.getElementById("inicio").value =
         hojeISO();
 
-    document.getElementById(
-        "vencimento"
-    ).value =
+    document.getElementById("vencimento").value =
         hojeISO();
 
 }
 
 
-/* =========================================================
-   CÁLCULOS
-========================================================= */
-
 function calcularMensal(e){
 
     const jurosValor =
-        e.valor *
-        (e.juros/100);
+        e.valor * (e.juros/100);
 
     const total =
-        e.valor +
-        jurosValor;
+        e.valor + jurosValor;
 
     return {
 
@@ -1349,10 +1135,7 @@ function calcularParcelado(e){
         parcela / 30 / 2;
 
     const dias =
-        Math.max(
-            0,
-            diferencaDias(e.vencimento)
-        );
+        Math.max(0,diferencaDias(e.vencimento));
 
     const multa =
         multaDiaria * dias;
@@ -1375,10 +1158,6 @@ function calcularParcelado(e){
 }
 
 
-/* =========================================================
-   STATUS
-========================================================= */
-
 function statusEmprestimo(e){
 
     if(!e.ativo){
@@ -1388,9 +1167,7 @@ function statusEmprestimo(e){
     }
 
     const atraso =
-        diferencaDias(
-            e.vencimento
-        );
+        diferencaDias(e.vencimento);
 
     if(atraso > 0){
 
@@ -1410,36 +1187,60 @@ function statusEmprestimo(e){
 
 
 /* =========================================================
-   RENDERIZAR EMPRÉSTIMOS
+   BUSCA DE CLIENTES — ÚNICA ALTERAÇÃO
 ========================================================= */
 
 function renderizarEmprestimos(){
 
     const lista =
-        document.getElementById(
-            "listaEmprestimos"
-        );
+        document.getElementById("listaEmprestimos");
+
+    const campoPesquisa =
+        document.getElementById("pesquisa");
 
     const pesquisa =
-        document.getElementById(
-            "pesquisa"
-        ).value
+        String(campoPesquisa.value || "")
+        .trim()
         .toLowerCase()
-        .trim();
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"");
 
     let listaDados =
-        emprestimos.filter(
-            e=>
-                e.nome
+        emprestimos.filter(e => {
+
+            const nome =
+                String(e.nome || "")
                 .toLowerCase()
-                .includes(pesquisa)
-        );
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g,"");
+
+            const whatsapp =
+                String(e.whatsapp || "")
+                .replace(/\D/g,"");
+
+            const pesquisaNumerica =
+                pesquisa.replace(/\D/g,"");
+
+            if(nome.includes(pesquisa)){
+                return true;
+            }
+
+            if(
+                pesquisaNumerica &&
+                whatsapp.includes(pesquisaNumerica)
+            ){
+                return true;
+            }
+
+            return false;
+
+        });
 
     if(listaDados.length === 0){
 
         lista.innerHTML =
             `<div class="empty">
-                Nenhum empréstimo encontrado.
+                Nenhum cliente encontrado.
             </div>`;
 
         return;
@@ -1448,18 +1249,14 @@ function renderizarEmprestimos(){
 
     listaDados.sort(
         (a,b)=>
-            a.vencimento
-            .localeCompare(
-                b.vencimento
-            )
+            a.vencimento.localeCompare(b.vencimento)
     );
 
     lista.innerHTML =
-        listaDados
-        .map(renderLoan)
-        .join("");
+        listaDados.map(renderLoan).join("");
 
 }
+
 
 function renderLoan(e){
 
@@ -1483,7 +1280,6 @@ function renderLoan(e){
     if(status==="atrasado"){
 
         badgeClass="badge-red";
-
         badgeText="EM ATRASO";
 
     }
@@ -1491,7 +1287,6 @@ function renderLoan(e){
     if(status==="vence-hoje"){
 
         badgeClass="badge-blue";
-
         badgeText="VENCE HOJE";
 
     }
@@ -1499,7 +1294,6 @@ function renderLoan(e){
     if(status==="quitado"){
 
         badgeClass="badge-green";
-
         badgeText="QUITADO";
 
     }
@@ -1514,19 +1308,14 @@ function renderLoan(e){
             calcularMensal(e);
 
         htmlInfo = `
-
             <div>
                 💵 Emprestado:
-                <strong>
-                    ${dinheiro(e.valor)}
-                </strong>
+                <strong>${dinheiro(e.valor)}</strong>
             </div>
 
             <div>
                 📈 Juros:
-                <strong>
-                    ${dinheiro(calculo.juros)}
-                </strong>
+                <strong>${dinheiro(calculo.juros)}</strong>
                 (${e.juros}%)
             </div>
 
@@ -1537,11 +1326,8 @@ function renderLoan(e){
 
             <div>
                 📅 Vencimento:
-                <strong>
-                    ${dataBR(e.vencimento)}
-                </strong>
+                <strong>${dataBR(e.vencimento)}</strong>
             </div>
-
         `;
 
     }else{
@@ -1550,33 +1336,24 @@ function renderLoan(e){
             calcularParcelado(e);
 
         htmlInfo = `
-
             <div>
                 💵 Valor da parcela:
-                <strong>
-                    ${dinheiro(e.valorParcela)}
-                </strong>
+                <strong>${dinheiro(e.valorParcela)}</strong>
             </div>
 
             <div>
                 📊 Parcelas:
-                <strong>
-                    ${e.parcelasPagas || 0}/${e.parcelas}
-                </strong>
+                <strong>${e.parcelasPagas || 0}/${e.parcelas}</strong>
             </div>
 
             <div>
                 📅 Vencimento:
-                <strong>
-                    ${dataBR(e.vencimento)}
-                </strong>
+                <strong>${dataBR(e.vencimento)}</strong>
             </div>
 
             <div>
                 💰 Valor atual:
-                <strong>
-                    ${dinheiro(calculo.total)}
-                </strong>
+                <strong>${dinheiro(calculo.total)}</strong>
             </div>
 
             ${
@@ -1590,13 +1367,11 @@ function renderLoan(e){
                 :
                 ""
             }
-
         `;
 
     }
 
     return `
-
         <div class="loan ${classe}">
 
             <div class="loan-header">
@@ -1607,20 +1382,10 @@ function renderLoan(e){
                         ${escapeHTML(e.nome)}
                     </div>
 
-                    <div
-                        style="
-                            font-size:12px;
-                            color:#6b7280;
-                            margin-top:3px
-                        "
-                    >
-                        ${
-                            e.tipo==="mensal"
-                            ?
-                            "Empréstimo Mensal"
-                            :
-                            "Empréstimo Parcelado"
-                        }
+                    <div style="font-size:12px;color:#6b7280;margin-top:3px">
+                        ${e.tipo==="mensal"
+                            ?"Empréstimo Mensal"
+                            :"Empréstimo Parcelado"}
                     </div>
 
                 </div>
@@ -1654,8 +1419,7 @@ function renderLoan(e){
                     ?
                     `<button
                         class="btn btn-success"
-                        onclick="receber(${e.id})"
-                    >
+                        onclick="receber(${e.id})">
                         💰 Recebi
                     </button>`
                     :
@@ -1667,8 +1431,7 @@ function renderLoan(e){
                     ?
                     `<button
                         class="btn btn-whatsapp"
-                        onclick="abrirWhatsApp(${e.id})"
-                    >
+                        onclick="abrirWhatsApp(${e.id})">
                         📲 WhatsApp
                     </button>`
                     :
@@ -1677,37 +1440,28 @@ function renderLoan(e){
 
                 <button
                     class="btn btn-primary"
-                    onclick="editarEmprestimo(${e.id})"
-                >
+                    onclick="editarEmprestimo(${e.id})">
                     ✏️ Editar
                 </button>
 
                 <button
                     class="btn btn-danger"
-                    onclick="excluirEmprestimo(${e.id})"
-                >
+                    onclick="excluirEmprestimo(${e.id})">
                     🗑️ Excluir
                 </button>
 
             </div>
 
         </div>
-
     `;
 
 }
 
 
-/* =========================================================
-   RECEBER
-========================================================= */
-
 function receber(id){
 
     const e =
-        emprestimos.find(
-            x=>x.id===id
-        );
+        emprestimos.find(x=>x.id===id);
 
     if(!e) return;
 
@@ -1742,9 +1496,7 @@ function receber(id){
         });
 
         e.vencimento =
-            adicionarMes(
-                e.vencimento
-            );
+            adicionarMes(e.vencimento);
 
     }else{
 
@@ -1771,23 +1523,16 @@ function receber(id){
         });
 
         e.parcelasPagas =
-            Number(
-                e.parcelasPagas || 0
-            ) + 1;
+            Number(e.parcelasPagas || 0) + 1;
 
-        if(
-            e.parcelasPagas >=
-            e.parcelas
-        ){
+        if(e.parcelasPagas >= e.parcelas){
 
             e.parcelasPagas = 0;
 
         }
 
         e.vencimento =
-            adicionarMes(
-                e.vencimento
-            );
+            adicionarMes(e.vencimento);
 
     }
 
@@ -1802,76 +1547,44 @@ function receber(id){
 }
 
 
-/* =========================================================
-   EDITAR
-========================================================= */
-
 function editarEmprestimo(id){
 
     const e =
-        emprestimos.find(
-            x=>x.id===id
-        );
+        emprestimos.find(x=>x.id===id);
 
     if(!e) return;
 
     editandoId=id;
 
-    document.getElementById(
-        "tipo"
-    ).value=e.tipo;
+    document.getElementById("tipo").value=e.tipo;
 
-    document.getElementById(
-        "nome"
-    ).value=e.nome;
+    document.getElementById("nome").value=e.nome;
 
-    document.getElementById(
-        "whatsapp"
-    ).value=e.whatsapp || "";
+    document.getElementById("whatsapp").value=e.whatsapp || "";
 
-    document.getElementById(
-        "inicio"
-    ).value=e.inicio;
+    document.getElementById("inicio").value=e.inicio;
 
-    document.getElementById(
-        "vencimento"
-    ).value=e.vencimento;
+    document.getElementById("vencimento").value=e.vencimento;
 
     if(e.tipo==="mensal"){
 
-        document.getElementById(
-            "valor"
-        ).value=e.valor;
+        document.getElementById("valor").value=e.valor;
 
-        document.getElementById(
-            "juros"
-        ).value=e.juros;
+        document.getElementById("juros").value=e.juros;
 
-        document.getElementById(
-            "campoJuros"
-        ).style.display="block";
+        document.getElementById("campoJuros").style.display="block";
 
-        document.getElementById(
-            "campoParcela"
-        ).style.display="none";
+        document.getElementById("campoParcela").style.display="none";
 
     }else{
 
-        document.getElementById(
-            "valorParcela"
-        ).value=e.valorParcela;
+        document.getElementById("valorParcela").value=e.valorParcela;
 
-        document.getElementById(
-            "parcelas"
-        ).value=e.parcelas;
+        document.getElementById("parcelas").value=e.parcelas;
 
-        document.getElementById(
-            "campoJuros"
-        ).style.display="none";
+        document.getElementById("campoJuros").style.display="none";
 
-        document.getElementById(
-            "campoParcela"
-        ).style.display="block";
+        document.getElementById("campoParcela").style.display="block";
 
     }
 
@@ -1880,16 +1593,10 @@ function editarEmprestimo(id){
 }
 
 
-/* =========================================================
-   EXCLUIR
-========================================================= */
-
 function excluirEmprestimo(id){
 
     const e =
-        emprestimos.find(
-            x=>x.id===id
-        );
+        emprestimos.find(x=>x.id===id);
 
     if(!e) return;
 
@@ -1898,14 +1605,10 @@ function excluirEmprestimo(id){
     )) return;
 
     emprestimos =
-        emprestimos.filter(
-            x=>x.id!==id
-        );
+        emprestimos.filter(x=>x.id!==id);
 
     pagamentos =
-        pagamentos.filter(
-            x=>x.emprestimoId!==id
-        );
+        pagamentos.filter(x=>x.emprestimoId!==id);
 
     salvarDados();
 
@@ -1914,242 +1617,98 @@ function excluirEmprestimo(id){
 }
 
 
-/* =========================================================
-   WHATSAPP
-   SOMENTE ESTA PARTE FOI ALTERADA
-========================================================= */
-
 function abrirWhatsApp(id){
 
     const e =
-        emprestimos.find(
-            x=>x.id===id
-        );
+        emprestimos.find(x=>x.id===id);
 
     if(!e || !e.whatsapp){
 
-        alert(
-            "Este cliente não possui WhatsApp cadastrado."
-        );
+        alert("Este cliente não possui WhatsApp cadastrado.");
 
         return;
 
     }
 
-    const diasAtraso =
-        Math.max(
-            0,
-            diferencaDias(e.vencimento)
-        );
+    let calculo;
 
-    let texto = "";
+    let juros=0;
+    let total=0;
+    let multa=0;
 
-    /* =====================================================
-       EMPRÉSTIMO PARCELADO
-    ===================================================== */
+    if(e.tipo==="mensal"){
 
-    if(e.tipo === "parcelado"){
+        calculo=calcularMensal(e);
 
-        const calculo =
-            calcularParcelado(e);
+        juros=calculo.juros;
+        total=calculo.total;
 
-        const parcelaAtual =
-            Number(
-                e.parcelasPagas || 0
-            ) + 1;
+    }else{
 
-        const totalParcelas =
-            Number(e.parcelas);
+        calculo=calcularParcelado(e);
 
-        const multaDiaria =
-            calculo.multaDiaria;
+        total=calculo.total;
 
-        const multaAcumulada =
-            diasAtraso > 0
-            ?
-            multaDiaria * diasAtraso
-            :
-            0;
-
-        texto =
-`Olá, ${e.nome}
-
-📅 Sua parcela vence hoje.
-
-📆 Parcela:
-${parcelaAtual}/${totalParcelas}
-
-💵 Valor:
-${dinheiro(e.valorParcela)}
-
-⚠️ Multa diária:
-${dinheiro(multaDiaria)}
-
-⚠️ Dias de atraso:
-${diasAtraso > 0 ? diasAtraso : ""}
-
-⚠️ Multa acumulada:
-${diasAtraso > 0 ? dinheiro(multaAcumulada) : ""}
-
-📅 Vencimento:
-${dataBR(e.vencimento)}
-
-Pix para pagamento (CNPJ):
-37741008000119`;
+        multa=calculo.multa;
 
     }
 
+    const mensagem =
+        config.mensagemWhatsApp
+        || config.mensagem
+        || "";
 
-    /* =====================================================
-       EMPRÉSTIMO MENSAL
-    ===================================================== */
-
-    else{
-
-        const calculo =
-            calcularMensal(e);
-
-        const valorTotal =
-            calculo.total;
-
-        const juros =
-            calculo.juros;
-
-        /*
-           REGRA DO MENSAL:
-           Valor Total ÷ 30
-        */
-
-        const multaDiaria =
-            valorTotal / 30;
-
-        const multaAcumulada =
-            diasAtraso > 0
-            ?
-            multaDiaria * diasAtraso
-            :
-            0;
-
-        const valorRenovacao =
-            diasAtraso > 0
-            ?
-            juros + multaAcumulada
-            :
-            "";
-
-        const valorQuitacao =
-            diasAtraso > 0
-            ?
-            valorTotal + multaAcumulada
-            :
-            "";
-
-        texto =
-`Olá, ${e.nome}
-
-📅 Hoje vence o seu contrato.
-
-💵 Valor total para quitar:
-${dinheiro(valorTotal)}
-
-📈 Juros:
-${dinheiro(juros)}
-
-Para renovar:
-
-📈 Somente juros:
-${dinheiro(juros)}
-
-⚠️ Dias de atraso:
-${diasAtraso > 0 ? diasAtraso : ""}
-
-⚠️ Multa acumulada:
-${diasAtraso > 0 ? dinheiro(multaAcumulada) : ""}
-
-💰 Valor para renovar com multa:
-${valorRenovacao !== "" ? dinheiro(valorRenovacao) : ""}
-
-💰 Valor para quitar com multa:
-${valorQuitacao !== "" ? dinheiro(valorQuitacao) : ""}
-
-⚠️ Multa diária após atraso:
-${diasAtraso > 0 ? dinheiro(multaDiaria) : ""}
-
-📅 Vencimento:
-${dataBR(e.vencimento)}
-
-Pix para pagamento (CNPJ):
-37741008000119`;
-
-    }
-
-    /* =====================================================
-       ABRIR WHATSAPP
-    ===================================================== */
+    const texto =
+        mensagem
+        .replaceAll("{nome}",e.nome)
+        .replaceAll("{total}",dinheiro(total))
+        .replaceAll("{juros}",dinheiro(juros))
+        .replaceAll("{vencimento}",dataBR(e.vencimento))
+        .replaceAll("{dias}",String(
+            Math.max(0,diferencaDias(e.vencimento))
+        ))
+        .replaceAll("{multa}",dinheiro(multa));
 
     let numero =
-        e.whatsapp.replace(
-            /\D/g,
-            ""
-        );
+        e.whatsapp.replace(/\D/g,"");
 
-    if(
-        numero.length===10 ||
-        numero.length===11
-    ){
+    if(numero.length===11){
 
-        numero =
-            "55" + numero;
+        numero="55"+numero;
 
-    }else if(
-        !numero.startsWith("55")
-    ){
+    }else if(numero.length===10){
 
-        numero =
-            "55" + numero;
+        numero="55"+numero;
+
+    }else if(!numero.startsWith("55")){
+
+        numero="55"+numero;
 
     }
 
     const url =
-        "https://wa.me/" +
-        numero +
-        "?text=" +
-        encodeURIComponent(texto);
+        "https://wa.me/"+numero+
+        "?text="+encodeURIComponent(texto);
 
-    window.open(
-        url,
-        "_blank"
-    );
+    window.open(url,"_blank");
 
 }
 
 
-/* =========================================================
-   CONFIGURAÇÃO
-========================================================= */
-
 function salvarConfiguracao(){
 
     config.mensagemWhatsApp =
-        document.getElementById(
-            "mensagemWhatsApp"
-        ).value;
+        document.getElementById("mensagemWhatsApp").value;
 
     localStorage.setItem(
         "config_v2",
         JSON.stringify(config)
     );
 
-    alert(
-        "Mensagem salva!"
-    );
+    alert("Mensagem salva!");
 
 }
 
-
-/* =========================================================
-   CALENDÁRIO
-========================================================= */
 
 function renderizarCalendario(){
 
@@ -2160,7 +1719,6 @@ function renderizarCalendario(){
         dataCalendario.getMonth();
 
     const nomesMeses = [
-
         "Janeiro",
         "Fevereiro",
         "Março",
@@ -2173,27 +1731,16 @@ function renderizarCalendario(){
         "Outubro",
         "Novembro",
         "Dezembro"
-
     ];
 
-    document.getElementById(
-        "calendarTitle"
-    ).textContent =
+    document.getElementById("calendarTitle").textContent =
         `${nomesMeses[mes]} de ${ano}`;
 
     const primeiro =
-        new Date(
-            ano,
-            mes,
-            1
-        );
+        new Date(ano,mes,1);
 
     const ultimo =
-        new Date(
-            ano,
-            mes+1,
-            0
-        );
+        new Date(ano,mes+1,0);
 
     const inicioSemana =
         primeiro.getDay();
@@ -2203,29 +1750,16 @@ function renderizarCalendario(){
 
     let html="";
 
-    for(
-        let i=0;
-        i<inicioSemana;
-        i++
-    ){
+    for(let i=0;i<inicioSemana;i++){
 
-        html +=
-            `<div class="day empty"></div>`;
+        html+=`<div class="day empty"></div>`;
 
     }
 
-    for(
-        let dia=1;
-        dia<=dias;
-        dia++
-    ){
+    for(let dia=1;dia<=dias;dia++){
 
         const d =
-            new Date(
-                ano,
-                mes,
-                dia
-            );
+            new Date(ano,mes,dia);
 
         const iso =
             formatoISO(d);
@@ -2234,44 +1768,36 @@ function renderizarCalendario(){
             iso===hojeISO();
 
         const doDia =
-            emprestimos.filter(
-                e=>
-                    e.ativo &&
-                    e.vencimento===iso
+            emprestimos.filter(e=>
+                e.ativo &&
+                e.vencimento===iso
             );
 
         const atrasadosHoje =
-            emprestimos.filter(
-                e=>
-                    e.ativo &&
-                    diferencaDias(
-                        e.vencimento
-                    )>0 &&
-                    e.vencimento===iso
+            emprestimos.filter(e=>
+                e.ativo &&
+                diferencaDias(e.vencimento)>0 &&
+                e.vencimento===iso
             );
 
         let dots="";
 
         if(doDia.length>0){
 
-            dots +=
-                `<i class="dot blue"></i>`;
+            dots+=`<i class="dot blue"></i>`;
 
         }
 
         if(atrasadosHoje.length>0){
 
-            dots +=
-                `<i class="dot red"></i>`;
+            dots+=`<i class="dot red"></i>`;
 
         }
 
-        html += `
-
+        html+=`
             <div
                 class="day ${hoje?"today":""}"
-                onclick="abrirDia('${iso}')"
-            >
+                onclick="abrirDia('${iso}')">
 
                 <div class="day-number">
                     ${dia}
@@ -2282,14 +1808,11 @@ function renderizarCalendario(){
                 </div>
 
             </div>
-
         `;
 
     }
 
-    document.getElementById(
-        "calendarGrid"
-    ).innerHTML=html;
+    document.getElementById("calendarGrid").innerHTML=html;
 
 }
 
@@ -2306,10 +1829,9 @@ function mudarMes(valor){
 function abrirDia(data){
 
     const lista =
-        emprestimos.filter(
-            e=>
-                e.ativo &&
-                e.vencimento===data
+        emprestimos.filter(e=>
+            e.ativo &&
+            e.vencimento===data
         );
 
     if(lista.length===0){
@@ -2322,36 +1844,22 @@ function abrirDia(data){
 
     }
 
-    document.getElementById(
-        "modalTitle"
-    ).textContent =
+    document.getElementById("modalTitle").textContent =
         `📅 ${dataBR(data)}`;
 
-    document.getElementById(
-        "modalContent"
-    ).innerHTML =
-        lista
-        .map(renderLoan)
-        .join("");
+    document.getElementById("modalContent").innerHTML =
+        lista.map(renderLoan).join("");
 
-    document.getElementById(
-        "modal"
-    ).classList.add("show");
+    document.getElementById("modal").classList.add("show");
 
 }
 
 function fecharModal(){
 
-    document.getElementById(
-        "modal"
-    ).classList.remove("show");
+    document.getElementById("modal").classList.remove("show");
 
 }
 
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
 
 function atualizarDashboard(){
 
@@ -2372,28 +1880,18 @@ function atualizarDashboard(){
             const c =
                 calcularMensal(e);
 
-            emprestado +=
-                Number(e.valor);
+            emprestado += Number(e.valor);
 
             if(e.ativo){
 
-                receber +=
-                    c.total;
+                receber += c.total;
 
             }
 
         }else{
 
-            const restante =
-                Math.max(
-                    0,
-                    Number(e.parcelas) -
-                    Number(e.parcelasPagas || 0)
-                );
-
             emprestado +=
-                Number(e.valorParcela) *
-                Number(e.parcelas);
+                Number(e.valorParcela) * Number(e.parcelas);
 
             if(e.ativo){
 
@@ -2408,23 +1906,15 @@ function atualizarDashboard(){
 
             aberto += 1;
 
-            if(
-                diferencaDias(
-                    e.vencimento
-                )>0
-            ){
+            if(diferencaDias(e.vencimento)>0){
 
                 if(e.tipo==="mensal"){
 
-                    atrasado +=
-                        calcularMensal(e)
-                        .total;
+                    atrasado += calcularMensal(e).total;
 
                 }else{
 
-                    atrasado +=
-                        calcularParcelado(e)
-                        .total;
+                    atrasado += calcularParcelado(e).total;
 
                 }
 
@@ -2436,62 +1926,38 @@ function atualizarDashboard(){
 
     pagamentos.forEach(p=>{
 
-        recebido +=
-            Number(p.valor);
+        recebido += Number(p.valor);
 
     });
 
-    document.getElementById(
-        "dashEmprestado"
-    ).textContent =
+    document.getElementById("dashEmprestado").textContent =
         dinheiro(emprestado);
 
-    document.getElementById(
-        "dashRecebido"
-    ).textContent =
+    document.getElementById("dashRecebido").textContent =
         dinheiro(recebido);
 
-    document.getElementById(
-        "dashReceber"
-    ).textContent =
+    document.getElementById("dashReceber").textContent =
         dinheiro(receber);
 
-    document.getElementById(
-        "dashAberto"
-    ).textContent =
+    document.getElementById("dashAberto").textContent =
         aberto;
 
-    document.getElementById(
-        "dashAtrasado"
-    ).textContent =
+    document.getElementById("dashAtrasado").textContent =
         dinheiro(atrasado);
 
 }
 
 
-/* =========================================================
-   ABAS
-========================================================= */
-
 function abrirAba(id,botao){
 
-    document.querySelectorAll(
-        ".section"
-    )
-    .forEach(
-        s=>s.classList.remove("active")
-    );
+    document.querySelectorAll(".section")
+        .forEach(s=>s.classList.remove("active"));
 
-    document.querySelectorAll(
-        ".tab"
-    )
-    .forEach(
-        t=>t.classList.remove("active")
-    );
+    document.querySelectorAll(".tab")
+        .forEach(t=>t.classList.remove("active"));
 
-    document.getElementById(
-        id
-    ).classList.add("active");
+    document.getElementById(id)
+        .classList.add("active");
 
     if(botao){
 
@@ -2510,27 +1976,16 @@ function abrirAba(id,botao){
 function abrirAbaPorId(id){
 
     const botao =
-        [
-            ...document.querySelectorAll(".tab")
-        ]
-        .find(
-            x=>
-                x.getAttribute("onclick") &&
-                x.getAttribute("onclick")
-                .includes(`'${id}'`)
+        [...document.querySelectorAll(".tab")]
+        .find(x=>
+            x.getAttribute("onclick") &&
+            x.getAttribute("onclick").includes(`'${id}'`)
         );
 
-    abrirAba(
-        id,
-        botao
-    );
+    abrirAba(id,botao);
 
 }
 
-
-/* =========================================================
-   ATUALIZAR TUDO
-========================================================= */
 
 function atualizarTudo(){
 
@@ -2543,18 +1998,13 @@ function atualizarTudo(){
 }
 
 
-/* =========================================================
-   BACKUP
-========================================================= */
-
 function exportarDados(){
 
     const backup={
 
         versao:APP_VERSION,
 
-        data:
-            new Date().toISOString(),
+        data:new Date().toISOString(),
 
         emprestimos,
 
@@ -2566,17 +2016,8 @@ function exportarDados(){
 
     const blob =
         new Blob(
-            [
-                JSON.stringify(
-                    backup,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
+            [JSON.stringify(backup,null,2)],
+            {type:"application/json"}
         );
 
     const url =
@@ -2587,7 +2028,7 @@ function exportarDados(){
 
     a.href=url;
 
-    a.download =
+    a.download=
         "backup-meu-controle-emprestimos.json";
 
     a.click();
@@ -2599,19 +2040,15 @@ function exportarDados(){
 function importarDados(){
 
     const input =
-        document.createElement(
-            "input"
-        );
+        document.createElement("input");
 
     input.type="file";
 
-    input.accept =
-        ".json,application/json";
+    input.accept=".json,application/json";
 
     input.onchange=function(){
 
-        const file =
-            this.files[0];
+        const file=this.files[0];
 
         if(!file) return;
 
@@ -2623,9 +2060,7 @@ function importarDados(){
             try{
 
                 const dados =
-                    JSON.parse(
-                        reader.result
-                    );
+                    JSON.parse(reader.result);
 
                 if(!dados.emprestimos){
 
@@ -2657,15 +2092,11 @@ function importarDados(){
 
                 atualizarTudo();
 
-                alert(
-                    "Backup restaurado com sucesso!"
-                );
+                alert("Backup restaurado com sucesso!");
 
             }catch(err){
 
-                alert(
-                    "Arquivo de backup inválido."
-                );
+                alert("Arquivo de backup inválido.");
 
             }
 
@@ -2680,40 +2111,17 @@ function importarDados(){
 }
 
 
-/* =========================================================
-   SEGURANÇA DO TEXTO
-========================================================= */
-
 function escapeHTML(text){
 
     return String(text || "")
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
 }
 
-
-/* =========================================================
-   PWA — INSTALAÇÃO
-========================================================= */
 
 window.addEventListener(
     "beforeinstallprompt",
@@ -2751,22 +2159,14 @@ async function instalarPWA(){
 }
 
 
-/* =========================================================
-   PWA — ATUALIZAÇÃO
-========================================================= */
-
 async function atualizarAplicativo(){
 
     try{
 
-        if(
-            "serviceWorker"
-            in navigator
-        ){
+        if("serviceWorker" in navigator){
 
             const registration =
-                await navigator.serviceWorker
-                .getRegistration();
+                await navigator.serviceWorker.getRegistration();
 
             if(registration){
 
@@ -2792,14 +2192,7 @@ async function atualizarAplicativo(){
 }
 
 
-/* =========================================================
-   SERVICE WORKER
-========================================================= */
-
-if(
-    "serviceWorker"
-    in navigator
-){
+if("serviceWorker" in navigator){
 
     window.addEventListener(
         "load",
@@ -2808,12 +2201,10 @@ if(
             try{
 
                 const registration =
-                    await navigator.serviceWorker
-                    .register(
+                    await navigator.serviceWorker.register(
                         "./sw.js?v=2.1.0",
                         {
-                            updateViaCache:
-                                "none"
+                            updateViaCache:"none"
                         }
                     );
 
@@ -2869,16 +2260,10 @@ if(
 }
 
 
-/* =========================================================
-   CONFIGURAÇÃO INICIAL
-========================================================= */
-
 function carregarConfiguracao(){
 
     const campo =
-        document.getElementById(
-            "mensagemWhatsApp"
-        );
+        document.getElementById("mensagemWhatsApp");
 
     campo.value =
         config.mensagemWhatsApp ||
@@ -2889,14 +2274,10 @@ function carregarConfiguracao(){
 
 function inicializar(){
 
-    document.getElementById(
-        "inicio"
-    ).value =
+    document.getElementById("inicio").value =
         hojeISO();
 
-    document.getElementById(
-        "vencimento"
-    ).value =
+    document.getElementById("vencimento").value =
         hojeISO();
 
     carregarConfiguracao();
