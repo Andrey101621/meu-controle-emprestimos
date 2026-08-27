@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#000000">
 <meta name="description" content="Meu Controle de Empréstimos">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <link rel="manifest" href="./manifest.json">
 
@@ -22,19 +22,20 @@
 }
 
 body{
-    background:#f3f4f6;
-    color:#111827;
+    background:#000;
+    color:#f9fafb;
     padding-bottom:80px;
 }
 
 header{
-    background:#111827;
+    background:#000;
     color:white;
     padding:18px 15px;
     position:sticky;
     top:0;
     z-index:100;
-    box-shadow:0 2px 8px rgba(0,0,0,.2);
+    box-shadow:0 2px 10px rgba(0,0,0,.8);
+    border-bottom:1px solid #222;
 }
 
 .header-top{
@@ -77,15 +78,17 @@ header h1{
 }
 
 .card{
-    background:white;
+    background:#111;
+    color:#f9fafb;
     border-radius:14px;
     padding:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 10px rgba(0,0,0,.6);
+    border:1px solid #222;
 }
 
 .card small{
     display:block;
-    color:#6b7280;
+    color:#9ca3af;
     font-size:12px;
     margin-bottom:6px;
 }
@@ -108,17 +111,19 @@ header h1{
 
 .tab{
     flex:1;
-    border:0;
+    border:1px solid #333;
     padding:13px 5px;
     border-radius:10px;
-    background:#e5e7eb;
+    background:#171717;
+    color:#ddd;
     font-weight:bold;
     cursor:pointer;
 }
 
 .tab.active{
-    background:#111827;
+    background:#2563eb;
     color:white;
+    border-color:#2563eb;
 }
 
 .section{
@@ -130,11 +135,13 @@ header h1{
 }
 
 .form-card{
-    background:white;
+    background:#111;
+    color:#f9fafb;
     border-radius:15px;
     padding:16px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 10px rgba(0,0,0,.7);
     margin-bottom:15px;
+    border:1px solid #222;
 }
 
 .form-card h2{
@@ -147,15 +154,22 @@ label{
     font-size:13px;
     font-weight:bold;
     margin:10px 0 5px;
+    color:#e5e7eb;
 }
 
 input,select,textarea{
     width:100%;
-    border:1px solid #d1d5db;
+    border:1px solid #444;
     border-radius:9px;
     padding:12px;
     font-size:16px;
-    background:white;
+    background:#050505;
+    color:white;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:#777;
 }
 
 textarea{
@@ -193,7 +207,7 @@ textarea{
 }
 
 .btn-gray{
-    background:#6b7280;
+    background:#4b5563;
     color:white;
 }
 
@@ -210,12 +224,16 @@ textarea{
 }
 
 .loan{
-    background:white;
+    background:#111;
+    color:#f9fafb;
     border-radius:15px;
     padding:15px;
     margin-bottom:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 10px rgba(0,0,0,.7);
     border-left:5px solid #2563eb;
+    border-top:1px solid #222;
+    border-right:1px solid #222;
+    border-bottom:1px solid #222;
 }
 
 .loan.overdue{
@@ -237,6 +255,7 @@ textarea{
 .loan-name{
     font-size:18px;
     font-weight:bold;
+    color:white;
 }
 
 .badge{
@@ -248,56 +267,60 @@ textarea{
 }
 
 .badge-blue{
-    background:#dbeafe;
-    color:#1d4ed8;
+    background:#172554;
+    color:#60a5fa;
 }
 
 .badge-red{
-    background:#fee2e2;
-    color:#b91c1c;
+    background:#450a0a;
+    color:#fca5a5;
 }
 
 .badge-green{
-    background:#dcfce7;
-    color:#15803d;
+    background:#052e16;
+    color:#86efac;
 }
 
 .badge-gray{
-    background:#e5e7eb;
-    color:#374151;
+    background:#262626;
+    color:#d1d5db;
 }
 
 .loan-info{
     margin-top:10px;
     font-size:14px;
     line-height:1.7;
+    color:#e5e7eb;
 }
 
 .loan-info strong{
-    color:#111827;
+    color:#fff;
 }
 
 .money-total{
     font-size:21px;
     font-weight:bold;
     margin-top:8px;
+    color:#fff;
 }
 
 .interest{
-    color:#2563eb;
+    color:#60a5fa;
     font-size:14px;
 }
 
 .penalty{
-    color:#dc2626;
+    color:#f87171;
     font-weight:bold;
 }
 
 .calendar-card{
-    background:white;
+    background:#111;
+    color:#f9fafb;
     border-radius:15px;
     padding:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    box-shadow:0 2px 10px rgba(0,0,0,.7);
+    border:1px solid #222;
 }
 
 .calendar-header{
@@ -309,7 +332,8 @@ textarea{
 
 .calendar-header button{
     border:0;
-    background:#e5e7eb;
+    background:#222;
+    color:white;
     border-radius:8px;
     padding:8px 12px;
     font-size:18px;
@@ -328,30 +352,33 @@ textarea{
 .weekdays div{
     text-align:center;
     font-size:11px;
-    color:#6b7280;
+    color:#9ca3af;
     padding:5px 0;
 }
 
 .day{
     min-height:50px;
-    background:#f9fafb;
+    background:#181818;
     border-radius:8px;
     padding:5px;
     position:relative;
     cursor:pointer;
+    border:1px solid #222;
 }
 
 .day.empty{
     background:transparent;
     cursor:default;
+    border:0;
 }
 
 .day.today{
-    outline:2px solid #111827;
+    outline:2px solid #fff;
 }
 
 .day-number{
     font-size:12px;
+    color:#f9fafb;
 }
 
 .dots{
@@ -390,8 +417,8 @@ textarea{
 }
 
 .notice{
-    background:#eff6ff;
-    color:#1e40af;
+    background:#0c1a33;
+    color:#93c5fd;
     border-radius:10px;
     padding:12px;
     font-size:13px;
@@ -401,7 +428,7 @@ textarea{
 
 .empty{
     text-align:center;
-    color:#6b7280;
+    color:#9ca3af;
     padding:30px 10px;
 }
 
@@ -409,7 +436,7 @@ textarea{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
+    background:rgba(0,0,0,.8);
     z-index:500;
     padding:15px;
     overflow:auto;
@@ -420,11 +447,13 @@ textarea{
 }
 
 .modal-box{
-    background:white;
+    background:#111;
+    color:#f9fafb;
     max-width:600px;
     margin:40px auto;
     border-radius:15px;
     padding:18px;
+    border:1px solid #333;
 }
 
 .modal-header{
@@ -436,7 +465,8 @@ textarea{
 
 .close{
     border:0;
-    background:#e5e7eb;
+    background:#333;
+    color:white;
     border-radius:50%;
     width:34px;
     height:34px;
@@ -449,11 +479,12 @@ textarea{
 
 .install-banner{
     display:none;
-    background:#111827;
+    background:#111;
     color:white;
     padding:12px;
     border-radius:12px;
     margin-bottom:15px;
+    border:1px solid #333;
 }
 
 .install-banner button{
@@ -563,15 +594,8 @@ textarea{
             <label>Tipo de empréstimo</label>
 
             <select id="tipo">
-
-                <option value="mensal">
-                    Empréstimo Mensal
-                </option>
-
-                <option value="parcelado">
-                    Empréstimo Parcelado
-                </option>
-
+                <option value="mensal">Empréstimo Mensal</option>
+                <option value="parcelado">Empréstimo Parcelado</option>
             </select>
 
             <label>Nome</label>
@@ -683,33 +707,19 @@ textarea{
             <textarea id="mensagemWhatsApp"></textarea>
 
             <div class="notice">
-
                 Você pode usar estas variáveis:
-
                 <br><br>
-
                 <strong>{nome}</strong> = nome do cliente
-
                 <br>
-
                 <strong>{total}</strong> = valor total
-
                 <br>
-
                 <strong>{juros}</strong> = juros
-
                 <br>
-
                 <strong>{vencimento}</strong> = vencimento
-
                 <br>
-
                 <strong>{dias}</strong> = dias de atraso
-
                 <br>
-
                 <strong>{multa}</strong> = multa
-
             </div>
 
             <button class="btn btn-primary" onclick="salvarConfiguracao()">
@@ -805,11 +815,8 @@ Para renovar:
 };
 
 let editandoId = null;
-
 let dataCalendario = new Date();
-
 let deferredPrompt = null;
-
 
 function dinheiro(valor){
 
@@ -878,9 +885,7 @@ function adicionarMes(data){
     d.setMonth(d.getMonth()+1);
 
     if(d.getDate() !== diaOriginal){
-
         d.setDate(0);
-
     }
 
     return formatoISO(d);
@@ -901,7 +906,6 @@ function salvarDados(){
 
 }
 
-
 document.getElementById("tipo").addEventListener(
     "change",
     function(){
@@ -916,7 +920,6 @@ document.getElementById("tipo").addEventListener(
 
     }
 );
-
 
 function salvarEmprestimo(){
 
@@ -936,27 +939,18 @@ function salvarEmprestimo(){
         document.getElementById("vencimento").value;
 
     if(!nome){
-
         alert("Digite o nome do cliente.");
-
         return;
-
     }
 
     if(!inicio){
-
         alert("Informe a data de início.");
-
         return;
-
     }
 
     if(!vencimento){
-
         alert("Informe a data de vencimento.");
-
         return;
-
     }
 
     let novo;
@@ -970,35 +964,21 @@ function salvarEmprestimo(){
             Number(document.getElementById("juros").value);
 
         if(valor <= 0){
-
             alert("Informe o valor emprestado.");
-
             return;
-
         }
 
         novo = {
-
             id: editandoId || Date.now(),
-
             tipo:"mensal",
-
             nome,
-
             whatsapp,
-
             valor,
-
             juros,
-
             inicio,
-
             vencimento,
-
             criadoEm:new Date().toISOString(),
-
             ativo:true
-
         };
 
     }else{
@@ -1010,45 +990,27 @@ function salvarEmprestimo(){
             Number(document.getElementById("parcelas").value);
 
         if(valorParcela <= 0){
-
             alert("Informe o valor da parcela.");
-
             return;
-
         }
 
         if(parcelas < 1){
-
             alert("Informe a quantidade de parcelas.");
-
             return;
-
         }
 
         novo = {
-
             id: editandoId || Date.now(),
-
             tipo:"parcelado",
-
             nome,
-
             whatsapp,
-
             valorParcela,
-
             parcelas,
-
             parcelasPagas:0,
-
             inicio,
-
             vencimento,
-
             criadoEm:new Date().toISOString(),
-
             ativo:true
-
         };
 
     }
@@ -1087,7 +1049,6 @@ function salvarEmprestimo(){
 
 }
 
-
 function limparFormulario(){
 
     editandoId = null;
@@ -1107,7 +1068,6 @@ function limparFormulario(){
 
 }
 
-
 function calcularMensal(e){
 
     const jurosValor =
@@ -1116,12 +1076,22 @@ function calcularMensal(e){
     const total =
         e.valor + jurosValor;
 
+    const multaDiaria =
+        total / 30;
+
+    const dias =
+        Math.max(0,diferencaDias(e.vencimento));
+
+    const multa =
+        multaDiaria * dias;
+
     return {
-
         juros:jurosValor,
-
-        total
-
+        total,
+        multaDiaria,
+        dias,
+        multa,
+        totalAtualizado:total + multa
     };
 
 }
@@ -1144,103 +1114,55 @@ function calcularParcelado(e){
         parcela + multa;
 
     return {
-
         multaDiaria,
-
         dias,
-
         multa,
-
         total
-
     };
 
 }
 
-
 function statusEmprestimo(e){
 
     if(!e.ativo){
-
         return "quitado";
-
     }
 
     const atraso =
         diferencaDias(e.vencimento);
 
     if(atraso > 0){
-
         return "atrasado";
-
     }
 
     if(atraso === 0){
-
         return "vence-hoje";
-
     }
 
     return "aberto";
 
 }
 
-
-/* =========================================================
-   BUSCA DE CLIENTES — ÚNICA ALTERAÇÃO
-========================================================= */
-
 function renderizarEmprestimos(){
 
     const lista =
         document.getElementById("listaEmprestimos");
 
-    const campoPesquisa =
-        document.getElementById("pesquisa");
-
     const pesquisa =
-        String(campoPesquisa.value || "")
-        .trim()
+        document.getElementById("pesquisa").value
         .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g,"");
+        .trim();
 
     let listaDados =
-        emprestimos.filter(e => {
-
-            const nome =
-                String(e.nome || "")
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g,"");
-
-            const whatsapp =
-                String(e.whatsapp || "")
-                .replace(/\D/g,"");
-
-            const pesquisaNumerica =
-                pesquisa.replace(/\D/g,"");
-
-            if(nome.includes(pesquisa)){
-                return true;
-            }
-
-            if(
-                pesquisaNumerica &&
-                whatsapp.includes(pesquisaNumerica)
-            ){
-                return true;
-            }
-
-            return false;
-
-        });
+        emprestimos.filter(e=>
+            e.nome.toLowerCase().includes(pesquisa)
+        );
 
     if(listaDados.length === 0){
 
         lista.innerHTML =
             `<div class="empty">
-                Nenhum cliente encontrado.
+                Nenhum empréstimo encontrado.
             </div>`;
 
         return;
@@ -1256,7 +1178,6 @@ function renderizarEmprestimos(){
         listaDados.map(renderLoan).join("");
 
 }
-
 
 function renderLoan(e){
 
@@ -1278,29 +1199,27 @@ function renderLoan(e){
         "EM ABERTO";
 
     if(status==="atrasado"){
-
         badgeClass="badge-red";
         badgeText="EM ATRASO";
-
     }
 
     if(status==="vence-hoje"){
-
         badgeClass="badge-blue";
         badgeText="VENCE HOJE";
-
     }
 
     if(status==="quitado"){
-
         badgeClass="badge-green";
         badgeText="QUITADO";
-
     }
 
     let calculo;
-
     let htmlInfo="";
+
+    const totalRecebido =
+        pagamentos
+        .filter(p=>p.emprestimoId===e.id)
+        .reduce((s,p)=>s+Number(p.valor||0),0);
 
     if(e.tipo==="mensal"){
 
@@ -1308,9 +1227,10 @@ function renderLoan(e){
             calcularMensal(e);
 
         htmlInfo = `
+
             <div>
-                💵 Emprestado:
-                <strong>${dinheiro(e.valor)}</strong>
+                📅 Data de início:
+                <strong>${dataBR(e.inicio)}</strong>
             </div>
 
             <div>
@@ -1325,7 +1245,46 @@ function renderLoan(e){
             </div>
 
             <div>
-                📅 Vencimento:
+                📈 Juros:
+                <strong>${dinheiro(calculo.juros)}</strong>
+            </div>
+
+            <div class="penalty">
+                ⚠️ Multa diária por atraso:
+                ${dinheiro(calculo.multaDiaria)}
+            </div>
+
+            <div>
+                💰 Total atualizado:
+                <strong>${dinheiro(calculo.totalAtualizado)}</strong>
+            </div>
+
+            <div>
+                🔄 Valor para renovar:
+                <strong>${dinheiro(calculo.juros + calculo.multa)}</strong>
+            </div>
+
+            <div>
+                💵 Total recebido:
+                <strong>${dinheiro(totalRecebido)}</strong>
+            </div>
+
+            ${
+                calculo.dias > 0
+                ?
+                `<div class="penalty">
+                    ⚠️ Dias de atraso:
+                    ${calculo.dias}
+                    <br>
+                    ⚠️ Multa acumulada:
+                    ${dinheiro(calculo.multa)}
+                </div>`
+                :
+                ""
+            }
+
+            <div>
+                📅 Próximo vencimento:
                 <strong>${dataBR(e.vencimento)}</strong>
             </div>
         `;
@@ -1336,6 +1295,12 @@ function renderLoan(e){
             calcularParcelado(e);
 
         htmlInfo = `
+
+            <div>
+                📅 Data de início:
+                <strong>${dataBR(e.inicio)}</strong>
+            </div>
+
             <div>
                 💵 Valor da parcela:
                 <strong>${dinheiro(e.valorParcela)}</strong>
@@ -1347,26 +1312,44 @@ function renderLoan(e){
             </div>
 
             <div>
-                📅 Vencimento:
-                <strong>${dataBR(e.vencimento)}</strong>
+                📊 Parcelas restantes:
+                <strong>${Math.max(0,Number(e.parcelas)-Number(e.parcelasPagas||0))}</strong>
+            </div>
+
+            <div class="penalty">
+                ⚠️ Multa diária por atraso:
+                ${dinheiro(calculo.multaDiaria)}
             </div>
 
             <div>
-                💰 Valor atual:
+                💰 Total atualizado:
                 <strong>${dinheiro(calculo.total)}</strong>
+            </div>
+
+            <div>
+                💵 Total recebido:
+                <strong>${dinheiro(totalRecebido)}</strong>
             </div>
 
             ${
                 calculo.dias > 0
                 ?
                 `<div class="penalty">
-                    ⚠️ ${calculo.dias} dia(s) de atraso
+                    ⚠️ Dias de atraso:
+                    ${calculo.dias}
                     <br>
-                    Multa: ${dinheiro(calculo.multa)}
+                    ⚠️ Multa acumulada:
+                    ${dinheiro(calculo.multa)}
                 </div>`
                 :
                 ""
             }
+
+            <div>
+                📅 Próximo vencimento:
+                <strong>${dataBR(e.vencimento)}</strong>
+            </div>
+
         `;
 
     }
@@ -1382,7 +1365,7 @@ function renderLoan(e){
                         ${escapeHTML(e.nome)}
                     </div>
 
-                    <div style="font-size:12px;color:#6b7280;margin-top:3px">
+                    <div style="font-size:12px;color:#9ca3af;margin-top:3px">
                         ${e.tipo==="mensal"
                             ?"Empréstimo Mensal"
                             :"Empréstimo Parcelado"}
@@ -1457,7 +1440,6 @@ function renderLoan(e){
 
 }
 
-
 function receber(id){
 
     const e =
@@ -1477,22 +1459,15 @@ function receber(id){
             calcularMensal(e);
 
         valorRecebido =
-            calculo.total;
+            calculo.totalAtualizado;
 
         pagamentos.push({
-
             id:Date.now(),
-
             emprestimoId:e.id,
-
             nome:e.nome,
-
             valor:valorRecebido,
-
             data:hojeISO(),
-
             tipo:"mensal"
-
         });
 
         e.vencimento =
@@ -1507,28 +1482,19 @@ function receber(id){
             calculo.total;
 
         pagamentos.push({
-
             id:Date.now(),
-
             emprestimoId:e.id,
-
             nome:e.nome,
-
             valor:valorRecebido,
-
             data:hojeISO(),
-
             tipo:"parcelado"
-
         });
 
         e.parcelasPagas =
             Number(e.parcelasPagas || 0) + 1;
 
         if(e.parcelasPagas >= e.parcelas){
-
             e.parcelasPagas = 0;
-
         }
 
         e.vencimento =
@@ -1545,7 +1511,6 @@ function receber(id){
     );
 
 }
-
 
 function editarEmprestimo(id){
 
@@ -1592,7 +1557,6 @@ function editarEmprestimo(id){
 
 }
 
-
 function excluirEmprestimo(id){
 
     const e =
@@ -1615,7 +1579,6 @@ function excluirEmprestimo(id){
     atualizarTudo();
 
 }
-
 
 function abrirWhatsApp(id){
 
@@ -1641,14 +1604,14 @@ function abrirWhatsApp(id){
         calculo=calcularMensal(e);
 
         juros=calculo.juros;
-        total=calculo.total;
+        total=calculo.totalAtualizado;
+        multa=calculo.multa;
 
     }else{
 
         calculo=calcularParcelado(e);
 
         total=calculo.total;
-
         multa=calculo.multa;
 
     }
@@ -1673,17 +1636,11 @@ function abrirWhatsApp(id){
         e.whatsapp.replace(/\D/g,"");
 
     if(numero.length===11){
-
         numero="55"+numero;
-
     }else if(numero.length===10){
-
         numero="55"+numero;
-
     }else if(!numero.startsWith("55")){
-
         numero="55"+numero;
-
     }
 
     const url =
@@ -1693,7 +1650,6 @@ function abrirWhatsApp(id){
     window.open(url,"_blank");
 
 }
-
 
 function salvarConfiguracao(){
 
@@ -1708,7 +1664,6 @@ function salvarConfiguracao(){
     alert("Mensagem salva!");
 
 }
-
 
 function renderizarCalendario(){
 
@@ -1751,9 +1706,7 @@ function renderizarCalendario(){
     let html="";
 
     for(let i=0;i<inicioSemana;i++){
-
         html+=`<div class="day empty"></div>`;
-
     }
 
     for(let dia=1;dia<=dias;dia++){
@@ -1783,15 +1736,11 @@ function renderizarCalendario(){
         let dots="";
 
         if(doDia.length>0){
-
             dots+=`<i class="dot blue"></i>`;
-
         }
 
         if(atrasadosHoje.length>0){
-
             dots+=`<i class="dot red"></i>`;
-
         }
 
         html+=`
@@ -1860,17 +1809,12 @@ function fecharModal(){
 
 }
 
-
 function atualizarDashboard(){
 
     let emprestado=0;
-
     let recebido=0;
-
     let receber=0;
-
     let aberto=0;
-
     let atrasado=0;
 
     emprestimos.forEach(e=>{
@@ -1883,9 +1827,7 @@ function atualizarDashboard(){
             emprestado += Number(e.valor);
 
             if(e.ativo){
-
-                receber += c.total;
-
+                receber += c.totalAtualizado;
             }
 
         }else{
@@ -1894,10 +1836,8 @@ function atualizarDashboard(){
                 Number(e.valorParcela) * Number(e.parcelas);
 
             if(e.ativo){
-
                 receber +=
                     Number(e.valorParcela);
-
             }
 
         }
@@ -1909,13 +1849,9 @@ function atualizarDashboard(){
             if(diferencaDias(e.vencimento)>0){
 
                 if(e.tipo==="mensal"){
-
-                    atrasado += calcularMensal(e).total;
-
+                    atrasado += calcularMensal(e).totalAtualizado;
                 }else{
-
                     atrasado += calcularParcelado(e).total;
-
                 }
 
             }
@@ -1925,9 +1861,7 @@ function atualizarDashboard(){
     });
 
     pagamentos.forEach(p=>{
-
         recebido += Number(p.valor);
-
     });
 
     document.getElementById("dashEmprestado").textContent =
@@ -1947,7 +1881,6 @@ function atualizarDashboard(){
 
 }
 
-
 function abrirAba(id,botao){
 
     document.querySelectorAll(".section")
@@ -1960,15 +1893,11 @@ function abrirAba(id,botao){
         .classList.add("active");
 
     if(botao){
-
         botao.classList.add("active");
-
     }
 
     if(id==="calendario"){
-
         renderizarCalendario();
-
     }
 
 }
@@ -1986,7 +1915,6 @@ function abrirAbaPorId(id){
 
 }
 
-
 function atualizarTudo(){
 
     renderizarEmprestimos();
@@ -1997,21 +1925,14 @@ function atualizarTudo(){
 
 }
 
-
 function exportarDados(){
 
     const backup={
-
         versao:APP_VERSION,
-
         data:new Date().toISOString(),
-
         emprestimos,
-
         pagamentos,
-
         config
-
     };
 
     const blob =
@@ -2063,9 +1984,7 @@ function importarDados(){
                     JSON.parse(reader.result);
 
                 if(!dados.emprestimos){
-
                     throw new Error();
-
                 }
 
                 if(!confirm(
@@ -2110,7 +2029,6 @@ function importarDados(){
 
 }
 
-
 function escapeHTML(text){
 
     return String(text || "")
@@ -2121,7 +2039,6 @@ function escapeHTML(text){
         .replaceAll("'","&#039;");
 
 }
-
 
 window.addEventListener(
     "beforeinstallprompt",
@@ -2158,7 +2075,6 @@ async function instalarPWA(){
 
 }
 
-
 async function atualizarAplicativo(){
 
     try{
@@ -2169,9 +2085,7 @@ async function atualizarAplicativo(){
                 await navigator.serviceWorker.getRegistration();
 
             if(registration){
-
                 await registration.update();
-
             }
 
         }
@@ -2190,7 +2104,6 @@ async function atualizarAplicativo(){
     }
 
 }
-
 
 if("serviceWorker" in navigator){
 
@@ -2258,7 +2171,6 @@ if("serviceWorker" in navigator){
     );
 
 }
-
 
 function carregarConfiguracao(){
 
