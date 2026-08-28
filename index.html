@@ -561,6 +561,10 @@ textarea{
             ➕ Novo
         </button>
 
+        <button class="tab" onclick="abrirAba('orcamento',this)">
+            🧮 Orçamento
+        </button>
+
         <button class="tab" onclick="abrirAba('calendario',this)">
             📅 Calendário
         </button>
@@ -643,6 +647,112 @@ textarea{
                 </button>
 
                 <button class="btn btn-gray" onclick="limparFormulario()">
+                    Limpar
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =====================================================
+         NOVA ABA: ORÇAMENTO
+         ===================================================== -->
+
+    <section id="orcamento" class="section">
+
+        <div class="form-card">
+
+            <h2>🧮 Orçamento</h2>
+
+            <label>Nome</label>
+            <input
+                id="orcNome"
+                type="text"
+                placeholder="Nome do cliente"
+            >
+
+            <label>Telefone</label>
+            <input
+                id="orcTelefone"
+                type="tel"
+                placeholder="(00) 00000-0000"
+            >
+
+            <label>Data contrato</label>
+            <input
+                id="orcDataContrato"
+                type="date"
+            >
+
+            <label>Data vencimento</label>
+            <input
+                id="orcDataVencimento"
+                type="date"
+            >
+
+            <label>Valor do empréstimo</label>
+            <input
+                id="orcValor"
+                type="number"
+                step="0.01"
+                placeholder="1000"
+                oninput="calcularOrcamento()"
+            >
+
+            <label>Juros (%)</label>
+            <input
+                id="orcJuros"
+                type="number"
+                step="0.01"
+                placeholder="30"
+                oninput="calcularOrcamento()"
+            >
+
+            <label>Juros diário</label>
+            <input
+                id="orcJurosDiario"
+                type="text"
+                placeholder="R$ 0,00"
+                readonly
+            >
+
+            <label>Total para quitar</label>
+            <input
+                id="orcTotal"
+                type="text"
+                placeholder="R$ 0,00"
+                readonly
+            >
+
+            <div class="notice">
+                📊 Cálculo do orçamento:
+                <br><br>
+                <strong>Juros = Valor do empréstimo × percentual de juros</strong>
+                <br><br>
+                <strong>Juros diário = (Valor do empréstimo + juros) ÷ 30</strong>
+                <br><br>
+                <strong>Total para quitar = Valor do empréstimo + juros</strong>
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="calcularOrcamento()">
+                    🧮 Calcular orçamento
+                </button>
+
+                <button
+                    class="btn btn-whatsapp"
+                    onclick="enviarOrcamentoWhatsApp()">
+                    📲 Enviar pelo WhatsApp
+                </button>
+
+                <button
+                    class="btn btn-gray"
+                    onclick="limparOrcamento()">
                     Limpar
                 </button>
 
@@ -794,38 +904,24 @@ let pagamentos = JSON.parse(
 let config = JSON.parse(
     localStorage.getItem("config_v2")
 ) || {
-    mensagemWhatsApp:
-`Olá, {nome}! 👋
+    mensagem:
+`Olá, {nome}!
 
 📅 Hoje vence o seu contrato.
 
-💵 Valor total:
-{total}
+💵 Valor Total: {total}
 
-📈 Juros:
-{juros}
+📈 Juros: {juros}
+
+📅 Próximo vencimento: {vencimento}
+
+⚠️ Dias de atraso: {dias}
+
+💰 Multa por atraso: {multa}
 
 Para renovar:
 
-📈 Somente juros:
-{juros}
-
-OU
-
-💰 Pagar valor total:
-{total}
-
-⚠️ Multa diária após atraso:
-{multa}
-
-⚠️ Dias de atraso:
-{dias}
-
-📅 Vencimento:
-{vencimento}
-
-💳 Pix para pagamento (CNPJ):
-37741008000119`
+📈 Somente juros: {juros}`
 };
 
 let editandoId = null;
@@ -1594,12 +1690,6 @@ function excluirEmprestimo(id){
 
 }
 
-
-/* ==========================================================
-   WHATSAPP
-   ALTERAÇÃO SOMENTE NESTA PARTE
-   ========================================================== */
-
 function abrirWhatsApp(id){
 
     const e =
@@ -1616,186 +1706,111 @@ function abrirWhatsApp(id){
     const diasAtraso =
         Math.max(0, diferencaDias(e.vencimento));
 
-    let total = 0;
-    let juros = 0;
-    let multa = 0;
-
-    /*
-       EMPRÉSTIMO MENSAL
-       Multa diária = Valor Total ÷ 30
-    */
+    let texto = "";
 
     if(e.tipo === "mensal"){
 
         const calculo =
             calcularMensal(e);
 
-        total =
-            calculo.total;
-
-        juros =
+        const juros =
             calculo.juros;
 
-        multa =
-            calculo.multa;
-
-    }
-
-    /*
-       EMPRÉSTIMO PARCELADO
-       Multa diária = Valor da parcela ÷ 30 ÷ 2
-    */
-
-    else{
-
-        const calculo =
-            calcularParcelado(e);
-
-        total =
+        const total =
             calculo.total;
 
-        juros = 0;
+        const multaDiaria =
+            total / 30;
 
-        multa =
-            calculo.multa;
+        const multaAcumulada =
+            multaDiaria * diasAtraso;
 
-    }
+        const valorRenovar =
+            juros + multaAcumulada;
 
-    /*
-       IMPORTANTE:
-       A mensagem configurada em ⚙️ Config.
-       será usada para o WhatsApp.
+        const valorTotalPagar =
+            total + multaAcumulada;
 
-       Os emojis digitados na configuração
-       são preservados normalmente.
-    */
-
-    let modelo =
-        config.mensagemWhatsApp ||
-        config.mensagem ||
-        "";
-
-    /*
-       Se não existir uma mensagem configurada,
-       usa uma mensagem padrão com emojis.
-    */
-
-    if(!modelo.trim()){
-
-        if(e.tipo === "mensal"){
-
-            modelo =
-`Olá, {nome}! 👋
+        texto =
+`Olá, ${e.nome}!
 
 📅 Hoje vence o seu contrato.
 
 💵 Valor total:
-{total}
+${dinheiro(total)}
 
 📈 Juros:
-{juros}
+${dinheiro(juros)}
 
 Para renovar:
 
 📈 Somente juros:
-{juros}
+${dinheiro(valorRenovar)}
 
 OU
 
 💰 Pagar valor total:
-{total}
+${dinheiro(valorTotalPagar)}
 
 ⚠️ Multa diária após atraso:
-{multa}
-
-⚠️ Dias de atraso:
-{dias}
+${dinheiro(multaDiaria)}
 
 📅 Vencimento:
-{vencimento}
+${dataBR(e.vencimento)}
 
-💳 Pix para pagamento (CNPJ):
+Pix para pagamento (CNPJ):
 37741008000119`;
 
-        }else{
+    }
 
-            modelo =
-`Olá, {nome}! 👋
+    else{
+
+        const valorParcela =
+            Number(e.valorParcela);
+
+        const multaDiaria =
+            valorParcela / 30 / 2;
+
+        const multaAcumulada =
+            multaDiaria * diasAtraso;
+
+        const valorAtualizado =
+            valorParcela + multaAcumulada;
+
+        const parcelaAtual =
+            Number(e.parcelasPagas || 0) + 1;
+
+        texto =
+`Olá, ${e.nome}!
 
 📅 Sua parcela vence hoje.
 
 📆 Parcela:
-{parcela}/{parcelas}
+${parcelaAtual}/${e.parcelas}
 
 💵 Valor:
-{total}
+${dinheiro(valorAtualizado)}
 
 ⚠️ Multa diária:
-{multa}
-
-⚠️ Dias de atraso:
-{dias}
+${dinheiro(multaDiaria)}
 
 📅 Vencimento:
-{vencimento}
+${dataBR(e.vencimento)}
 
-💳 Pix para pagamento (CNPJ):
+Pix para pagamento (CNPJ):
 37741008000119`;
 
-        }
-
     }
-
-    /*
-       Substituição das variáveis.
-       Os emojis permanecem exatamente
-       como foram colocados na configuração.
-    */
-
-    let texto =
-        modelo
-        .replaceAll("{nome}", e.nome)
-        .replaceAll("{total}", dinheiro(
-            e.tipo === "mensal"
-                ? total + multa
-                : total
-        ))
-        .replaceAll("{juros}", dinheiro(
-            e.tipo === "mensal"
-                ? juros + multa
-                : 0
-        ))
-        .replaceAll("{vencimento}", dataBR(e.vencimento))
-        .replaceAll("{dias}", String(diasAtraso))
-        .replaceAll("{multa}", dinheiro(multa))
-        .replaceAll(
-            "{parcela}",
-            String(Number(e.parcelasPagas || 0) + 1)
-        )
-        .replaceAll(
-            "{parcelas}",
-            String(e.parcelas || 0)
-        );
-
-    /*
-       Número do WhatsApp
-    */
 
     let numero =
         e.whatsapp.replace(/\D/g,"");
 
     if(numero.length===11){
-
         numero="55"+numero;
-
     }else if(numero.length===10){
-
         numero="55"+numero;
-
     }else if(!numero.startsWith("55")){
-
         numero="55"+numero;
-
     }
 
     const url =
@@ -1806,6 +1821,185 @@ OU
 
 }
 
+/* =====================================================
+   NOVAS FUNÇÕES: ORÇAMENTO
+   ===================================================== */
+
+function calcularOrcamento(){
+
+    const valor =
+        Number(document.getElementById("orcValor").value) || 0;
+
+    const percentualJuros =
+        Number(document.getElementById("orcJuros").value) || 0;
+
+    const juros =
+        valor * (percentualJuros / 100);
+
+    const total =
+        valor + juros;
+
+    /*
+       REGRA SOLICITADA:
+       Juros diário = (Valor do empréstimo + juros) ÷ 30
+    */
+
+    const jurosDiario =
+        total / 30;
+
+    document.getElementById("orcJurosDiario").value =
+        dinheiro(jurosDiario);
+
+    document.getElementById("orcTotal").value =
+        dinheiro(total);
+
+    return {
+        valor,
+        percentualJuros,
+        juros,
+        jurosDiario,
+        total
+    };
+
+}
+
+function limparOrcamento(){
+
+    document.getElementById("orcNome").value="";
+    document.getElementById("orcTelefone").value="";
+
+    document.getElementById("orcDataContrato").value =
+        hojeISO();
+
+    document.getElementById("orcDataVencimento").value =
+        hojeISO();
+
+    document.getElementById("orcValor").value="";
+    document.getElementById("orcJuros").value="";
+    document.getElementById("orcJurosDiario").value="";
+    document.getElementById("orcTotal").value="";
+
+}
+
+function enviarOrcamentoWhatsApp(){
+
+    const nome =
+        document.getElementById("orcNome").value.trim();
+
+    const telefone =
+        document.getElementById("orcTelefone").value.trim();
+
+    const dataContrato =
+        document.getElementById("orcDataContrato").value;
+
+    const dataVencimento =
+        document.getElementById("orcDataVencimento").value;
+
+    if(!nome){
+
+        alert("Digite o nome do cliente.");
+
+        return;
+
+    }
+
+    if(!telefone){
+
+        alert("Digite o telefone do cliente.");
+
+        return;
+
+    }
+
+    if(!dataContrato){
+
+        alert("Informe a data do contrato.");
+
+        return;
+
+    }
+
+    if(!dataVencimento){
+
+        alert("Informe a data de vencimento.");
+
+        return;
+
+    }
+
+    const calculo =
+        calcularOrcamento();
+
+    if(calculo.valor <= 0){
+
+        alert("Informe o valor do empréstimo.");
+
+        return;
+
+    }
+
+    const numero =
+        telefone.replace(/\D/g,"");
+
+    let whatsappNumero =
+        numero;
+
+    if(whatsappNumero.length===11){
+
+        whatsappNumero =
+            "55"+whatsappNumero;
+
+    }else if(whatsappNumero.length===10){
+
+        whatsappNumero =
+            "55"+whatsappNumero;
+
+    }else if(!whatsappNumero.startsWith("55")){
+
+        whatsappNumero =
+            "55"+whatsappNumero;
+
+    }
+
+    const texto =
+`Olá, ${nome}!
+
+🧮 *ORÇAMENTO DE EMPRÉSTIMO*
+
+👤 Nome:
+${nome}
+
+📱 Telefone:
+${telefone}
+
+📅 Data do contrato:
+${dataBR(dataContrato)}
+
+📅 Data de vencimento:
+${dataBR(dataVencimento)}
+
+💵 Valor do empréstimo:
+${dinheiro(calculo.valor)}
+
+📈 Juros:
+${calculo.percentualJuros}%
+${dinheiro(calculo.juros)}
+
+📊 Juros diário:
+${dinheiro(calculo.jurosDiario)}
+
+💰 *Total para quitar:*
+${dinheiro(calculo.total)}
+
+⚠️ Este orçamento é uma simulação e não representa um empréstimo contratado.`;
+
+    const url =
+        "https://wa.me/"+whatsappNumero+
+        "?text="+encodeURIComponent(texto);
+
+    window.open(url,"_blank");
+
+}
 
 function salvarConfiguracao(){
 
@@ -2346,6 +2540,16 @@ function inicializar(){
         hojeISO();
 
     document.getElementById("vencimento").value =
+        hojeISO();
+
+    /*
+       Campos iniciais do Orçamento
+    */
+
+    document.getElementById("orcDataContrato").value =
+        hojeISO();
+
+    document.getElementById("orcDataVencimento").value =
         hojeISO();
 
     carregarConfiguracao();
