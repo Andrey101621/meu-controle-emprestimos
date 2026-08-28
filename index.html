@@ -640,6 +640,9 @@ textarea{
             <label>Data de vencimento</label>
             <input id="vencimento" type="date">
 
+            <label>Observação</label>
+            <textarea id="observacao" placeholder="Digite uma anotação..."></textarea>
+
             <div class="actions">
 
                 <button class="btn btn-primary" onclick="salvarEmprestimo()">
@@ -999,16 +1002,20 @@ function adicionarMes(data){
     const diaOriginal = Number(partes[2]);
 
     /*
-       REGRA DO CONTRATO:
-       O vencimento é calculado para o mesmo dia do mês seguinte.
-       Se o mês seguinte não possuir esse dia, a contagem continua
-       automaticamente para o mês posterior.
-       Exemplo: 28/08 → 28/09
-       Exemplo: 31/08 → 01/10
+       REGRA DO CONTRATO DE 30 DIAS:
+       A data de vencimento mantém o mesmo dia do mês seguinte.
+       Quando o mês seguinte não possui esse dia (ex.: dia 31),
+       o vencimento fica no último dia disponível desse mês.
     */
 
+    const ultimoDiaMesSeguinte =
+        new Date(ano, mes + 2, 0).getDate();
+
+    const diaVencimento =
+        Math.min(diaOriginal, ultimoDiaMesSeguinte);
+
     const d =
-        new Date(ano, mes + 1, diaOriginal);
+        new Date(ano, mes + 1, diaVencimento);
 
     return formatoISO(d);
 
@@ -1090,6 +1097,9 @@ function salvarEmprestimo(){
     const vencimento =
         document.getElementById("vencimento").value;
 
+    const observacao =
+        document.getElementById("observacao").value.trim();
+
     if(!nome){
         alert("Digite o nome do cliente.");
         return;
@@ -1129,6 +1139,7 @@ function salvarEmprestimo(){
             juros,
             inicio,
             vencimento,
+            observacao,
             criadoEm:new Date().toISOString(),
             ativo:true
         };
@@ -1161,6 +1172,7 @@ function salvarEmprestimo(){
             parcelasPagas:0,
             inicio,
             vencimento,
+            observacao,
             criadoEm:new Date().toISOString(),
             ativo:true
         };
@@ -1211,6 +1223,7 @@ function limparFormulario(){
     document.getElementById("juros").value="";
     document.getElementById("valorParcela").value="";
     document.getElementById("parcelas").value="1";
+    document.getElementById("observacao").value="";
 
     document.getElementById("inicio").value =
         hojeISO();
@@ -1682,6 +1695,7 @@ function editarEmprestimo(id){
     document.getElementById("inicio").value=e.inicio;
 
     document.getElementById("vencimento").value=e.vencimento;
+    document.getElementById("observacao").value=e.observacao || "";
 
     if(e.tipo==="mensal"){
 
