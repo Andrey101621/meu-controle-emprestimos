@@ -1624,7 +1624,7 @@ function receber(id){
             calcularMensal(e);
 
         valorRecebido =
-            calculo.totalAtualizado;
+            calculo.juros + calculo.multa;
 
         pagamentos.push({
             id:Date.now(),
