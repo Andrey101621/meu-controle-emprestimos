@@ -1391,6 +1391,15 @@ function renderLoan(e){
         calculo =
             calcularMensal(e);
 
+        const valorRenovacao =
+            calculo.juros + calculo.multa;
+
+        const valorRenovacaoPago =
+            Number(e.valorRenovacaoPago || 0);
+
+        const valorEmHaver =
+            Math.max(0, valorRenovacao - valorRenovacaoPago);
+
         htmlInfo = `
 
             <div>
@@ -1426,7 +1435,22 @@ function renderLoan(e){
 
             <div>
                 🔄 Valor para renovar:
-                <strong>${dinheiro(calculo.juros + calculo.multa)}</strong>
+                <strong>${dinheiro(valorRenovacao)}</strong>
+            </div>
+
+            <div>
+                💵 Recebido nesta renovação:
+                <strong>${dinheiro(valorRenovacaoPago)}</strong>
+            </div>
+
+            <div class="penalty">
+                ⚠️ Valor em haver:
+                <strong>${dinheiro(valorEmHaver)}</strong>
+            </div>
+
+            <div>
+                💳 Falta para quitar a renovação:
+                <strong>${dinheiro(valorEmHaver)}</strong>
             </div>
 
             <div>
@@ -1612,10 +1636,6 @@ function receber(id){
 
     if(!e) return;
 
-    if(!confirm(
-        `Confirmar recebimento de ${e.nome}?`
-    )) return;
-
     let valorRecebido = 0;
 
     if(e.tipo==="mensal"){
@@ -1623,8 +1643,41 @@ function receber(id){
         const calculo =
             calcularMensal(e);
 
-        valorRecebido =
+        const valorRenovacao =
             calculo.juros + calculo.multa;
+
+        const valorRenovacaoPago =
+            Number(e.valorRenovacaoPago || 0);
+
+        const valorEmHaver =
+            Math.max(0, valorRenovacao - valorRenovacaoPago);
+
+        const entrada = prompt(
+            `💰 Recebimento de ${e.nome}\n\n` +
+            `🔄 Valor para renovar: ${dinheiro(valorRenovacao)}\n` +
+            `💵 Já recebido nesta renovação: ${dinheiro(valorRenovacaoPago)}\n` +
+            `⚠️ Falta para quitar a renovação: ${dinheiro(valorEmHaver)}\n\n` +
+            `Digite o valor que recebeu agora:`,
+            valorEmHaver.toFixed(2)
+        );
+
+        if(entrada === null) return;
+
+        valorRecebido =
+            Number(String(entrada).replace(",", "."));
+
+        if(!Number.isFinite(valorRecebido) || valorRecebido <= 0){
+            alert("Informe um valor válido.");
+            return;
+        }
+
+        if(valorRecebido > valorEmHaver){
+            alert(
+                `O valor informado é maior que o valor que falta para quitar a renovação.\n\n` +
+                `Valor máximo: ${dinheiro(valorEmHaver)}`
+            );
+            return;
+        }
 
         pagamentos.push({
             id:Date.now(),
@@ -1635,8 +1688,20 @@ function receber(id){
             tipo:"mensal"
         });
 
-        e.vencimento =
-            adicionarMes(e.vencimento);
+        e.valorRenovacaoPago =
+            valorRenovacaoPago + valorRecebido;
+
+        const restante =
+            Math.max(0, valorRenovacao - e.valorRenovacaoPago);
+
+        if(restante <= 0.005){
+
+            e.valorRenovacaoPago = 0;
+
+            e.vencimento =
+                adicionarMes(e.vencimento);
+
+        }
 
     }else{
 
@@ -1645,6 +1710,10 @@ function receber(id){
 
         valorRecebido =
             calculo.total;
+
+        if(!confirm(
+            `Confirmar recebimento de ${e.nome}?\n\nValor: ${dinheiro(valorRecebido)}`
+        )) return;
 
         pagamentos.push({
             id:Date.now(),
