@@ -1593,44 +1593,142 @@ function abrirWhatsApp(id){
 
     }
 
-    let calculo;
+    const diasAtraso =
+        Math.max(0, diferencaDias(e.vencimento));
 
-    let juros=0;
-    let total=0;
-    let multa=0;
+    let texto = "";
 
-    if(e.tipo==="mensal"){
+    /* =====================================================
+       EMPRÉSTIMO MENSAL
+    ===================================================== */
 
-        calculo=calcularMensal(e);
+    if(e.tipo === "mensal"){
 
-        juros=calculo.juros;
-        total=calculo.totalAtualizado;
-        multa=calculo.multa;
+        const calculo =
+            calcularMensal(e);
 
-    }else{
+        const juros =
+            calculo.juros;
 
-        calculo=calcularParcelado(e);
+        const total =
+            calculo.total;
 
-        total=calculo.total;
-        multa=calculo.multa;
+        /*
+           Multa diária do mensal:
+           VALOR TOTAL ÷ 30
+        */
+
+        const multaDiaria =
+            total / 30;
+
+        const multaAcumulada =
+            multaDiaria * diasAtraso;
+
+        /*
+           Sem atraso:
+           - somente juros = juros
+           - valor total = total
+
+           Com atraso:
+           - somente juros + multa acumulada
+           - valor total + multa acumulada
+        */
+
+        const valorRenovar =
+            juros + multaAcumulada;
+
+        const valorTotalPagar =
+            total + multaAcumulada;
+
+        texto =
+`Olá, ${e.nome}!
+
+📅 Hoje vence o seu contrato.
+
+💵 Valor total:
+${dinheiro(total)}
+
+📈 Juros:
+${dinheiro(juros)}
+
+Para renovar:
+
+📈 Somente juros:
+${dinheiro(valorRenovar)}
+
+OU
+
+💰 Pagar valor total:
+${dinheiro(valorTotalPagar)}
+
+⚠️ Multa diária após atraso:
+${dinheiro(multaDiaria)}
+
+📅 Vencimento:
+${dataBR(e.vencimento)}
+
+Pix para pagamento (CNPJ):
+37741008000119`;
 
     }
 
-    const mensagem =
-        config.mensagemWhatsApp
-        || config.mensagem
-        || "";
 
-    const texto =
-        mensagem
-        .replaceAll("{nome}",e.nome)
-        .replaceAll("{total}",dinheiro(total))
-        .replaceAll("{juros}",dinheiro(juros))
-        .replaceAll("{vencimento}",dataBR(e.vencimento))
-        .replaceAll("{dias}",String(
-            Math.max(0,diferencaDias(e.vencimento))
-        ))
-        .replaceAll("{multa}",dinheiro(multa));
+    /* =====================================================
+       EMPRÉSTIMO PARCELADO
+    ===================================================== */
+
+    else{
+
+        const valorParcela =
+            Number(e.valorParcela);
+
+        /*
+           Multa diária da parcela:
+           VALOR DA PARCELA ÷ 30 ÷ 2
+        */
+
+        const multaDiaria =
+            valorParcela / 30 / 2;
+
+        const multaAcumulada =
+            multaDiaria * diasAtraso;
+
+        /*
+           Valor da parcela + multa acumulada
+        */
+
+        const valorAtualizado =
+            valorParcela + multaAcumulada;
+
+        const parcelaAtual =
+            Number(e.parcelasPagas || 0) + 1;
+
+        texto =
+`Olá, ${e.nome}!
+
+📅 Sua parcela vence hoje.
+
+📆 Parcela:
+${parcelaAtual}/${e.parcelas}
+
+💵 Valor:
+${dinheiro(valorAtualizado)}
+
+⚠️ Multa diária:
+${dinheiro(multaDiaria)}
+
+📅 Vencimento:
+${dataBR(e.vencimento)}
+
+Pix para pagamento (CNPJ):
+37741008000119`;
+
+    }
+
+
+    /* =====================================================
+       ABRIR WHATSAPP
+    ===================================================== */
 
     let numero =
         e.whatsapp.replace(/\D/g,"");
@@ -1650,6 +1748,7 @@ function abrirWhatsApp(id){
     window.open(url,"_blank");
 
 }
+
 
 function salvarConfiguracao(){
 
