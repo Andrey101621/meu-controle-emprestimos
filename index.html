@@ -794,24 +794,38 @@ let pagamentos = JSON.parse(
 let config = JSON.parse(
     localStorage.getItem("config_v2")
 ) || {
-    mensagem:
-`Olá, {nome}!
+    mensagemWhatsApp:
+`Olá, {nome}! 👋
 
 📅 Hoje vence o seu contrato.
 
-💵 Valor Total: {total}
+💵 Valor total:
+{total}
 
-📈 Juros: {juros}
-
-📅 Próximo vencimento: {vencimento}
-
-⚠️ Dias de atraso: {dias}
-
-💰 Multa por atraso: {multa}
+📈 Juros:
+{juros}
 
 Para renovar:
 
-📈 Somente juros: {juros}`
+📈 Somente juros:
+{juros}
+
+OU
+
+💰 Pagar valor total:
+{total}
+
+⚠️ Multa diária após atraso:
+{multa}
+
+⚠️ Dias de atraso:
+{dias}
+
+📅 Vencimento:
+{vencimento}
+
+💳 Pix para pagamento (CNPJ):
+37741008000119`
 };
 
 let editandoId = null;
@@ -1580,6 +1594,12 @@ function excluirEmprestimo(id){
 
 }
 
+
+/* ==========================================================
+   WHATSAPP
+   ALTERAÇÃO SOMENTE NESTA PARTE
+   ========================================================== */
+
 function abrirWhatsApp(id){
 
     const e =
@@ -1596,149 +1616,186 @@ function abrirWhatsApp(id){
     const diasAtraso =
         Math.max(0, diferencaDias(e.vencimento));
 
-    let texto = "";
+    let total = 0;
+    let juros = 0;
+    let multa = 0;
 
-    /* =====================================================
+    /*
        EMPRÉSTIMO MENSAL
-    ===================================================== */
+       Multa diária = Valor Total ÷ 30
+    */
 
     if(e.tipo === "mensal"){
 
         const calculo =
             calcularMensal(e);
 
-        const juros =
-            calculo.juros;
-
-        const total =
+        total =
             calculo.total;
 
-        /*
-           Multa diária do mensal:
-           VALOR TOTAL ÷ 30
-        */
+        juros =
+            calculo.juros;
 
-        const multaDiaria =
-            total / 30;
+        multa =
+            calculo.multa;
 
-        const multaAcumulada =
-            multaDiaria * diasAtraso;
+    }
 
-        /*
-           Sem atraso:
-           - somente juros = juros
-           - valor total = total
+    /*
+       EMPRÉSTIMO PARCELADO
+       Multa diária = Valor da parcela ÷ 30 ÷ 2
+    */
 
-           Com atraso:
-           - somente juros + multa acumulada
-           - valor total + multa acumulada
-        */
+    else{
 
-        const valorRenovar =
-            juros + multaAcumulada;
+        const calculo =
+            calcularParcelado(e);
 
-        const valorTotalPagar =
-            total + multaAcumulada;
+        total =
+            calculo.total;
 
-        texto =
-`Olá, ${e.nome}!
+        juros = 0;
+
+        multa =
+            calculo.multa;
+
+    }
+
+    /*
+       IMPORTANTE:
+       A mensagem configurada em ⚙️ Config.
+       será usada para o WhatsApp.
+
+       Os emojis digitados na configuração
+       são preservados normalmente.
+    */
+
+    let modelo =
+        config.mensagemWhatsApp ||
+        config.mensagem ||
+        "";
+
+    /*
+       Se não existir uma mensagem configurada,
+       usa uma mensagem padrão com emojis.
+    */
+
+    if(!modelo.trim()){
+
+        if(e.tipo === "mensal"){
+
+            modelo =
+`Olá, {nome}! 👋
 
 📅 Hoje vence o seu contrato.
 
 💵 Valor total:
-${dinheiro(total)}
+{total}
 
 📈 Juros:
-${dinheiro(juros)}
+{juros}
 
 Para renovar:
 
 📈 Somente juros:
-${dinheiro(valorRenovar)}
+{juros}
 
 OU
 
 💰 Pagar valor total:
-${dinheiro(valorTotalPagar)}
+{total}
 
 ⚠️ Multa diária após atraso:
-${dinheiro(multaDiaria)}
+{multa}
+
+⚠️ Dias de atraso:
+{dias}
 
 📅 Vencimento:
-${dataBR(e.vencimento)}
+{vencimento}
 
-Pix para pagamento (CNPJ):
+💳 Pix para pagamento (CNPJ):
 37741008000119`;
 
-    }
+        }else{
 
-
-    /* =====================================================
-       EMPRÉSTIMO PARCELADO
-    ===================================================== */
-
-    else{
-
-        const valorParcela =
-            Number(e.valorParcela);
-
-        /*
-           Multa diária da parcela:
-           VALOR DA PARCELA ÷ 30 ÷ 2
-        */
-
-        const multaDiaria =
-            valorParcela / 30 / 2;
-
-        const multaAcumulada =
-            multaDiaria * diasAtraso;
-
-        /*
-           Valor da parcela + multa acumulada
-        */
-
-        const valorAtualizado =
-            valorParcela + multaAcumulada;
-
-        const parcelaAtual =
-            Number(e.parcelasPagas || 0) + 1;
-
-        texto =
-`Olá, ${e.nome}!
+            modelo =
+`Olá, {nome}! 👋
 
 📅 Sua parcela vence hoje.
 
 📆 Parcela:
-${parcelaAtual}/${e.parcelas}
+{parcela}/{parcelas}
 
 💵 Valor:
-${dinheiro(valorAtualizado)}
+{total}
 
 ⚠️ Multa diária:
-${dinheiro(multaDiaria)}
+{multa}
+
+⚠️ Dias de atraso:
+{dias}
 
 📅 Vencimento:
-${dataBR(e.vencimento)}
+{vencimento}
 
-Pix para pagamento (CNPJ):
+💳 Pix para pagamento (CNPJ):
 37741008000119`;
+
+        }
 
     }
 
+    /*
+       Substituição das variáveis.
+       Os emojis permanecem exatamente
+       como foram colocados na configuração.
+    */
 
-    /* =====================================================
-       ABRIR WHATSAPP
-    ===================================================== */
+    let texto =
+        modelo
+        .replaceAll("{nome}", e.nome)
+        .replaceAll("{total}", dinheiro(
+            e.tipo === "mensal"
+                ? total + multa
+                : total
+        ))
+        .replaceAll("{juros}", dinheiro(
+            e.tipo === "mensal"
+                ? juros + multa
+                : 0
+        ))
+        .replaceAll("{vencimento}", dataBR(e.vencimento))
+        .replaceAll("{dias}", String(diasAtraso))
+        .replaceAll("{multa}", dinheiro(multa))
+        .replaceAll(
+            "{parcela}",
+            String(Number(e.parcelasPagas || 0) + 1)
+        )
+        .replaceAll(
+            "{parcelas}",
+            String(e.parcelas || 0)
+        );
+
+    /*
+       Número do WhatsApp
+    */
 
     let numero =
         e.whatsapp.replace(/\D/g,"");
 
     if(numero.length===11){
+
         numero="55"+numero;
+
     }else if(numero.length===10){
+
         numero="55"+numero;
+
     }else if(!numero.startsWith("55")){
+
         numero="55"+numero;
+
     }
 
     const url =
