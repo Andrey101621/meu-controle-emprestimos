@@ -491,6 +491,12 @@ textarea{
     margin-top:8px;
 }
 
+
+.detalhes-anexos{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px;}
+.anexo-detalhe{background:#050505;border:1px solid #333;border-radius:10px;padding:8px;cursor:pointer;}
+.anexo-detalhe img,.anexo-detalhe video{width:100%;max-height:220px;object-fit:cover;border-radius:8px;display:block;}
+.anexo-nome{font-size:12px;color:#d1d5db;margin-top:6px;word-break:break-word;}
+
 @media(min-width:700px){
     .dashboard{
         grid-template-columns:repeat(5,1fr);
@@ -980,6 +986,97 @@ let anexosTemporarios = [];
 let dataCalendario = new Date();
 let deferredPrompt = null;
 
+let bancoAnexos = null;
+let urlsAnexosDetalhes = [];
+
+function abrirBancoAnexos(){
+    return new Promise((resolve,reject)=>{
+        if(bancoAnexos){ resolve(bancoAnexos); return; }
+        const request=indexedDB.open("meu_controle_emprestimos_anexos",1);
+        request.onupgradeneeded=function(event){
+            const db=event.target.result;
+            if(!db.objectStoreNames.contains("anexos")){
+                const store=db.createObjectStore("anexos",{keyPath:"id"});
+                store.createIndex("emprestimoId","emprestimoId",{unique:false});
+            }
+        };
+        request.onsuccess=function(){ bancoAnexos=request.result; resolve(bancoAnexos); };
+        request.onerror=function(){ reject(request.error); };
+    });
+}
+
+async function salvarAnexosEmprestimo(emprestimoId){
+    const db=await abrirBancoAnexos();
+    await new Promise((resolve,reject)=>{
+        const tx=db.transaction("anexos","readwrite");
+        const store=tx.objectStore("anexos");
+        const index=store.index("emprestimoId");
+        const request=index.openCursor(IDBKeyRange.only(emprestimoId));
+        request.onsuccess=function(event){ const cursor=event.target.result; if(cursor){cursor.delete();cursor.continue();} };
+        tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error);
+    });
+    if(anexosTemporarios.length===0) return;
+    await new Promise((resolve,reject)=>{
+        const tx=db.transaction("anexos","readwrite");
+        const store=tx.objectStore("anexos");
+        anexosTemporarios.forEach(a=>store.put({id:String(emprestimoId)+"_"+String(a.id),emprestimoId,nome:a.nome,tipo:a.tipo,arquivo:a.arquivo}));
+        tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error);
+    });
+}
+
+async function carregarAnexosEmprestimo(emprestimoId){
+    try{
+        const db=await abrirBancoAnexos();
+        return await new Promise((resolve,reject)=>{
+            const tx=db.transaction("anexos","readonly");
+            const request=tx.objectStore("anexos").index("emprestimoId").getAll(IDBKeyRange.only(emprestimoId));
+            request.onsuccess=()=>resolve(request.result||[]); request.onerror=()=>reject(request.error);
+        });
+    }catch(error){ console.error("Erro ao carregar anexos:",error); return []; }
+}
+
+async function excluirAnexosEmprestimo(emprestimoId){
+    try{
+        const db=await abrirBancoAnexos();
+        await new Promise((resolve,reject)=>{
+            const tx=db.transaction("anexos","readwrite");
+            const store=tx.objectStore("anexos");
+            const request=store.index("emprestimoId").openCursor(IDBKeyRange.only(emprestimoId));
+            request.onsuccess=function(event){const cursor=event.target.result;if(cursor){cursor.delete();cursor.continue();}};
+            tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error);
+        });
+    }catch(error){console.error("Erro ao excluir anexos:",error);}
+}
+
+async function abrirDetalhesEmprestimo(id){
+    const e=emprestimos.find(x=>x.id===id); if(!e)return;
+    urlsAnexosDetalhes.forEach(url=>URL.revokeObjectURL(url)); urlsAnexosDetalhes=[];
+    document.getElementById("modalTitle").textContent="📋 Detalhes do empréstimo";
+    const c=e.tipo==="mensal"?calcularMensal(e):calcularParcelado(e);
+    let html=`<div class="loan-info">
+        <div>👤 Nome: <strong>${escapeHTML(e.nome)}</strong></div>
+        ${e.whatsapp?`<div>📱 WhatsApp: <strong>${escapeHTML(e.whatsapp)}</strong></div>`:""}
+        <div>📌 Tipo: <strong>${e.tipo==="mensal"?"Empréstimo Mensal":"Empréstimo Parcelado"}</strong></div>
+        <div>📅 Data de início: <strong>${dataBR(e.inicio)}</strong></div>
+        <div>📅 Vencimento: <strong>${dataBR(e.vencimento)}</strong></div>`;
+    if(e.tipo==="mensal") html+=`<div>💵 Valor emprestado: <strong>${dinheiro(e.valor)}</strong></div><div>📈 Juros: <strong>${dinheiro(c.juros)}</strong> (${e.juros}%)</div><div>💰 Valor total: <strong>${dinheiro(c.total)}</strong></div><div>⚠️ Multa diária: <strong>${dinheiro(c.multaDiaria)}</strong></div><div>💰 Total atualizado: <strong>${dinheiro(c.totalAtualizado)}</strong></div>`;
+    else html+=`<div>💵 Valor da parcela: <strong>${dinheiro(e.valorParcela)}</strong></div><div>📊 Parcelas: <strong>${e.parcelasPagas||0}/${e.parcelas}</strong></div><div>📊 Parcelas restantes: <strong>${Math.max(0,Number(e.parcelas)-Number(e.parcelasPagas||0))}</strong></div><div>⚠️ Multa diária: <strong>${dinheiro(c.multaDiaria)}</strong></div><div>💰 Total atualizado: <strong>${dinheiro(c.total)}</strong></div>`;
+    html+=`<div style="margin-top:12px">📝 <strong>Observação:</strong></div><div style="background:#050505;border:1px solid #333;border-radius:10px;padding:12px;margin-top:6px;white-space:pre-wrap;word-break:break-word">${e.observacao?escapeHTML(e.observacao):"Nenhuma observação cadastrada."}</div></div><div class="form-card" style="margin-top:15px"><h2>📎 Fotos e vídeos</h2><div id="detalhesAnexos" class="detalhes-anexos">Carregando arquivos...</div></div>`;
+    document.getElementById("modalContent").innerHTML=html; document.getElementById("modal").classList.add("show");
+    const anexos=await carregarAnexosEmprestimo(e.id); const area=document.getElementById("detalhesAnexos"); if(!area)return;
+    if(!anexos.length){area.innerHTML="Nenhuma foto ou vídeo salvo neste empréstimo.";return;}
+    window._anexosDetalhes=[];
+    area.innerHTML=anexos.map((a,i)=>{const url=URL.createObjectURL(a.arquivo);urlsAnexosDetalhes.push(url);window._anexosDetalhes.push({tipo:a.tipo,nome:a.nome,url});return a.tipo==="video"?`<div class="anexo-detalhe" onclick="abrirAnexoDetalhe(${i})"><video src="${url}" muted preload="metadata"></video><div class="anexo-nome">🎥 ${escapeHTML(a.nome)}</div></div>`:`<div class="anexo-detalhe" onclick="abrirAnexoDetalhe(${i})"><img src="${url}" alt="${escapeHTML(a.nome)}"><div class="anexo-nome">📷 ${escapeHTML(a.nome)}</div></div>`;}).join("");
+}
+
+function abrirAnexoDetalhe(index){
+    const a=(window._anexosDetalhes||[])[index]; if(!a)return;
+    const nova=window.open("","_blank"); if(!nova)return;
+    nova.document.write(a.tipo==="video"?`<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;height:100vh"><video src="${a.url}" controls autoplay style="max-width:100%;max-height:100%"></video></body></html>`:`<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;height:100vh"><img src="${a.url}" style="max-width:100%;max-height:100%;object-fit:contain"></body></html>`);
+    nova.document.close();
+}
+
+
 function dinheiro(valor){
 
     return Number(valor || 0).toLocaleString(
@@ -1211,7 +1308,7 @@ function removerAnexo(index){
 
 }
 
-function salvarEmprestimo(){
+async function salvarEmprestimo(){
 
     const nome =
         document.getElementById("nome").value.trim();
@@ -1333,6 +1430,13 @@ function salvarEmprestimo(){
     }
 
     salvarDados();
+
+    try{
+        await salvarAnexosEmprestimo(novo.id);
+    }catch(error){
+        console.error("Erro ao salvar anexos:",error);
+        alert("O empréstimo foi salvo, mas houve um erro ao salvar as fotos/vídeos.");
+    }
 
     limparFormulario();
 
@@ -1679,7 +1783,7 @@ function renderLoan(e){
     }
 
     return `
-        <div class="loan ${classe}">
+        <div class="loan ${classe}" onclick="abrirDetalhesEmprestimo(${e.id})">
 
             <div class="loan-header">
 
@@ -1726,7 +1830,7 @@ function renderLoan(e){
                     ?
                     `<button
                         class="btn btn-success"
-                        onclick="receber(${e.id})">
+                        onclick="event.stopPropagation();receber(${e.id})">
                         💰 Recebi
                     </button>`
                     :
@@ -1738,7 +1842,7 @@ function renderLoan(e){
                     ?
                     `<button
                         class="btn btn-whatsapp"
-                        onclick="abrirWhatsApp(${e.id})">
+                        onclick="event.stopPropagation();abrirWhatsApp(${e.id})">
                         📲 WhatsApp
                     </button>`
                     :
@@ -1747,13 +1851,13 @@ function renderLoan(e){
 
                 <button
                     class="btn btn-primary"
-                    onclick="editarEmprestimo(${e.id})">
+                    onclick="event.stopPropagation();editarEmprestimo(${e.id})">
                     ✏️ Editar
                 </button>
 
                 <button
                     class="btn btn-danger"
-                    onclick="excluirEmprestimo(${e.id})">
+                    onclick="event.stopPropagation();excluirEmprestimo(${e.id})">
                     🗑️ Excluir
                 </button>
 
@@ -1881,7 +1985,7 @@ function receber(id){
 
 }
 
-function editarEmprestimo(id){
+async function editarEmprestimo(id){
 
     const e =
         emprestimos.find(x=>x.id===id);
@@ -1923,6 +2027,10 @@ function editarEmprestimo(id){
 
     }
 
+    anexosTemporarios = await carregarAnexosEmprestimo(e.id);
+    anexosTemporarios = anexosTemporarios.map(a=>({id:a.id,nome:a.nome,tipo:a.tipo,arquivo:a.arquivo}));
+    renderizarAnexos();
+
     abrirAbaPorId("novo");
 
 }
@@ -1943,6 +2051,8 @@ function excluirEmprestimo(id){
 
     pagamentos =
         pagamentos.filter(x=>x.emprestimoId!==id);
+
+    excluirAnexosEmprestimo(id);
 
     salvarDados();
 
@@ -2002,7 +2112,16 @@ ${dinheiro(total)}
 📈 Juros:
 ${dinheiro(juros)}
 
-Para renovar:
+${
+    diasAtraso > 0
+    ?
+    `⚠️ Dias de atraso:
+${diasAtraso}
+
+`
+    :
+    ""
+}Para renovar:
 
 📈 Somente juros:
 ${dinheiro(valorRenovar)}
@@ -2048,7 +2167,16 @@ Pix para pagamento (CNPJ):
 📆 Parcela:
 ${parcelaAtual}/${e.parcelas}
 
-💵 Valor:
+${
+    diasAtraso > 0
+    ?
+    `⚠️ Dias de atraso:
+${diasAtraso}
+
+`
+    :
+    ""
+}💵 Valor:
 ${dinheiro(valorAtualizado)}
 
 ⚠️ Multa diária:
@@ -2416,6 +2544,9 @@ function abrirDia(data){
 function fecharModal(){
 
     document.getElementById("modal").classList.remove("show");
+    urlsAnexosDetalhes.forEach(url=>URL.revokeObjectURL(url));
+    urlsAnexosDetalhes=[];
+    window._anexosDetalhes=[];
 
 }
 
@@ -2813,7 +2944,7 @@ function inicializar(){
         adicionarMes(hojeISO());
 
     carregarConfiguracao();
-
+    abrirBancoAnexos().catch(error=>console.error("Erro ao iniciar banco de anexos:",error));
     renderizarAnexos();
 
     atualizarTudo();
