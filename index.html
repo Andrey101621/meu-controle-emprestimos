@@ -643,6 +643,54 @@ textarea{
             <label>Observação</label>
             <textarea id="observacao" placeholder="Digite uma anotação..."></textarea>
 
+            <div class="form-card" id="areaAnexos" style="margin-top:15px">
+
+                <h2>📎 Documentos e arquivos</h2>
+
+                <input
+                    id="anexarFotos"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style="display:none"
+                    onchange="adicionarAnexos(event)"
+                >
+
+                <input
+                    id="anexarVideos"
+                    type="file"
+                    accept="video/*"
+                    multiple
+                    style="display:none"
+                    onchange="adicionarAnexos(event)"
+                >
+
+                <div class="actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="document.getElementById('anexarFotos').click()">
+                        📷 Adicionar foto
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-gray"
+                        onclick="document.getElementById('anexarVideos').click()">
+                        🎥 Adicionar vídeo
+                    </button>
+
+                </div>
+
+                <div
+                    id="listaAnexos"
+                    style="margin-top:12px;font-size:13px;color:#d1d5db">
+                    Nenhum arquivo anexado.
+                </div>
+
+            </div>
+
             <div class="actions">
 
                 <button class="btn btn-primary" onclick="salvarEmprestimo()">
@@ -928,6 +976,7 @@ Para renovar:
 };
 
 let editandoId = null;
+let anexosTemporarios = [];
 let dataCalendario = new Date();
 let deferredPrompt = null;
 
@@ -1080,6 +1129,88 @@ document.getElementById("orcDataContrato").addEventListener(
     }
 );
 
+function renderizarAnexos(){
+
+    const lista =
+        document.getElementById("listaAnexos");
+
+    if(!lista) return;
+
+    if(anexosTemporarios.length === 0){
+
+        lista.innerHTML =
+            "Nenhum arquivo anexado.";
+
+        return;
+
+    }
+
+    lista.innerHTML =
+        anexosTemporarios.map((a,i)=>`
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:8px;
+                padding:8px 0;
+                border-bottom:1px solid #222">
+
+                <span>
+                    ${a.tipo==="foto" ? "📷" : "🎥"}
+                    ${escapeHTML(a.nome)}
+                </span>
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    onclick="removerAnexo(${i})">
+                    🗑️
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+function adicionarAnexos(event){
+
+    const arquivos =
+        [...(event.target.files || [])];
+
+    arquivos.forEach(file=>{
+
+        anexosTemporarios.push({
+
+            id:Date.now()+Math.random(),
+
+            nome:file.name,
+
+            tipo:file.type.startsWith("video/")
+                ? "video"
+                : "foto",
+
+            arquivo:file
+
+        });
+
+    });
+
+    event.target.value="";
+
+    renderizarAnexos();
+
+}
+
+function removerAnexo(index){
+
+    anexosTemporarios.splice(index,1);
+
+    renderizarAnexos();
+
+}
+
 function salvarEmprestimo(){
 
     const nome =
@@ -1216,6 +1347,10 @@ function salvarEmprestimo(){
 function limparFormulario(){
 
     editandoId = null;
+
+    anexosTemporarios = [];
+
+    renderizarAnexos();
 
     document.getElementById("nome").value="";
     document.getElementById("whatsapp").value="";
@@ -2678,6 +2813,8 @@ function inicializar(){
         adicionarMes(hojeISO());
 
     carregarConfiguracao();
+
+    renderizarAnexos();
 
     atualizarTudo();
 
