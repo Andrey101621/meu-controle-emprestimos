@@ -502,11 +502,36 @@ textarea{
     margin-top:8px;
 }
 
+.detalhes-anexos{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:10px;
+    margin-top:12px;
+}
 
-.detalhes-anexos{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px;}
-.anexo-detalhe{background:#050505;border:1px solid #333;border-radius:10px;padding:8px;cursor:pointer;}
-.anexo-detalhe img,.anexo-detalhe video{width:100%;max-height:220px;object-fit:cover;border-radius:8px;display:block;}
-.anexo-nome{font-size:12px;color:#d1d5db;margin-top:6px;word-break:break-word;}
+.anexo-detalhe{
+    background:#050505;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:8px;
+    cursor:pointer;
+}
+
+.anexo-detalhe img,
+.anexo-detalhe video{
+    width:100%;
+    max-height:220px;
+    object-fit:cover;
+    border-radius:8px;
+    display:block;
+}
+
+.anexo-nome{
+    font-size:12px;
+    color:#d1d5db;
+    margin-top:6px;
+    word-break:break-word;
+}
 
 @media(min-width:700px){
     .dashboard{
@@ -738,10 +763,6 @@ textarea{
 
     </section>
 
-    <!-- =====================================================
-         NOVA ABA: ORÇAMENTO
-         ===================================================== -->
-
     <section id="orcamento" class="section">
 
         <div class="form-card">
@@ -749,30 +770,16 @@ textarea{
             <h2>🧮 Orçamento</h2>
 
             <label>Nome</label>
-            <input
-                id="orcNome"
-                type="text"
-                placeholder="Nome do cliente"
-            >
+            <input id="orcNome" type="text" placeholder="Nome do cliente">
 
             <label>Telefone</label>
-            <input
-                id="orcTelefone"
-                type="tel"
-                placeholder="(00) 00000-0000"
-            >
+            <input id="orcTelefone" type="tel" placeholder="(00) 00000-0000">
 
             <label>Data contrato</label>
-            <input
-                id="orcDataContrato"
-                type="date"
-            >
+            <input id="orcDataContrato" type="date">
 
             <label>Data vencimento</label>
-            <input
-                id="orcDataVencimento"
-                type="date"
-            >
+            <input id="orcDataVencimento" type="date">
 
             <label>Valor do empréstimo</label>
             <input
@@ -1109,83 +1116,43 @@ function abrirAnexoDetalhe(index){
     nova.document.close();
 }
 
-
 function dinheiro(valor){
-
-    return Number(valor || 0).toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
-
+    return Number(valor || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 
 function dataBR(data){
-
     if(!data) return "-";
-
     const partes = data.split("-");
-
     if(partes.length !== 3) return data;
-
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
 }
 
 function hojeISO(){
-
     const d = new Date();
-
     d.setHours(0,0,0,0);
-
     return formatoISO(d);
-
 }
 
 function formatoISO(d){
-
     const ano = d.getFullYear();
-
     const mes = String(d.getMonth()+1).padStart(2,"0");
-
     const dia = String(d.getDate()).padStart(2,"0");
-
     return `${ano}-${mes}-${dia}`;
-
 }
 
 function diferencaDias(data){
-
     const hoje = new Date(hojeISO()+"T00:00:00");
-
     const venc = new Date(data+"T00:00:00");
-
-    return Math.floor(
-        (hoje-venc)/(1000*60*60*24)
-    );
-
+    return Math.floor((hoje-venc)/(1000*60*60*24));
 }
 
 function adicionarMes(data){
-
     if(!data) return "";
-
     const partes = data.split("-");
-
     if(partes.length !== 3) return data;
-
     const ano = Number(partes[0]);
     const mes = Number(partes[1]) - 1;
     const diaOriginal = Number(partes[2]);
-
-    /*
-       REGRA DO CONTRATO DE 30 DIAS:
-       A data de vencimento mantém o mesmo dia do mês seguinte.
-       Quando o mês seguinte não possui esse dia (ex.: dia 31),
-       o vencimento fica no último dia disponível desse mês.
-    */
 
     const ultimoDiaMesSeguinte =
         new Date(ano, mes + 2, 0).getDate();
@@ -1197,87 +1164,55 @@ function adicionarMes(data){
         new Date(ano, mes + 1, diaVencimento);
 
     return formatoISO(d);
-
 }
 
 function salvarDados(){
-
-    localStorage.setItem(
-        "emprestimos_v2",
-        JSON.stringify(emprestimos)
-    );
-
-    localStorage.setItem(
-        "pagamentos_v2",
-        JSON.stringify(pagamentos)
-    );
-
+    localStorage.setItem("emprestimos_v2",JSON.stringify(emprestimos));
+    localStorage.setItem("pagamentos_v2",JSON.stringify(pagamentos));
 }
 
 document.getElementById("tipo").addEventListener(
     "change",
     function(){
-
         const parcelado = this.value === "parcelado";
-
         document.getElementById("campoJuros").style.display =
             parcelado ? "none" : "block";
-
         document.getElementById("campoParcela").style.display =
             parcelado ? "block" : "none";
-
     }
 );
-
-/* =====================================================
-   ATUALIZAÇÃO AUTOMÁTICA DA DATA DE VENCIMENTO
-   REGRA: contrato de 30 dias, mantendo o mesmo dia
-   do mês seguinte e limitando ao último dia disponível.
-   ===================================================== */
 
 document.getElementById("inicio").addEventListener(
     "change",
     function(){
-
         if(this.value){
             document.getElementById("vencimento").value =
                 adicionarMes(this.value);
         }
-
     }
 );
 
 document.getElementById("orcDataContrato").addEventListener(
     "change",
     function(){
-
         if(this.value){
             document.getElementById("orcDataVencimento").value =
                 adicionarMes(this.value);
         }
-
     }
 );
 
 function renderizarAnexos(){
-
-    const lista =
-        document.getElementById("listaAnexos");
-
+    const lista = document.getElementById("listaAnexos");
     if(!lista) return;
 
     if(anexosTemporarios.length === 0){
-
-        lista.innerHTML =
-            "Nenhum arquivo anexado.";
-
+        lista.innerHTML = "Nenhum arquivo anexado.";
         return;
-
     }
 
     lista.innerHTML =
         anexosTemporarios.map((a,i)=>`
-
             <div style="
                 display:flex;
                 justify-content:space-between;
@@ -1285,81 +1220,49 @@ function renderizarAnexos(){
                 gap:8px;
                 padding:8px 0;
                 border-bottom:1px solid #222">
-
                 <span>
                     ${a.tipo==="foto" ? "📷" : "🎥"}
                     ${escapeHTML(a.nome)}
                 </span>
-
                 <button
                     type="button"
                     class="btn btn-danger"
                     onclick="removerAnexo(${i})">
                     🗑️
                 </button>
-
             </div>
-
         `).join("");
-
 }
 
 function adicionarAnexos(event){
-
-    const arquivos =
-        [...(event.target.files || [])];
+    const arquivos = [...(event.target.files || [])];
 
     arquivos.forEach(file=>{
-
         anexosTemporarios.push({
-
             id:Date.now()+Math.random(),
-
             nome:file.name,
-
-            tipo:file.type.startsWith("video/")
-                ? "video"
-                : "foto",
-
+            tipo:file.type.startsWith("video/") ? "video" : "foto",
             arquivo:file
-
         });
-
     });
 
     event.target.value="";
-
     renderizarAnexos();
-
 }
 
 function removerAnexo(index){
-
     anexosTemporarios.splice(index,1);
-
     renderizarAnexos();
-
 }
 
 async function salvarEmprestimo(){
 
-    const nome =
-        document.getElementById("nome").value.trim();
-
-    const whatsapp =
-        document.getElementById("whatsapp").value.trim();
-
-    const tipo =
-        document.getElementById("tipo").value;
-
-    const inicio =
-        document.getElementById("inicio").value;
-
-    const vencimento =
-        document.getElementById("vencimento").value;
-
-    const observacao =
-        document.getElementById("observacao").value.trim();
+    const nome = document.getElementById("nome").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const tipo = document.getElementById("tipo").value;
+    const inicio = document.getElementById("inicio").value;
+    const vencimento = document.getElementById("vencimento").value;
+    const observacao = document.getElementById("observacao").value.trim();
 
     if(!nome){
         alert("Digite o nome do cliente.");
@@ -1477,19 +1380,15 @@ async function salvarEmprestimo(){
     }
 
     limparFormulario();
-
     atualizarTudo();
-
     abrirAbaPorId("emprestimos");
 
     alert("Empréstimo salvo com sucesso!");
-
 }
 
 function limparFormulario(){
 
     editandoId = null;
-
     anexosTemporarios = [];
 
     renderizarAnexos();
@@ -1508,7 +1407,6 @@ function limparFormulario(){
 
     document.getElementById("vencimento").value =
         adicionarMes(hojeISO());
-
 }
 
 function calcularMensal(e){
@@ -1536,7 +1434,6 @@ function calcularMensal(e){
         multa,
         totalAtualizado:total + multa
     };
-
 }
 
 function calcularParcelado(e){
@@ -1570,7 +1467,6 @@ function calcularParcelado(e){
         valorParcelaPago,
         valorEmHaver
     };
-
 }
 
 function statusEmprestimo(e){
@@ -1591,7 +1487,6 @@ function statusEmprestimo(e){
     }
 
     return "aberto";
-
 }
 
 function renderizarEmprestimos(){
@@ -1617,7 +1512,6 @@ function renderizarEmprestimos(){
             </div>`;
 
         return;
-
     }
 
     listaDados.sort(
@@ -1627,7 +1521,6 @@ function renderizarEmprestimos(){
 
     lista.innerHTML =
         listaDados.map(renderLoan).join("");
-
 }
 
 function renderLoan(e){
@@ -1834,9 +1727,7 @@ function renderLoan(e){
                 📅 Próximo vencimento:
                 <strong>${dataBR(e.vencimento)}</strong>
             </div>
-
         `;
-
     }
 
     return `
@@ -1922,7 +1813,6 @@ function renderLoan(e){
 
         </div>
     `;
-
 }
 
 function receber(id){
@@ -1996,7 +1886,6 @@ function receber(id){
 
             e.vencimento =
                 adicionarMes(e.vencimento);
-
         }
 
     }else{
@@ -2060,17 +1949,14 @@ function receber(id){
             e.vencimento =
                 adicionarMes(e.vencimento);
         }
-
     }
 
     salvarDados();
-
     atualizarTudo();
 
     alert(
         `Pagamento registrado!\n\nValor recebido: ${dinheiro(valorRecebido)}`
     );
-
 }
 
 async function editarEmprestimo(id){
@@ -2083,45 +1969,39 @@ async function editarEmprestimo(id){
     editandoId=id;
 
     document.getElementById("tipo").value=e.tipo;
-
     document.getElementById("nome").value=e.nome;
-
     document.getElementById("whatsapp").value=e.whatsapp || "";
-
     document.getElementById("inicio").value=e.inicio;
-
     document.getElementById("vencimento").value=e.vencimento;
     document.getElementById("observacao").value=e.observacao || "";
 
     if(e.tipo==="mensal"){
 
         document.getElementById("valor").value=e.valor;
-
         document.getElementById("juros").value=e.juros;
-
         document.getElementById("campoJuros").style.display="block";
-
         document.getElementById("campoParcela").style.display="none";
 
     }else{
 
         document.getElementById("valorParcela").value=e.valorParcela;
-
         document.getElementById("parcelas").value=e.parcelas;
         document.getElementById("parcelasPagas").value=e.parcelasPagas || 0;
-
         document.getElementById("campoJuros").style.display="none";
-
         document.getElementById("campoParcela").style.display="block";
 
     }
 
     anexosTemporarios = await carregarAnexosEmprestimo(e.id);
-    anexosTemporarios = anexosTemporarios.map(a=>({id:a.id,nome:a.nome,tipo:a.tipo,arquivo:a.arquivo}));
+    anexosTemporarios = anexosTemporarios.map(a=>({
+        id:a.id,
+        nome:a.nome,
+        tipo:a.tipo,
+        arquivo:a.arquivo
+    }));
+
     renderizarAnexos();
-
     abrirAbaPorId("novo");
-
 }
 
 function excluirEmprestimo(id){
@@ -2142,11 +2022,8 @@ function excluirEmprestimo(id){
         pagamentos.filter(x=>x.emprestimoId!==id);
 
     excluirAnexosEmprestimo(id);
-
     salvarDados();
-
     atualizarTudo();
-
 }
 
 function abrirWhatsApp(id){
@@ -2155,11 +2032,8 @@ function abrirWhatsApp(id){
         emprestimos.find(x=>x.id===id);
 
     if(!e || !e.whatsapp){
-
         alert("Este cliente não possui WhatsApp cadastrado.");
-
         return;
-
     }
 
     const diasAtraso =
@@ -2229,9 +2103,7 @@ ${dataBR(e.vencimento)}
 Pix para pagamento (CNPJ):
 37741008000119`;
 
-    }
-
-    else{
+    }else{
 
         const valorParcela =
             Number(e.valorParcela);
@@ -2295,12 +2167,7 @@ Pix para pagamento (CNPJ):
         "?text="+encodeURIComponent(texto);
 
     window.open(url,"_blank");
-
 }
-
-/* =====================================================
-   NOVAS FUNÇÕES: ORÇAMENTO
-   ===================================================== */
 
 function calcularOrcamento(){
 
@@ -2315,11 +2182,6 @@ function calcularOrcamento(){
 
     const total =
         valor + juros;
-
-    /*
-       REGRA SOLICITADA:
-       Juros diário = (Valor do empréstimo + juros) ÷ 30
-    */
 
     const jurosDiario =
         total / 30;
@@ -2337,7 +2199,6 @@ function calcularOrcamento(){
         jurosDiario,
         total
     };
-
 }
 
 function limparOrcamento(){
@@ -2355,7 +2216,6 @@ function limparOrcamento(){
     document.getElementById("orcJuros").value="";
     document.getElementById("orcJurosDiario").value="";
     document.getElementById("orcTotal").value="";
-
 }
 
 function enviarOrcamentoWhatsApp(){
@@ -2373,46 +2233,31 @@ function enviarOrcamentoWhatsApp(){
         document.getElementById("orcDataVencimento").value;
 
     if(!nome){
-
         alert("Digite o nome do cliente.");
-
         return;
-
     }
 
     if(!telefone){
-
         alert("Digite o telefone do cliente.");
-
         return;
-
     }
 
     if(!dataContrato){
-
         alert("Informe a data do contrato.");
-
         return;
-
     }
 
     if(!dataVencimento){
-
         alert("Informe a data de vencimento.");
-
         return;
-
     }
 
     const calculo =
         calcularOrcamento();
 
     if(calculo.valor <= 0){
-
         alert("Informe o valor do empréstimo.");
-
         return;
-
     }
 
     const numero =
@@ -2422,20 +2267,11 @@ function enviarOrcamentoWhatsApp(){
         numero;
 
     if(whatsappNumero.length===11){
-
-        whatsappNumero =
-            "55"+whatsappNumero;
-
+        whatsappNumero="55"+whatsappNumero;
     }else if(whatsappNumero.length===10){
-
-        whatsappNumero =
-            "55"+whatsappNumero;
-
+        whatsappNumero="55"+whatsappNumero;
     }else if(!whatsappNumero.startsWith("55")){
-
-        whatsappNumero =
-            "55"+whatsappNumero;
-
+        whatsappNumero="55"+whatsappNumero;
     }
 
     const texto =
@@ -2475,7 +2311,6 @@ ${dinheiro(calculo.total)}
         "?text="+encodeURIComponent(texto);
 
     window.open(url,"_blank");
-
 }
 
 function salvarConfiguracao(){
@@ -2489,7 +2324,6 @@ function salvarConfiguracao(){
     );
 
     alert("Mensagem salva!");
-
 }
 
 function renderizarCalendario(){
@@ -2585,11 +2419,9 @@ function renderizarCalendario(){
 
             </div>
         `;
-
     }
 
     document.getElementById("calendarGrid").innerHTML=html;
-
 }
 
 function mudarMes(valor){
@@ -2599,7 +2431,6 @@ function mudarMes(valor){
     );
 
     renderizarCalendario();
-
 }
 
 function abrirDia(data){
@@ -2617,7 +2448,6 @@ function abrirDia(data){
         );
 
         return;
-
     }
 
     document.getElementById("modalTitle").textContent =
@@ -2627,7 +2457,6 @@ function abrirDia(data){
         lista.map(renderLoan).join("");
 
     document.getElementById("modal").classList.add("show");
-
 }
 
 function fecharModal(){
@@ -2636,7 +2465,6 @@ function fecharModal(){
     urlsAnexosDetalhes.forEach(url=>URL.revokeObjectURL(url));
     urlsAnexosDetalhes=[];
     window._anexosDetalhes=[];
-
 }
 
 function valoresOcultos(){
@@ -2644,7 +2472,9 @@ function valoresOcultos(){
 }
 
 function atualizarEstadoValores(){
+
     const ocultos = valoresOcultos();
+
     document.querySelectorAll(
         "#dashEmprestado,#dashRecebido,#dashReceber,#dashAberto,#dashAtrasado"
     ).forEach(el=>{
@@ -2652,6 +2482,7 @@ function atualizarEstadoValores(){
     });
 
     const botao=document.getElementById("toggleValoresBtn");
+
     if(botao){
         botao.textContent = ocultos
             ? "👁️ Mostrar valores"
@@ -2660,14 +2491,17 @@ function atualizarEstadoValores(){
 }
 
 function alternarValores(){
+
     localStorage.setItem(
         "valores_ocultos_v2",
         valoresOcultos() ? "0" : "1"
     );
+
     atualizarEstadoValores();
 }
 
 async function ativarNotificacoes(){
+
     if(!("Notification" in window)){
         alert("Este navegador não oferece suporte a notificações.");
         return;
@@ -2684,12 +2518,15 @@ async function ativarNotificacoes(){
 }
 
 function verificarNotificacoesVencimento(){
+
     if(!("Notification" in window) || Notification.permission !== "granted"){
         return;
     }
 
     const hoje=hojeISO();
+
     const chaveData="notificacoes_vencimento_"+hoje;
+
     const enviadas=JSON.parse(
         localStorage.getItem(chaveData) || "[]"
     );
@@ -2697,20 +2534,33 @@ function verificarNotificacoesVencimento(){
     emprestimos
         .filter(e=>e.ativo && e.vencimento===hoje)
         .forEach(e=>{
+
             if(enviadas.includes(e.id)) return;
 
             try{
+
                 new Notification("💰 Vencimento de empréstimo",{
                     body:`📅 Hoje vence o contrato de ${e.nome}.`,
                     silent:true
                 });
+
                 enviadas.push(e.id);
+
             }catch(error){
-                console.error("Erro ao mostrar notificação:",error);
+
+                console.error(
+                    "Erro ao mostrar notificação:",
+                    error
+                );
+
             }
+
         });
 
-    localStorage.setItem(chaveData,JSON.stringify(enviadas));
+    localStorage.setItem(
+        chaveData,
+        JSON.stringify(enviadas)
+    );
 }
 
 function atualizarDashboard(){
@@ -2784,7 +2634,6 @@ function atualizarDashboard(){
         dinheiro(atrasado);
 
     atualizarEstadoValores();
-
 }
 
 function abrirAba(id,botao){
@@ -2805,7 +2654,6 @@ function abrirAba(id,botao){
     if(id==="calendario"){
         renderizarCalendario();
     }
-
 }
 
 function abrirAbaPorId(id){
@@ -2818,17 +2666,13 @@ function abrirAbaPorId(id){
         );
 
     abrirAba(id,botao);
-
 }
 
 function atualizarTudo(){
 
     renderizarEmprestimos();
-
     atualizarDashboard();
-
     renderizarCalendario();
-
 }
 
 async function exportarDados(){
@@ -2844,13 +2688,10 @@ async function exportarDados(){
     const conteudo=JSON.stringify(backup,null,2);
     const nomeArquivo="backup-meu-controle-emprestimos.json";
 
-    /*
-       No Android/Chrome, tenta primeiro criar a pasta
-       "Meu Controle de Empréstimos" dentro de Downloads.
-       O usuário escolhe Downloads no seletor do sistema.
-    */
     try{
+
         if("showDirectoryPicker" in window){
+
             const pastaBase=await window.showDirectoryPicker({
                 mode:"readwrite"
             });
@@ -2866,23 +2707,27 @@ async function exportarDados(){
             );
 
             const writable=await arquivo.createWritable();
+
             await writable.write(conteudo);
             await writable.close();
 
             alert("✅ Backup salvo em Meu Controle de Empréstimos.");
+
             return;
         }
+
     }catch(error){
+
         if(error && error.name==="AbortError"){
             return;
         }
-        console.warn("Seletor de pasta indisponível:",error);
+
+        console.warn(
+            "Seletor de pasta indisponível:",
+            error
+        );
     }
 
-    /*
-       Fallback: o navegador salva normalmente na pasta
-       Downloads configurada no aparelho.
-    */
     const blob=new Blob(
         [conteudo],
         {type:"application/json"}
@@ -2893,12 +2738,21 @@ async function exportarDados(){
 
     a.href=url;
     a.download=nomeArquivo;
+
     document.body.appendChild(a);
+
     a.click();
+
     a.remove();
 
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-    alert("✅ Backup exportado. No Android, verifique a pasta Downloads.");
+    setTimeout(
+        ()=>URL.revokeObjectURL(url),
+        1000
+    );
+
+    alert(
+        "✅ Backup exportado. No Android, verifique a pasta Downloads."
+    );
 }
 
 function importarDados(){
@@ -2907,7 +2761,6 @@ function importarDados(){
         document.createElement("input");
 
     input.type="file";
-
     input.accept=".json,application/json";
 
     input.onchange=function(){
@@ -2969,7 +2822,6 @@ function importarDados(){
     };
 
     input.click();
-
 }
 
 function escapeHTML(text){
@@ -2980,7 +2832,6 @@ function escapeHTML(text){
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
-
 }
 
 window.addEventListener(
@@ -3007,7 +2858,6 @@ async function instalarPWA(){
         );
 
         return;
-
     }
 
     deferredPrompt.prompt();
@@ -3015,26 +2865,86 @@ async function instalarPWA(){
     await deferredPrompt.userChoice;
 
     deferredPrompt=null;
-
 }
+
+
+/* =========================================================
+   ATUALIZAÇÃO DO APLICATIVO
+========================================================= */
+
+let atualizacaoEmAndamento = false;
 
 async function atualizarAplicativo(){
 
+    if(atualizacaoEmAndamento){
+        return;
+    }
+
+    atualizacaoEmAndamento = true;
+
     try{
 
-        if("serviceWorker" in navigator){
+        if(!("serviceWorker" in navigator)){
 
-            const registration =
-                await navigator.serviceWorker.getRegistration();
+            window.location.reload();
 
-            if(registration){
-                await registration.update();
-            }
+            return;
+
+        }
+
+        const registro =
+            await navigator.serviceWorker.getRegistration("./");
+
+        if(!registro){
+
+            window.location.reload();
+
+            return;
+
+        }
+
+        await registro.update();
+
+        if(registro.waiting){
+
+            registro.waiting.postMessage({
+                type:"SKIP_WAITING"
+            });
+
+            return;
+
+        }
+
+        if(registro.installing){
+
+            registro.installing.addEventListener(
+                "statechange",
+                function(){
+
+                    if(
+                        registro.installing &&
+                        registro.installing.state === "installed"
+                    ){
+
+                        if(registro.waiting){
+
+                            registro.waiting.postMessage({
+                                type:"SKIP_WAITING"
+                            });
+
+                        }
+
+                    }
+
+                }
+            );
+
+            return;
 
         }
 
         const url =
-            window.location.pathname +
+            window.location.href.split("?")[0] +
             "?app_update=" +
             Date.now();
 
@@ -3042,11 +2952,21 @@ async function atualizarAplicativo(){
 
     }catch(error){
 
-        window.location.reload(true);
+        console.error(
+            "Erro ao atualizar aplicativo:",
+            error
+        );
+
+        window.location.reload();
 
     }
 
 }
+
+
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
 
 if("serviceWorker" in navigator){
 
@@ -3056,7 +2976,7 @@ if("serviceWorker" in navigator){
 
             try{
 
-                const registration =
+                const registro =
                     await navigator.serviceWorker.register(
                         "./sw.js?v=2.2.0",
                         {
@@ -3064,27 +2984,51 @@ if("serviceWorker" in navigator){
                         }
                     );
 
-                registration.addEventListener(
+                navigator.serviceWorker.addEventListener(
+                    "controllerchange",
+                    function(){
+
+                        if(
+                            !window.__recarregandoAplicativo
+                        ){
+
+                            window.__recarregandoAplicativo = true;
+
+                            window.location.reload();
+
+                        }
+
+                    }
+                );
+
+                registro.addEventListener(
                     "updatefound",
                     function(){
 
                         const novo =
-                            registration.installing;
+                            registro.installing;
 
-                        if(!novo) return;
+                        if(!novo){
+                            return;
+                        }
 
                         novo.addEventListener(
                             "statechange",
                             function(){
 
                                 if(
-                                    novo.state==="installed" &&
-                                    navigator.serviceWorker.controller
+                                    novo.state === "installed"
                                 ){
 
-                                    console.log(
-                                        "Nova versão disponível."
-                                    );
+                                    if(
+                                        navigator.serviceWorker.controller
+                                    ){
+
+                                        novo.postMessage({
+                                            type:"SKIP_WAITING"
+                                        });
+
+                                    }
 
                                 }
 
@@ -3095,10 +3039,27 @@ if("serviceWorker" in navigator){
                 );
 
                 setInterval(
-                    ()=>{
-                        registration.update();
+                    function(){
+
+                        registro.update();
+
                     },
-                    5*60*1000
+                    5 * 60 * 1000
+                );
+
+                document.addEventListener(
+                    "visibilitychange",
+                    function(){
+
+                        if(
+                            document.visibilityState === "visible"
+                        ){
+
+                            registro.update();
+
+                        }
+
+                    }
                 );
 
             }catch(error){
@@ -3124,7 +3085,6 @@ function carregarConfiguracao(){
         config.mensagemWhatsApp ||
         config.mensagem ||
         "";
-
 }
 
 function inicializar(){
@@ -3135,10 +3095,6 @@ function inicializar(){
     document.getElementById("vencimento").value =
         adicionarMes(hojeISO());
 
-    /*
-       Campos iniciais do Orçamento
-    */
-
     document.getElementById("orcDataContrato").value =
         hojeISO();
 
@@ -3146,15 +3102,24 @@ function inicializar(){
         adicionarMes(hojeISO());
 
     carregarConfiguracao();
-    abrirBancoAnexos().catch(error=>console.error("Erro ao iniciar banco de anexos:",error));
+
+    abrirBancoAnexos().catch(
+        error=>console.error(
+            "Erro ao iniciar banco de anexos:",
+            error
+        )
+    );
+
     renderizarAnexos();
 
     atualizarTudo();
     atualizarEstadoValores();
     verificarNotificacoesVencimento();
 
-    setInterval(verificarNotificacoesVencimento,60*1000);
-
+    setInterval(
+        verificarNotificacoesVencimento,
+        60*1000
+    );
 }
 
 inicializar();
