@@ -70,6 +70,17 @@ header h1{
     padding:15px;
 }
 
+.dashboard-tools{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:10px;
+}
+
+.valores-ocultos{
+    filter:blur(7px);
+    user-select:none;
+}
+
 .dashboard{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -511,7 +522,7 @@ textarea{
     <div class="header-top">
         <div>
             <h1>💰 Meu Controle de Empréstimos</h1>
-            <div class="header-version">Versão 2.1 • Atualização automática</div>
+            <div class="header-version">Versão 2.2 • Atualização automática</div>
         </div>
 
         <button class="update-btn" onclick="atualizarAplicativo()" title="Atualizar aplicativo">
@@ -526,6 +537,12 @@ textarea{
         <strong>📱 Instalar aplicativo</strong>
         <div>Instale o aplicativo na tela inicial para usar como um app.</div>
         <button class="btn btn-primary" onclick="instalarPWA()">Instalar</button>
+    </div>
+
+    <div class="dashboard-tools">
+        <button class="btn btn-gray" id="toggleValoresBtn" onclick="alternarValores()" title="Ocultar/mostrar valores">
+            👁️ Ocultar valores
+        </button>
     </div>
 
     <div class="dashboard">
@@ -631,6 +648,14 @@ textarea{
 
                 <label>Quantidade de parcelas</label>
                 <input id="parcelas" type="number" min="1" value="1">
+
+                <div id="campoParcelasPagas">
+                    <label>Parcelas pagas</label>
+                    <input id="parcelasPagas" type="number" min="0" value="0">
+                    <div style="font-size:12px;color:#9ca3af;margin-top:5px">
+                        ✏️ Você pode corrigir manualmente a quantidade de parcelas já pagas.
+                    </div>
+                </div>
 
                 <div class="notice">
                     ⚠️ A multa diária é calculada automaticamente:
@@ -869,6 +894,14 @@ textarea{
 
             <h2>⚙️ Configurações</h2>
 
+            <div class="notice">
+                🔔 As notificações de vencimento são silenciosas: sem som e sem vibração.
+                <br><br>
+                <button class="btn btn-primary" onclick="ativarNotificacoes()">
+                    🔔 Ativar notificações silenciosas
+                </button>
+            </div>
+
             <label>Mensagem do WhatsApp</label>
 
             <textarea id="mensagemWhatsApp"></textarea>
@@ -948,7 +981,7 @@ textarea{
 
 <script>
 
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.2.0";
 
 let emprestimos = JSON.parse(
     localStorage.getItem("emprestimos_v2")
@@ -1397,7 +1430,12 @@ async function salvarEmprestimo(){
             whatsapp,
             valorParcela,
             parcelas,
-            parcelasPagas:0,
+            parcelasPagas:editandoId
+                ? Math.min(Math.max(0,Number(document.getElementById("parcelasPagas").value)||0), parcelas)
+                : 0,
+            valorParcelaPago:editandoId
+                ? Math.max(0,Number(emprestimos.find(x=>x.id===editandoId)?.valorParcelaPago||0))
+                : 0,
             inicio,
             vencimento,
             observacao,
@@ -1462,6 +1500,7 @@ function limparFormulario(){
     document.getElementById("juros").value="";
     document.getElementById("valorParcela").value="";
     document.getElementById("parcelas").value="1";
+    document.getElementById("parcelasPagas").value="0";
     document.getElementById("observacao").value="";
 
     document.getElementById("inicio").value =
@@ -1517,11 +1556,19 @@ function calcularParcelado(e){
     const total =
         parcela + multa;
 
+    const valorParcelaPago =
+        Math.min(parcela, Math.max(0,Number(e.valorParcelaPago||0)));
+
+    const valorEmHaver =
+        Math.max(0, total - valorParcelaPago);
+
     return {
         multaDiaria,
         dias,
         multa,
-        total
+        total,
+        valorParcelaPago,
+        valorEmHaver
     };
 
 }
@@ -1744,6 +1791,16 @@ function renderLoan(e){
                 <strong>${Math.max(0,Number(e.parcelas)-Number(e.parcelasPagas||0))}</strong>
             </div>
 
+            <div>
+                💵 Recebido nesta parcela:
+                <strong>${dinheiro(calculo.valorParcelaPago)}</strong>
+            </div>
+
+            <div class="penalty">
+                ⚠️ Valor em haver:
+                <strong>${dinheiro(calculo.valorEmHaver)}</strong>
+            </div>
+
             <div class="penalty">
                 ⚠️ Multa diária por atraso:
                 ${dinheiro(calculo.multaDiaria)}
@@ -1947,12 +2004,36 @@ function receber(id){
         const calculo =
             calcularParcelado(e);
 
-        valorRecebido =
-            calculo.total;
+        const valorEmHaver =
+            calculo.valorEmHaver;
 
-        if(!confirm(
-            `Confirmar recebimento de ${e.nome}?\n\nValor: ${dinheiro(valorRecebido)}`
-        )) return;
+        const entrada = prompt(
+            `💰 Recebimento de ${e.nome}\n\n` +
+            `📆 Parcela: ${Number(e.parcelasPagas||0)+1}/${e.parcelas}\n` +
+            `💵 Valor da parcela: ${dinheiro(e.valorParcela)}\n` +
+            `💵 Já recebido nesta parcela: ${dinheiro(calculo.valorParcelaPago)}\n` +
+            `⚠️ Falta para completar: ${dinheiro(valorEmHaver)}\n\n` +
+            `Digite o valor que recebeu agora:`,
+            valorEmHaver.toFixed(2)
+        );
+
+        if(entrada === null) return;
+
+        valorRecebido =
+            Number(String(entrada).replace(",", "."));
+
+        if(!Number.isFinite(valorRecebido) || valorRecebido <= 0){
+            alert("Informe um valor válido.");
+            return;
+        }
+
+        if(valorRecebido > valorEmHaver + 0.005){
+            alert(
+                `O valor informado é maior que o valor que falta para completar a parcela.\n\n` +
+                `Valor máximo: ${dinheiro(valorEmHaver)}`
+            );
+            return;
+        }
 
         pagamentos.push({
             id:Date.now(),
@@ -1963,15 +2044,22 @@ function receber(id){
             tipo:"parcelado"
         });
 
-        e.parcelasPagas =
-            Number(e.parcelasPagas || 0) + 1;
+        e.valorParcelaPago =
+            calculo.valorParcelaPago + valorRecebido;
 
-        if(e.parcelasPagas >= e.parcelas){
-            e.parcelasPagas = 0;
+        if(e.valorParcelaPago >= calculo.total - 0.005){
+
+            e.valorParcelaPago = 0;
+            e.parcelasPagas =
+                Number(e.parcelasPagas || 0) + 1;
+
+            if(e.parcelasPagas >= e.parcelas){
+                e.parcelasPagas = 0;
+            }
+
+            e.vencimento =
+                adicionarMes(e.vencimento);
         }
-
-        e.vencimento =
-            adicionarMes(e.vencimento);
 
     }
 
@@ -2020,6 +2108,7 @@ async function editarEmprestimo(id){
         document.getElementById("valorParcela").value=e.valorParcela;
 
         document.getElementById("parcelas").value=e.parcelas;
+        document.getElementById("parcelasPagas").value=e.parcelasPagas || 0;
 
         document.getElementById("campoJuros").style.display="none";
 
@@ -2550,6 +2639,80 @@ function fecharModal(){
 
 }
 
+function valoresOcultos(){
+    return localStorage.getItem("valores_ocultos_v2") === "1";
+}
+
+function atualizarEstadoValores(){
+    const ocultos = valoresOcultos();
+    document.querySelectorAll(
+        "#dashEmprestado,#dashRecebido,#dashReceber,#dashAberto,#dashAtrasado"
+    ).forEach(el=>{
+        el.classList.toggle("valores-ocultos", ocultos);
+    });
+
+    const botao=document.getElementById("toggleValoresBtn");
+    if(botao){
+        botao.textContent = ocultos
+            ? "👁️ Mostrar valores"
+            : "🙈 Ocultar valores";
+    }
+}
+
+function alternarValores(){
+    localStorage.setItem(
+        "valores_ocultos_v2",
+        valoresOcultos() ? "0" : "1"
+    );
+    atualizarEstadoValores();
+}
+
+async function ativarNotificacoes(){
+    if(!("Notification" in window)){
+        alert("Este navegador não oferece suporte a notificações.");
+        return;
+    }
+
+    const permissao = await Notification.requestPermission();
+
+    if(permissao === "granted"){
+        verificarNotificacoesVencimento();
+        alert("🔔 Notificações silenciosas ativadas.");
+    }else{
+        alert("As notificações não foram autorizadas.");
+    }
+}
+
+function verificarNotificacoesVencimento(){
+    if(!("Notification" in window) || Notification.permission !== "granted"){
+        return;
+    }
+
+    const hoje=hojeISO();
+    const chaveData="notificacoes_vencimento_"+hoje;
+    const enviadas=JSON.parse(
+        localStorage.getItem(chaveData) || "[]"
+    );
+
+    emprestimos
+        .filter(e=>e.ativo && e.vencimento===hoje)
+        .forEach(e=>{
+            if(enviadas.includes(e.id)) return;
+
+            try{
+                new Notification("💰 Vencimento de empréstimo",{
+                    body:`📅 Hoje vence o contrato de ${e.nome}.`,
+                    silent:true
+                });
+                enviadas.push(e.id);
+            }catch(error){
+                console.error("Erro ao mostrar notificação:",error);
+            }
+        });
+
+    localStorage.setItem(chaveData,JSON.stringify(enviadas));
+}
+
 function atualizarDashboard(){
 
     let emprestado=0;
@@ -2578,7 +2741,7 @@ function atualizarDashboard(){
 
             if(e.ativo){
                 receber +=
-                    Number(e.valorParcela);
+                    calcularParcelado(e).valorEmHaver;
             }
 
         }
@@ -2592,7 +2755,7 @@ function atualizarDashboard(){
                 if(e.tipo==="mensal"){
                     atrasado += calcularMensal(e).totalAtualizado;
                 }else{
-                    atrasado += calcularParcelado(e).total;
+                    atrasado += calcularParcelado(e).valorEmHaver;
                 }
 
             }
@@ -2619,6 +2782,8 @@ function atualizarDashboard(){
 
     document.getElementById("dashAtrasado").textContent =
         dinheiro(atrasado);
+
+    atualizarEstadoValores();
 
 }
 
@@ -2666,7 +2831,7 @@ function atualizarTudo(){
 
 }
 
-function exportarDados(){
+async function exportarDados(){
 
     const backup={
         versao:APP_VERSION,
@@ -2676,27 +2841,64 @@ function exportarDados(){
         config
     };
 
-    const blob =
-        new Blob(
-            [JSON.stringify(backup,null,2)],
-            {type:"application/json"}
-        );
+    const conteudo=JSON.stringify(backup,null,2);
+    const nomeArquivo="backup-meu-controle-emprestimos.json";
 
-    const url =
-        URL.createObjectURL(blob);
+    /*
+       No Android/Chrome, tenta primeiro criar a pasta
+       "Meu Controle de Empréstimos" dentro de Downloads.
+       O usuário escolhe Downloads no seletor do sistema.
+    */
+    try{
+        if("showDirectoryPicker" in window){
+            const pastaBase=await window.showDirectoryPicker({
+                mode:"readwrite"
+            });
 
-    const a =
-        document.createElement("a");
+            const pastaApp=await pastaBase.getDirectoryHandle(
+                "Meu Controle de Empréstimos",
+                {create:true}
+            );
+
+            const arquivo=await pastaApp.getFileHandle(
+                nomeArquivo,
+                {create:true}
+            );
+
+            const writable=await arquivo.createWritable();
+            await writable.write(conteudo);
+            await writable.close();
+
+            alert("✅ Backup salvo em Meu Controle de Empréstimos.");
+            return;
+        }
+    }catch(error){
+        if(error && error.name==="AbortError"){
+            return;
+        }
+        console.warn("Seletor de pasta indisponível:",error);
+    }
+
+    /*
+       Fallback: o navegador salva normalmente na pasta
+       Downloads configurada no aparelho.
+    */
+    const blob=new Blob(
+        [conteudo],
+        {type:"application/json"}
+    );
+
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
 
     a.href=url;
-
-    a.download=
-        "backup-meu-controle-emprestimos.json";
-
+    a.download=nomeArquivo;
+    document.body.appendChild(a);
     a.click();
+    a.remove();
 
-    URL.revokeObjectURL(url);
-
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    alert("✅ Backup exportado. No Android, verifique a pasta Downloads.");
 }
 
 function importarDados(){
@@ -2856,7 +3058,7 @@ if("serviceWorker" in navigator){
 
                 const registration =
                     await navigator.serviceWorker.register(
-                        "./sw.js?v=2.1.0",
+                        "./sw.js?v=2.2.0",
                         {
                             updateViaCache:"none"
                         }
@@ -2948,6 +3150,10 @@ function inicializar(){
     renderizarAnexos();
 
     atualizarTudo();
+    atualizarEstadoValores();
+    verificarNotificacoesVencimento();
+
+    setInterval(verificarNotificacoesVencimento,60*1000);
 
 }
 
