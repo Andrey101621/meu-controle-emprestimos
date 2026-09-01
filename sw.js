@@ -1,4 +1,4 @@
-const CACHE_NAME = "meu-controle-emprestimos-v2.1.0";
+const CACHE_NAME = "meu-controle-emprestimos-v2.2.0";
 
 const ARQUIVOS = [
     "./",
@@ -14,7 +14,7 @@ const ARQUIVOS = [
 self.addEventListener("install", event => {
 
     /*
-       Força a nova versão a assumir imediatamente
+       Faz a nova versão assumir imediatamente
        o controle.
     */
 
@@ -61,11 +61,35 @@ self.addEventListener("activate", event => {
             .then(() => {
 
                 /*
-                   A nova versão assume imediatamente
-                   todas as páginas abertas.
+                   Assume imediatamente o controle
+                   de todas as páginas abertas.
                 */
 
                 return self.clients.claim();
+
+            })
+            .then(() => {
+
+                /*
+                   Informa às páginas abertas que
+                   uma nova versão foi ativada.
+                */
+
+                return self.clients.matchAll({
+                    type: "window",
+                    includeUncontrolled: true
+                });
+
+            })
+            .then(clients => {
+
+                clients.forEach(client => {
+
+                    client.postMessage({
+                        type: "NOVA_VERSAO_ATIVADA"
+                    });
+
+                });
 
             })
 
@@ -80,46 +104,44 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 
-    const request =
-        event.request;
+    const request = event.request;
 
     /*
        Apenas requisições GET.
     */
 
-    if(request.method !== "GET"){
+    if (request.method !== "GET") {
 
         return;
 
     }
 
+    const url = new URL(request.url);
+
     /*
-       Para index.html, manifest e sw.js,
-       sempre tenta buscar a versão mais recente
+       Arquivos principais do aplicativo.
+       Sempre tenta buscar a versão mais recente
        na internet.
     */
-
-    const url =
-        new URL(request.url);
 
     const ehArquivoPrincipal =
         url.pathname.endsWith("/index.html") ||
         url.pathname.endsWith("/manifest.json") ||
         url.pathname.endsWith("/sw.js");
 
-    if(ehArquivoPrincipal){
+    if (ehArquivoPrincipal) {
 
         event.respondWith(
 
             fetch(request, {
-                cache:"no-store"
+                cache: "no-store"
             })
+
             .then(response => {
 
-                if(response && response.ok){
+                if (response && response.ok) {
 
-                    const clone =
-                        response.clone();
+                    const clone = response.clone();
 
                     caches.open(CACHE_NAME)
                         .then(cache => {
@@ -136,6 +158,7 @@ self.addEventListener("fetch", event => {
                 return response;
 
             })
+
             .catch(() => {
 
                 return caches.match(request);
@@ -151,19 +174,21 @@ self.addEventListener("fetch", event => {
 
     /*
        Para os demais arquivos:
-       tenta rede primeiro e usa cache
-       se estiver sem internet.
+       tenta a internet primeiro.
+
+       Se não houver internet,
+       utiliza o cache.
     */
 
     event.respondWith(
 
         fetch(request)
+
             .then(response => {
 
-                if(response && response.ok){
+                if (response && response.ok) {
 
-                    const clone =
-                        response.clone();
+                    const clone = response.clone();
 
                     caches.open(CACHE_NAME)
                         .then(cache => {
@@ -180,6 +205,7 @@ self.addEventListener("fetch", event => {
                 return response;
 
             })
+
             .catch(() => {
 
                 return caches.match(request);
