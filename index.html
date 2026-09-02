@@ -2894,71 +2894,49 @@ async function atualizarAplicativo(){
     try{
 
         /*
-           Se o navegador não tiver suporte a Service Worker,
-           força uma nova abertura da página.
+           Força uma nova versão da página,
+           ignorando a versão que estiver armazenada.
         */
 
-        if(!("serviceWorker" in navigator)){
+        const paginaAtual =
+            window.location.href.split("?")[0];
 
-            window.location.replace(
-                window.location.href.split("?")[0] +
-                "?app_update=" +
-                Date.now()
-            );
-
-            return;
-
-        }
-
-        /*
-           Remove os Service Workers antigos.
-           Isso NÃO apaga:
-           - empréstimos
-           - pagamentos
-           - configurações
-           - localStorage
-           - IndexedDB
-           - fotos
-           - vídeos
-        */
-
-        const registros =
-            await navigator.serviceWorker.getRegistrations();
-
-        for(const registro of registros){
-
-            await registro.unregister();
-
-        }
-
-        /*
-           Remove somente o Cache Storage.
-           Os dados do aplicativo continuam salvos.
-        */
-
-        if("caches" in window){
-
-            const cachesExistentes =
-                await caches.keys();
-
-            await Promise.all(
-                cachesExistentes.map(
-                    nome => caches.delete(nome)
-                )
-            );
-
-        }
-
-        /*
-           Abre novamente a página sem o cache antigo.
-        */
-
-        const url =
-            window.location.href.split("?")[0] +
-            "?app_update=" +
+        const novaURL =
+            paginaAtual +
+            "?atualizacao=" +
             Date.now();
 
-        window.location.replace(url);
+        /*
+           Tenta atualizar o Service Worker primeiro.
+        */
+
+        if("serviceWorker" in navigator){
+
+            const registros =
+                await navigator.serviceWorker.getRegistrations();
+
+            for(const registro of registros){
+
+                try{
+                    await registro.update();
+                }catch(error){
+                    console.log(
+                        "Não foi possível atualizar o Service Worker:",
+                        error
+                    );
+                }
+
+            }
+
+        }
+
+        /*
+           Recarrega diretamente a página.
+           O parâmetro único impede o navegador
+           de reutilizar a página anterior.
+        */
+
+        window.location.replace(novaURL);
 
     }catch(error){
 
@@ -2968,21 +2946,87 @@ async function atualizarAplicativo(){
         );
 
         /*
-           Se houver algum erro, ainda tenta
-           abrir novamente a página.
+           Última tentativa de atualização.
         */
 
-        window.location.replace(
+        const novaURL =
             window.location.href.split("?")[0] +
-            "?app_update=" +
-            Date.now()
-        );
+            "?atualizacao=" +
+            Date.now();
+
+        window.location.replace(novaURL);
 
     }
 
 }
 
 
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
+
+if("serviceWorker" in navigator){
+
+    window.addEventListener(
+        "load",
+        async function(){
+
+            try{
+
+                const registro =
+                    await navigator.serviceWorker.register(
+                        "./sw.js?v=2.2.0",
+                        {
+                            updateViaCache:"none"
+                        }
+                    );
+
+                /*
+                   Verificação automática a cada 5 minutos.
+                */
+
+                setInterval(
+                    function(){
+
+                        registro.update();
+
+                    },
+                    5 * 60 * 1000
+                );
+
+                /*
+                   Verifica novamente quando o aplicativo
+                   volta para a tela.
+                */
+
+                document.addEventListener(
+                    "visibilitychange",
+                    function(){
+
+                        if(
+                            document.visibilityState === "visible"
+                        ){
+
+                            registro.update();
+
+                        }
+
+                    }
+                );
+
+            }catch(error){
+
+                console.error(
+                    "Erro no Service Worker:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
 /* =========================================================
    SERVICE WORKER
 ========================================================= */
