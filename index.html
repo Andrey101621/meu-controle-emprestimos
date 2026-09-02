@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -539,6 +540,7 @@ textarea{
     }
 }
 </style>
+
 </head>
 
 <body>
@@ -550,439 +552,446 @@ textarea{
             <div class="header-version">Versão 2.2 • Atualização automática</div>
         </div>
 
-        <button class="update-btn" onclick="atualizarAplicativo()" title="Atualizar aplicativo">
-            🔄
-        </button>
-    </div>
+```
+    <button class="update-btn" onclick="atualizarAplicativo()" title="Atualizar aplicativo">
+        🔄
+    </button>
+</div>
+```
+
 </header>
 
 <div class="container">
 
-    <div id="installBanner" class="install-banner">
-        <strong>📱 Instalar aplicativo</strong>
-        <div>Instale o aplicativo na tela inicial para usar como um app.</div>
-        <button class="btn btn-primary" onclick="instalarPWA()">Instalar</button>
+```
+<div id="installBanner" class="install-banner">
+    <strong>📱 Instalar aplicativo</strong>
+    <div>Instale o aplicativo na tela inicial para usar como um app.</div>
+    <button class="btn btn-primary" onclick="instalarPWA()">Instalar</button>
+</div>
+
+<div class="dashboard-tools">
+    <button class="btn btn-gray" id="toggleValoresBtn" onclick="alternarValores()" title="Ocultar/mostrar valores">
+        👁️ Ocultar valores
+    </button>
+</div>
+
+<div class="dashboard">
+
+    <div class="card blue">
+        <small>Total emprestado</small>
+        <strong id="dashEmprestado">R$ 0,00</strong>
     </div>
 
-    <div class="dashboard-tools">
-        <button class="btn btn-gray" id="toggleValoresBtn" onclick="alternarValores()" title="Ocultar/mostrar valores">
-            👁️ Ocultar valores
-        </button>
+    <div class="card green">
+        <small>Total recebido</small>
+        <strong id="dashRecebido">R$ 0,00</strong>
     </div>
 
-    <div class="dashboard">
-
-        <div class="card blue">
-            <small>Total emprestado</small>
-            <strong id="dashEmprestado">R$ 0,00</strong>
-        </div>
-
-        <div class="card green">
-            <small>Total recebido</small>
-            <strong id="dashRecebido">R$ 0,00</strong>
-        </div>
-
-        <div class="card orange">
-            <small>A receber</small>
-            <strong id="dashReceber">R$ 0,00</strong>
-        </div>
-
-        <div class="card gray">
-            <small>Em aberto</small>
-            <strong id="dashAberto">R$ 0,00</strong>
-        </div>
-
-        <div class="card red">
-            <small>Em atraso</small>
-            <strong id="dashAtrasado">R$ 0,00</strong>
-        </div>
-
+    <div class="card orange">
+        <small>A receber</small>
+        <strong id="dashReceber">R$ 0,00</strong>
     </div>
 
-    <div class="tabs">
-
-        <button class="tab active" onclick="abrirAba('emprestimos',this)">
-            💰 Empréstimos
-        </button>
-
-        <button class="tab" onclick="abrirAba('novo',this)">
-            ➕ Novo
-        </button>
-
-        <button class="tab" onclick="abrirAba('orcamento',this)">
-            🧮 Orçamento
-        </button>
-
-        <button class="tab" onclick="abrirAba('calendario',this)">
-            📅 Calendário
-        </button>
-
-        <button class="tab" onclick="abrirAba('config',this)">
-            ⚙️ Config.
-        </button>
-
+    <div class="card gray">
+        <small>Em aberto</small>
+        <strong id="dashAberto">R$ 0,00</strong>
     </div>
 
-    <section id="emprestimos" class="section active">
+    <div class="card red">
+        <small>Em atraso</small>
+        <strong id="dashAtrasado">R$ 0,00</strong>
+    </div>
 
-        <input
-            class="search"
-            id="pesquisa"
-            type="search"
-            placeholder="🔎 Procurar cliente..."
-            oninput="renderizarEmprestimos()"
-        >
+</div>
 
-        <div id="listaEmprestimos"></div>
+<div class="tabs">
 
-    </section>
+    <button class="tab active" onclick="abrirAba('emprestimos',this)">
+        💰 Empréstimos
+    </button>
 
-    <section id="novo" class="section">
+    <button class="tab" onclick="abrirAba('novo',this)">
+        ➕ Novo
+    </button>
 
-        <div class="form-card">
+    <button class="tab" onclick="abrirAba('orcamento',this)">
+        🧮 Orçamento
+    </button>
 
-            <h2>➕ Novo empréstimo</h2>
+    <button class="tab" onclick="abrirAba('calendario',this)">
+        📅 Calendário
+    </button>
 
-            <label>Tipo de empréstimo</label>
+    <button class="tab" onclick="abrirAba('config',this)">
+        ⚙️ Config.
+    </button>
 
-            <select id="tipo">
-                <option value="mensal">Empréstimo Mensal</option>
-                <option value="parcelado">Empréstimo Parcelado</option>
-            </select>
+</div>
 
-            <label>Nome</label>
-            <input id="nome" type="text" placeholder="Nome do cliente">
+<section id="emprestimos" class="section active">
 
-            <label>WhatsApp</label>
-            <input id="whatsapp" type="tel" placeholder="(00) 00000-0000">
+    <input
+        class="search"
+        id="pesquisa"
+        type="search"
+        placeholder="🔎 Procurar cliente..."
+        oninput="renderizarEmprestimos()"
+    >
 
-            <label>Valor emprestado</label>
-            <input id="valor" type="number" step="0.01" placeholder="1000">
+    <div id="listaEmprestimos"></div>
 
-            <div id="campoJuros">
+</section>
 
-                <label>Juros (%)</label>
-                <input id="juros" type="number" step="0.01" placeholder="30">
+<section id="novo" class="section">
 
-            </div>
+    <div class="form-card">
 
-            <div id="campoParcela" style="display:none">
+        <h2>➕ Novo empréstimo</h2>
 
-                <label>Valor da parcela</label>
-                <input id="valorParcela" type="number" step="0.01" placeholder="1000">
+        <label>Tipo de empréstimo</label>
 
-                <label>Quantidade de parcelas</label>
-                <input id="parcelas" type="number" min="1" value="1">
+        <select id="tipo">
+            <option value="mensal">Empréstimo Mensal</option>
+            <option value="parcelado">Empréstimo Parcelado</option>
+        </select>
 
-                <div id="campoParcelasPagas">
-                    <label>Parcelas pagas</label>
-                    <input id="parcelasPagas" type="number" min="0" value="0">
-                    <div style="font-size:12px;color:#9ca3af;margin-top:5px">
-                        ✏️ Você pode corrigir manualmente a quantidade de parcelas já pagas.
-                    </div>
-                </div>
+        <label>Nome</label>
+        <input id="nome" type="text" placeholder="Nome do cliente">
 
-                <div class="notice">
-                    ⚠️ A multa diária é calculada automaticamente:
-                    <br><br>
-                    <strong>Valor da parcela ÷ 30 ÷ 2</strong>
-                </div>
+        <label>WhatsApp</label>
+        <input id="whatsapp" type="tel" placeholder="(00) 00000-0000">
 
-            </div>
+        <label>Valor emprestado</label>
+        <input id="valor" type="number" step="0.01" placeholder="1000">
 
-            <label>Data de início</label>
-            <input id="inicio" type="date">
-
-            <label>Data de vencimento</label>
-            <input id="vencimento" type="date">
-
-            <label>Observação</label>
-            <textarea id="observacao" placeholder="Digite uma anotação..."></textarea>
-
-            <div class="form-card" id="areaAnexos" style="margin-top:15px">
-
-                <h2>📎 Documentos e arquivos</h2>
-
-                <input
-                    id="anexarFotos"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    style="display:none"
-                    onchange="adicionarAnexos(event)"
-                >
-
-                <input
-                    id="anexarVideos"
-                    type="file"
-                    accept="video/*"
-                    multiple
-                    style="display:none"
-                    onchange="adicionarAnexos(event)"
-                >
-
-                <div class="actions">
-
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        onclick="document.getElementById('anexarFotos').click()">
-                        📷 Adicionar foto
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn btn-gray"
-                        onclick="document.getElementById('anexarVideos').click()">
-                        🎥 Adicionar vídeo
-                    </button>
-
-                </div>
-
-                <div
-                    id="listaAnexos"
-                    style="margin-top:12px;font-size:13px;color:#d1d5db">
-                    Nenhum arquivo anexado.
-                </div>
-
-            </div>
-
-            <div class="actions">
-
-                <button class="btn btn-primary" onclick="salvarEmprestimo()">
-                    💾 Salvar empréstimo
-                </button>
-
-                <button class="btn btn-gray" onclick="limparFormulario()">
-                    Limpar
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section id="orcamento" class="section">
-
-        <div class="form-card">
-
-            <h2>🧮 Orçamento</h2>
-
-            <label>Nome</label>
-            <input id="orcNome" type="text" placeholder="Nome do cliente">
-
-            <label>Telefone</label>
-            <input id="orcTelefone" type="tel" placeholder="(00) 00000-0000">
-
-            <label>Data contrato</label>
-            <input id="orcDataContrato" type="date">
-
-            <label>Data vencimento</label>
-            <input id="orcDataVencimento" type="date">
-
-            <label>Valor do empréstimo</label>
-            <input
-                id="orcValor"
-                type="number"
-                step="0.01"
-                placeholder="1000"
-                oninput="calcularOrcamento()"
-            >
+        <div id="campoJuros">
 
             <label>Juros (%)</label>
-            <input
-                id="orcJuros"
-                type="number"
-                step="0.01"
-                placeholder="30"
-                oninput="calcularOrcamento()"
-            >
+            <input id="juros" type="number" step="0.01" placeholder="30">
 
-            <label>Juros diário</label>
-            <input
-                id="orcJurosDiario"
-                type="text"
-                placeholder="R$ 0,00"
-                readonly
-            >
+        </div>
 
-            <label>Total para quitar</label>
-            <input
-                id="orcTotal"
-                type="text"
-                placeholder="R$ 0,00"
-                readonly
-            >
+        <div id="campoParcela" style="display:none">
+
+            <label>Valor da parcela</label>
+            <input id="valorParcela" type="number" step="0.01" placeholder="1000">
+
+            <label>Quantidade de parcelas</label>
+            <input id="parcelas" type="number" min="1" value="1">
+
+            <div id="campoParcelasPagas">
+                <label>Parcelas pagas</label>
+                <input id="parcelasPagas" type="number" min="0" value="0">
+                <div style="font-size:12px;color:#9ca3af;margin-top:5px">
+                    ✏️ Você pode corrigir manualmente a quantidade de parcelas já pagas.
+                </div>
+            </div>
 
             <div class="notice">
-                📊 Cálculo do orçamento:
+                ⚠️ A multa diária é calculada automaticamente:
                 <br><br>
-                <strong>Juros = Valor do empréstimo × percentual de juros</strong>
-                <br><br>
-                <strong>Juros diário = (Valor do empréstimo + juros) ÷ 30</strong>
-                <br><br>
-                <strong>Total para quitar = Valor do empréstimo + juros</strong>
+                <strong>Valor da parcela ÷ 30 ÷ 2</strong>
             </div>
+
+        </div>
+
+        <label>Data de início</label>
+        <input id="inicio" type="date">
+
+        <label>Data de vencimento</label>
+        <input id="vencimento" type="date">
+
+        <label>Observação</label>
+        <textarea id="observacao" placeholder="Digite uma anotação..."></textarea>
+
+        <div class="form-card" id="areaAnexos" style="margin-top:15px">
+
+            <h2>📎 Documentos e arquivos</h2>
+
+            <input
+                id="anexarFotos"
+                type="file"
+                accept="image/*"
+                multiple
+                style="display:none"
+                onchange="adicionarAnexos(event)"
+            >
+
+            <input
+                id="anexarVideos"
+                type="file"
+                accept="video/*"
+                multiple
+                style="display:none"
+                onchange="adicionarAnexos(event)"
+            >
 
             <div class="actions">
 
                 <button
+                    type="button"
                     class="btn btn-primary"
-                    onclick="calcularOrcamento()">
-                    🧮 Calcular orçamento
+                    onclick="document.getElementById('anexarFotos').click()">
+                    📷 Adicionar foto
                 </button>
 
                 <button
-                    class="btn btn-whatsapp"
-                    onclick="enviarOrcamentoWhatsApp()">
-                    📲 Enviar pelo WhatsApp
-                </button>
-
-                <button
+                    type="button"
                     class="btn btn-gray"
-                    onclick="limparOrcamento()">
-                    Limpar
+                    onclick="document.getElementById('anexarVideos').click()">
+                    🎥 Adicionar vídeo
                 </button>
 
             </div>
 
-        </div>
-
-    </section>
-
-    <section id="calendario" class="section">
-
-        <div class="calendar-card">
-
-            <div class="calendar-header">
-
-                <button onclick="mudarMes(-1)">‹</button>
-
-                <div id="calendarTitle" class="calendar-title"></div>
-
-                <button onclick="mudarMes(1)">›</button>
-
-            </div>
-
-            <div class="weekdays">
-                <div>DOM</div>
-                <div>SEG</div>
-                <div>TER</div>
-                <div>QUA</div>
-                <div>QUI</div>
-                <div>SEX</div>
-                <div>SÁB</div>
-            </div>
-
-            <div id="calendarGrid" class="calendar-grid"></div>
-
-            <div class="legend">
-
-                <span>
-                    <i class="dot blue"></i>
-                    Vence hoje
-                </span>
-
-                <span>
-                    <i class="dot red"></i>
-                    Em atraso
-                </span>
-
+            <div
+                id="listaAnexos"
+                style="margin-top:12px;font-size:13px;color:#d1d5db">
+                Nenhum arquivo anexado.
             </div>
 
         </div>
 
-    </section>
+        <div class="actions">
 
-    <section id="config" class="section">
+            <button class="btn btn-primary" onclick="salvarEmprestimo()">
+                💾 Salvar empréstimo
+            </button>
 
-        <div class="form-card">
-
-            <h2>⚙️ Configurações</h2>
-
-            <div class="notice">
-                🔔 As notificações de vencimento são silenciosas: sem som e sem vibração.
-                <br><br>
-                <button class="btn btn-primary" onclick="ativarNotificacoes()">
-                    🔔 Ativar notificações silenciosas
-                </button>
-            </div>
-
-            <label>Mensagem do WhatsApp</label>
-
-            <textarea id="mensagemWhatsApp"></textarea>
-
-            <div class="notice">
-                Você pode usar estas variáveis:
-                <br><br>
-                <strong>{nome}</strong> = nome do cliente
-                <br>
-                <strong>{total}</strong> = valor total
-                <br>
-                <strong>{juros}</strong> = juros
-                <br>
-                <strong>{vencimento}</strong> = vencimento
-                <br>
-                <strong>{dias}</strong> = dias de atraso
-                <br>
-                <strong>{multa}</strong> = multa
-            </div>
-
-            <button class="btn btn-primary" onclick="salvarConfiguracao()">
-                💾 Salvar mensagem
+            <button class="btn btn-gray" onclick="limparFormulario()">
+                Limpar
             </button>
 
         </div>
 
-        <div class="form-card">
+    </div>
 
-            <h2>🔄 Atualização do aplicativo</h2>
+</section>
 
-            <p style="font-size:14px;line-height:1.6;margin-bottom:12px">
-                Se uma nova versão estiver disponível, toque no botão abaixo.
-                Seus empréstimos ficam salvos no aparelho.
-            </p>
+<section id="orcamento" class="section">
 
-            <button class="btn btn-primary" onclick="atualizarAplicativo()">
-                🔄 Verificar atualização
+    <div class="form-card">
+
+        <h2>🧮 Orçamento</h2>
+
+        <label>Nome</label>
+        <input id="orcNome" type="text" placeholder="Nome do cliente">
+
+        <label>Telefone</label>
+        <input id="orcTelefone" type="tel" placeholder="(00) 00000-0000">
+
+        <label>Data contrato</label>
+        <input id="orcDataContrato" type="date">
+
+        <label>Data vencimento</label>
+        <input id="orcDataVencimento" type="date">
+
+        <label>Valor do empréstimo</label>
+        <input
+            id="orcValor"
+            type="number"
+            step="0.01"
+            placeholder="1000"
+            oninput="calcularOrcamento()"
+        >
+
+        <label>Juros (%)</label>
+        <input
+            id="orcJuros"
+            type="number"
+            step="0.01"
+            placeholder="30"
+            oninput="calcularOrcamento()"
+        >
+
+        <label>Juros diário</label>
+        <input
+            id="orcJurosDiario"
+            type="text"
+            placeholder="R$ 0,00"
+            readonly
+        >
+
+        <label>Total para quitar</label>
+        <input
+            id="orcTotal"
+            type="text"
+            placeholder="R$ 0,00"
+            readonly
+        >
+
+        <div class="notice">
+            📊 Cálculo do orçamento:
+            <br><br>
+            <strong>Juros = Valor do empréstimo × percentual de juros</strong>
+            <br><br>
+            <strong>Juros diário = (Valor do empréstimo + juros) ÷ 30</strong>
+            <br><br>
+            <strong>Total para quitar = Valor do empréstimo + juros</strong>
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-primary"
+                onclick="calcularOrcamento()">
+                🧮 Calcular orçamento
+            </button>
+
+            <button
+                class="btn btn-whatsapp"
+                onclick="enviarOrcamentoWhatsApp()">
+                📲 Enviar pelo WhatsApp
+            </button>
+
+            <button
+                class="btn btn-gray"
+                onclick="limparOrcamento()">
+                Limpar
             </button>
 
         </div>
 
-        <div class="form-card">
+    </div>
 
-            <h2>⚠️ Dados</h2>
+</section>
 
-            <button class="btn btn-danger" onclick="exportarDados()">
-                📤 Fazer backup
-            </button>
+<section id="calendario" class="section">
 
-            <button class="btn btn-warning" onclick="importarDados()">
-                📥 Restaurar backup
-            </button>
+    <div class="calendar-card">
+
+        <div class="calendar-header">
+
+            <button onclick="mudarMes(-1)">‹</button>
+
+            <div id="calendarTitle" class="calendar-title"></div>
+
+            <button onclick="mudarMes(1)">›</button>
 
         </div>
 
-    </section>
+        <div class="weekdays">
+            <div>DOM</div>
+            <div>SEG</div>
+            <div>TER</div>
+            <div>QUA</div>
+            <div>QUI</div>
+            <div>SEX</div>
+            <div>SÁB</div>
+        </div>
+
+        <div id="calendarGrid" class="calendar-grid"></div>
+
+        <div class="legend">
+
+            <span>
+                <i class="dot blue"></i>
+                Vence hoje
+            </span>
+
+            <span>
+                <i class="dot red"></i>
+                Em atraso
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="config" class="section">
+
+    <div class="form-card">
+
+        <h2>⚙️ Configurações</h2>
+
+        <div class="notice">
+            🔔 As notificações de vencimento são silenciosas: sem som e sem vibração.
+            <br><br>
+            <button class="btn btn-primary" onclick="ativarNotificacoes()">
+                🔔 Ativar notificações silenciosas
+            </button>
+        </div>
+
+        <label>Mensagem do WhatsApp</label>
+
+        <textarea id="mensagemWhatsApp"></textarea>
+
+        <div class="notice">
+            Você pode usar estas variáveis:
+            <br><br>
+            <strong>{nome}</strong> = nome do cliente
+            <br>
+            <strong>{total}</strong> = valor total
+            <br>
+            <strong>{juros}</strong> = juros
+            <br>
+            <strong>{vencimento}</strong> = vencimento
+            <br>
+            <strong>{dias}</strong> = dias de atraso
+            <br>
+            <strong>{multa}</strong> = multa
+        </div>
+
+        <button class="btn btn-primary" onclick="salvarConfiguracao()">
+            💾 Salvar mensagem
+        </button>
+
+    </div>
+
+    <div class="form-card">
+
+        <h2>🔄 Atualização do aplicativo</h2>
+
+        <p style="font-size:14px;line-height:1.6;margin-bottom:12px">
+            Se uma nova versão estiver disponível, toque no botão abaixo.
+            Seus empréstimos ficam salvos no aparelho.
+        </p>
+
+        <button class="btn btn-primary" onclick="atualizarAplicativo()">
+            🔄 Verificar atualização
+        </button>
+
+    </div>
+
+    <div class="form-card">
+
+        <h2>⚠️ Dados</h2>
+
+        <button class="btn btn-danger" onclick="exportarDados()">
+            📤 Fazer backup
+        </button>
+
+        <button class="btn btn-warning" onclick="importarDados()">
+            📥 Restaurar backup
+        </button>
+
+    </div>
+
+</section>
+```
 
 </div>
 
 <div id="modal" class="modal">
 
-    <div class="modal-box">
+```
+<div class="modal-box">
 
-        <div class="modal-header">
+    <div class="modal-header">
 
-            <h2 id="modalTitle">Empréstimo</h2>
+        <h2 id="modalTitle">Empréstimo</h2>
 
-            <button class="close" onclick="fecharModal()">×</button>
-
-        </div>
-
-        <div id="modalContent"></div>
+        <button class="close" onclick="fecharModal()">×</button>
 
     </div>
+
+    <div id="modalContent"></div>
+
+</div>
+```
 
 </div>
 
@@ -2884,64 +2893,65 @@ async function atualizarAplicativo(){
 
     try{
 
+        /*
+           Se o navegador não tiver suporte a Service Worker,
+           força uma nova abertura da página.
+        */
+
         if(!("serviceWorker" in navigator)){
 
-            window.location.reload();
-
-            return;
-
-        }
-
-        const registro =
-            await navigator.serviceWorker.getRegistration("./");
-
-        if(!registro){
-
-            window.location.reload();
-
-            return;
-
-        }
-
-        await registro.update();
-
-        if(registro.waiting){
-
-            registro.waiting.postMessage({
-                type:"SKIP_WAITING"
-            });
-
-            return;
-
-        }
-
-        if(registro.installing){
-
-            registro.installing.addEventListener(
-                "statechange",
-                function(){
-
-                    if(
-                        registro.installing &&
-                        registro.installing.state === "installed"
-                    ){
-
-                        if(registro.waiting){
-
-                            registro.waiting.postMessage({
-                                type:"SKIP_WAITING"
-                            });
-
-                        }
-
-                    }
-
-                }
+            window.location.replace(
+                window.location.href.split("?")[0] +
+                "?app_update=" +
+                Date.now()
             );
 
             return;
 
         }
+
+        /*
+           Remove os Service Workers antigos.
+           Isso NÃO apaga:
+           - empréstimos
+           - pagamentos
+           - configurações
+           - localStorage
+           - IndexedDB
+           - fotos
+           - vídeos
+        */
+
+        const registros =
+            await navigator.serviceWorker.getRegistrations();
+
+        for(const registro of registros){
+
+            await registro.unregister();
+
+        }
+
+        /*
+           Remove somente o Cache Storage.
+           Os dados do aplicativo continuam salvos.
+        */
+
+        if("caches" in window){
+
+            const cachesExistentes =
+                await caches.keys();
+
+            await Promise.all(
+                cachesExistentes.map(
+                    nome => caches.delete(nome)
+                )
+            );
+
+        }
+
+        /*
+           Abre novamente a página sem o cache antigo.
+        */
 
         const url =
             window.location.href.split("?")[0] +
@@ -2957,7 +2967,16 @@ async function atualizarAplicativo(){
             error
         );
 
-        window.location.reload();
+        /*
+           Se houver algum erro, ainda tenta
+           abrir novamente a página.
+        */
+
+        window.location.replace(
+            window.location.href.split("?")[0] +
+            "?app_update=" +
+            Date.now()
+        );
 
     }
 
@@ -2984,59 +3003,9 @@ if("serviceWorker" in navigator){
                         }
                     );
 
-                navigator.serviceWorker.addEventListener(
-                    "controllerchange",
-                    function(){
-
-                        if(
-                            !window.__recarregandoAplicativo
-                        ){
-
-                            window.__recarregandoAplicativo = true;
-
-                            window.location.reload();
-
-                        }
-
-                    }
-                );
-
-                registro.addEventListener(
-                    "updatefound",
-                    function(){
-
-                        const novo =
-                            registro.installing;
-
-                        if(!novo){
-                            return;
-                        }
-
-                        novo.addEventListener(
-                            "statechange",
-                            function(){
-
-                                if(
-                                    novo.state === "installed"
-                                ){
-
-                                    if(
-                                        navigator.serviceWorker.controller
-                                    ){
-
-                                        novo.postMessage({
-                                            type:"SKIP_WAITING"
-                                        });
-
-                                    }
-
-                                }
-
-                            }
-                        );
-
-                    }
-                );
+                /*
+                   Verifica automaticamente a cada 5 minutos.
+                */
 
                 setInterval(
                     function(){
@@ -3046,6 +3015,11 @@ if("serviceWorker" in navigator){
                     },
                     5 * 60 * 1000
                 );
+
+                /*
+                   Verifica novamente quando o aplicativo
+                   volta a ficar visível.
+                */
 
                 document.addEventListener(
                     "visibilitychange",
